@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YAML / JSON / JQ — DevOps Cheatsheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="topbar">
+  <span class="brand">~/devops-cheatsheet</span>
+  <button id="search-trigger" class="search-btn" data-prefix="../">Search <span class="kbd">/</span></button>
+  <a href="../index.html">index</a>
+  <a href="../linux/index.html">linux</a>
+  <a href="../docker/index.html">docker</a>
+  <a href="../kubernetes/index.html">kubernetes</a>
+  <a href="../ansible/index.html">ansible</a>
+  <a href="../vault/index.html">vault</a>
+  <a href="../oracle-db/index.html">oracle database</a>
+  <a href="../postgresql/index.html">postgresql</a>
+  <a href="../weblogic/index.html">weblogic</a>
+  <a href="../prometheus/index.html">prometheus</a>
+  <a href="../grafana/index.html">grafana</a>
+  <a href="../checkmk/index.html">check_mk</a>
+  <a href="../python/index.html">python</a>
+  <a href="../powershell/index.html">powershell</a>
+  <a href="../git/index.html">git</a>
+  <a href="../data-formats/index.html" class="active">yaml / json / jq</a>
+  <a href="../troubleshooting/index.html">troubleshooting</a>
+  <a href="../production-safety/index.html">production safety</a>
+  <a href="../quick-reference/index.html">quick references</a>
+</div>
+<div id="search-overlay" class="search-overlay" hidden>
+  <div class="search-panel">
+    <input id="search-input" type="text" placeholder="Search commands…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="label">ON THIS PAGE</div>
+    <ul>
+      <li><a href="#health-check" style="padding-left:20px;font-size:12px;">Health check</a></li>
+      <li><a href="#troubleshooting" style="padding-left:20px;font-size:12px;">Troubleshooting</a></li>
+    </ul>
+  </div>
+  <main>
+    
+    <div class="title-frame">
+      <h1>YAML / JSON / JQ</h1>
+      <div class="subtitle-readout">11 COMMANDS INDEXED</div>
+    </div>
+    
+    <pre><code class="language-bash"><div class="cmd-box"><span class="c"># filter + extract in one line</span><span class="cmdline" tabindex="0" data-tip="Filter + extract in one line.
+Example: jq &#x27;.items[] | select(.status==&quot;Running&quot;) | .name&#x27; pods.json
+Use case: YAML / JSON / JQ">jq '.items[] | select(.status==&quot;Running&quot;) | .name' pods.json</span></div><div class="cmd-box"><span class="c"># converts a JSON array into CSV rows — pick the fields you want, in order</span><span class="cmdline" tabindex="0" data-tip="Converts a JSON array into CSV rows — pick the fields you want, in order.
+Example: jq -r &#x27;.[] | [.name,.status] | @csv&#x27; data.json
+Use case: YAML / JSON / JQ">jq -r '.[] | [.name,.status] | @csv' data.json</span></div><div class="cmd-box"><span class="c"># reads one value out of a YAML file by path — the jq equivalent for YAML</span><span class="cmdline" tabindex="0" data-tip="Reads one value out of a YAML file by path — the jq equivalent for YAML.
+Example: yq &#x27;.spec.replicas&#x27; deployment.yaml
+Use case: YAML / JSON / JQ">yq '.spec.replicas' deployment.yaml</span></div><div class="cmd-box"><span class="c"># updates one value inside a YAML file directly, without hand-editing it</span><span class="cmdline" tabindex="0" data-tip="Updates one value inside a YAML file directly, without hand-editing it.
+Example: yq -i &#x27;.spec.replicas = 3&#x27; deployment.yaml
+Use case: YAML / JSON / JQ">yq -i '.spec.replicas = 3' deployment.yaml</span></div><div class="cmd-box"><span class="c"># validate YAML syntax with zero extra tools</span><span class="cmdline" tabindex="0" data-tip="Validate YAML syntax with zero extra tools.
+Example: python3 -c &quot;import yaml,sys; yaml.safe_load(open(sys.argv[1]))&quot; file.yaml
+Use case: YAML / JSON / JQ">python3 -c &quot;import yaml,sys; yaml.safe_load(open(sys.argv[1]))&quot; file.yaml</span></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced</summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># deep-merge two JSON objects — $b&#x27;s keys win on conflict, nested objects merge recursively instead of one replacing the other</span><span class="cmdline" tabindex="0" data-tip="Deep-merge two JSON objects — $b&#x27;s keys win on conflict, nested objects merge recursively instead of one replacing the other.
+Example: jq -n --argjson a &quot;$(cat a.json)&quot; --argjson b &quot;$(cat b.json)&quot; &#x27;$a * $b&#x27;
+Use case: YAML / JSON / JQ">jq -n --argjson a &quot;$(cat a.json)&quot; --argjson b &quot;$(cat b.json)&quot; '$a * $b'</span></div><div class="cmd-box"><span class="c"># convert YAML straight to JSON in one pipeline, then process it with jq&#x27;s full feature set</span><span class="cmdline" tabindex="0" data-tip="Convert YAML straight to JSON in one pipeline, then process it with jq&#x27;s full feature set.
+Example: yq -o=json &#x27;.&#x27; config.yaml | jq &#x27;.&#x27;
+Use case: YAML / JSON / JQ">yq -o=json '.' config.yaml | jq '.'</span></div></code></pre>
+</details>
+<details class="section-block" open><summary><h2 id="health-check">Health check</h2></summary>
+<ol>
+<li><strong>Syntax is actually valid</strong> — <code>jq -e . file.json</code> (exit code, not just output) or a YAML linter — red flag: any parse error — don't trust a file just because it "looks right" in an editor.</li>
+<li><strong>No duplicate keys in YAML</strong> — YAML silently keeps the last occurrence and drops earlier ones — red flag: a linter warning about duplicate keys, which is easy to miss by eye.</li>
+<li><strong>Expected fields are actually present</strong> — spot-check with <code>jq '.expected_field'</code> — red flag: <code>null</code> where you expected a real value — the file parsed fine but doesn't contain what you think it does.</li>
+</ol>
+</details><details class="section-block" open><summary><h2 id="troubleshooting">Troubleshooting</h2></summary>
+<p><strong>jq gives a "parse error" on input you're sure is valid:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># -e forces a non-zero exit on invalid JSON, without printing anything on success — good for scripting a validity check</span><span class="cmdline" tabindex="0" data-tip="E forces a non-zero exit on invalid JSON, without printing anything on success — good for scripting a validity check.
+Example: jq -e . file.json &gt; /dev/null
+Use case: Troubleshooting">jq -e . file.json &gt; /dev/null</span></div><div class="cmd-box"><span class="c"># look for invisible characters (a BOM, CRLF line endings) that break parsing but don&#x27;t show up in a normal editor</span><span class="cmdline" tabindex="0" data-tip="Look for invisible characters (a BOM, CRLF line endings) that break parsing but don&#x27;t show up in a normal editor.
+Example: cat -A file.json | head -3
+Use case: Troubleshooting">cat -A file.json | head -3</span></div></code></pre>
+<p><strong>yq behaves differently than expected:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># confirm which yq — the Go version (mikefarah) and the Python wrapper (kislyuk) have different flag syntax and are easy to mix up</span><span class="cmdline" tabindex="0" data-tip="Confirm which yq — the Go version (mikefarah) and the Python wrapper (kislyuk) have different flag syntax and are easy to mix up.
+Example: yq --version
+Use case: Troubleshooting">yq --version</span></div></code></pre>
+<p><strong>Deeply nested value won't update:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># array index needed explicitly — a bare .containers.image silently matches nothing if it&#x27;s actually a list</span><span class="cmdline" tabindex="0" data-tip="Array index needed explicitly — a bare .containers.image silently matches nothing if it&#x27;s actually a list.
+Example: yq -i &#x27;.spec.template.spec.containers[0].image = &quot;myimage:v2&quot;&#x27; deployment.yaml
+Use case: Troubleshooting">yq -i '.spec.template.spec.containers[0].image = &quot;myimage:v2&quot;' deployment.yaml</span></div></code></pre>
+<hr /></details>
+  </main>
+</div>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/search.js"></script>
+<script src="../assets/tooltip.js"></script>
+</body>
+</html>

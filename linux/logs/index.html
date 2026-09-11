@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logs — DevOps Cheatsheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<div class="topbar">
+  <span class="brand">~/devops-cheatsheet</span>
+  <button id="search-trigger" class="search-btn" data-prefix="../../">Search <span class="kbd">/</span></button>
+  <a href="../../index.html">index</a>
+  <a href="../../linux/index.html" class="active">linux</a>
+  <a href="../../docker/index.html">docker</a>
+  <a href="../../kubernetes/index.html">kubernetes</a>
+  <a href="../../ansible/index.html">ansible</a>
+  <a href="../../vault/index.html">vault</a>
+  <a href="../../oracle-db/index.html">oracle database</a>
+  <a href="../../postgresql/index.html">postgresql</a>
+  <a href="../../weblogic/index.html">weblogic</a>
+  <a href="../../prometheus/index.html">prometheus</a>
+  <a href="../../grafana/index.html">grafana</a>
+  <a href="../../checkmk/index.html">check_mk</a>
+  <a href="../../python/index.html">python</a>
+  <a href="../../powershell/index.html">powershell</a>
+  <a href="../../git/index.html">git</a>
+  <a href="../../data-formats/index.html">yaml / json / jq</a>
+  <a href="../../troubleshooting/index.html">troubleshooting</a>
+  <a href="../../production-safety/index.html">production safety</a>
+  <a href="../../quick-reference/index.html">quick references</a>
+</div>
+<div id="search-overlay" class="search-overlay" hidden>
+  <div class="search-panel">
+    <input id="search-input" type="text" placeholder="Search commands…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="label">ON THIS PAGE</div>
+    <ul>
+      <li><a href="#health-check" style="padding-left:20px;font-size:12px;">Health check</a></li>
+      <li><a href="#troubleshooting" style="padding-left:20px;font-size:12px;">Troubleshooting</a></li>
+    </ul>
+  </div>
+  <main>
+    <div style="font-size:12px;margin-bottom:6px;"><a href="../index.html">Linux</a> <span style="color:var(--text-dim);">/</span> Logs</div>
+    <div class="title-frame">
+      <h1>Logs</h1>
+      <div class="subtitle-readout">23 COMMANDS INDEXED</div>
+    </div>
+    
+    <p>Application/system log files on disk — searching, following, rotating. (For systemd's own journal, see the separate systemd section — journalctl is a different mechanism entirely.)</p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># follow a single log file live</span><span class="cmdline" tabindex="0" data-tip="Follow a single log file live.
+Example: tail -f /var/log/myapp/app.log
+Use case: Logs">tail -f /var/log/myapp/app.log</span></div><div class="cmd-box"><span class="c"># follow multiple files at once, each line prefixed with its filename</span><span class="cmdline" tabindex="0" data-tip="Follow multiple files at once, each line prefixed with its filename.
+Example: tail -f /var/log/myapp/*.log
+Use case: Logs">tail -f /var/log/myapp/*.log</span></div><div class="cmd-box"><span class="c"># case-insensitive search in a plain log file</span><span class="cmdline" tabindex="0" data-tip="Case-insensitive search in a plain log file.
+Example: grep -i &quot;error&quot; /var/log/myapp/app.log
+Use case: Logs">grep -i &quot;error&quot; /var/log/myapp/app.log</span></div><div class="cmd-box"><span class="c"># recursive search across a whole log directory, with line numbers</span><span class="cmdline" tabindex="0" data-tip="Recursive search across a whole log directory, with line numbers.
+Example: grep -rn &quot;connection refused&quot; /var/log/myapp/
+Use case: Logs">grep -rn &quot;connection refused&quot; /var/log/myapp/</span></div><div class="cmd-box"><span class="c"># search inside a rotated, gzip-compressed log without manually decompressing it</span><span class="cmdline" tabindex="0" data-tip="Search inside a rotated, gzip-compressed log without manually decompressing it.
+Example: zgrep &quot;timeout&quot; /var/log/myapp/app.log.2.gz
+Use case: Logs">zgrep &quot;timeout&quot; /var/log/myapp/app.log.2.gz</span></div><div class="cmd-box"><span class="c"># every log file modified in the last 24h, across the system</span><span class="cmdline" tabindex="0" data-tip="Every log file modified in the last 24h, across the system.
+Example: find /var/log -name &quot;*.log&quot; -mtime -1
+Use case: Logs">find /var/log -name &quot;*.log&quot; -mtime -1</span></div><div class="cmd-box"><span class="c"># find unexpectedly large log files eating disk</span><span class="cmdline" tabindex="0" data-tip="Find unexpectedly large log files eating disk.
+Example: find /var/log -name &quot;*.log&quot; -size +100M
+Use case: Logs">find /var/log -name &quot;*.log&quot; -size +100M</span></div><div class="cmd-box"><span class="c"># print only lines within a time window, useful on huge logs where grep -A/-B isn&#x27;t precise enough</span><span class="cmdline" tabindex="0" data-tip="Print only lines within a time window, useful on huge logs where grep -A/-B isn&#x27;t precise enough.
+Example: awk &#x27;/2026-09-10 14:0/,/2026-09-10 14:1/&#x27; app.log
+Use case: Logs">awk '/2026-09-10 14:0/,/2026-09-10 14:1/' app.log</span></div><div class="cmd-box"><span class="c"># even for app logs, check whether the app is actually logging to the journal instead of a file</span><span class="cmdline" tabindex="0" data-tip="Even for app logs, check whether the app is actually logging to the journal instead of a file.
+Example: journalctl --since &quot;10 minutes ago&quot; -o cat
+Use case: Logs">journalctl --since &quot;10 minutes ago&quot; -o cat</span></div><div class="cmd-box"><span class="c"># first 100 lines — useful for checking a log&#x27;s format/header before writing a real filter</span><span class="cmdline" tabindex="0" data-tip="First 100 lines — useful for checking a log&#x27;s format/header before writing a real filter.
+Example: head -n 100 app.log
+Use case: Logs">head -n 100 app.log</span></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced</summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># 5 lines of context before and after a match — the surrounding lines are usually what actually explains it</span><span class="cmdline" tabindex="0" data-tip="5 lines of context before and after a match — the surrounding lines are usually what actually explains it.
+Example: grep -A5 -B5 &quot;OutOfMemoryError&quot; app.log
+Use case: Logs">grep -A5 -B5 &quot;OutOfMemoryError&quot; app.log</span></div><div class="cmd-box"><span class="c"># follow a file live, filtered to just error lines (--line-buffered keeps grep from batching output when piped)</span><span class="cmdline" tabindex="0" data-tip="Follow a file live, filtered to just error lines (--line-buffered keeps grep from batching output when piped)
+Example: tail -n +1 -f app.log | grep --line-buffered &quot;ERROR&quot;
+Use case: Logs">tail -n +1 -f app.log | grep --line-buffered &quot;ERROR&quot;</span></div><div class="cmd-box"><span class="c"># search across several rotated archives at once, in the order they happened</span><span class="cmdline" tabindex="0" data-tip="Search across several rotated archives at once, in the order they happened.
+Example: zcat app.log.1.gz app.log.2.gz | grep &quot;user_id=12345&quot;
+Use case: Logs">zcat app.log.1.gz app.log.2.gz | grep &quot;user_id=12345&quot;</span></div><div class="cmd-box"><span class="c"># truncate a live log file in place, safe even while a process still has it open — rm would just hide the space until the process exits</span><span class="cmdline" tabindex="0" data-tip="Truncate a live log file in place, safe even while a process still has it open — rm would just hide the space until the process exits.
+Example: : &gt; /var/log/myapp/app.log
+Use case: Logs">: &gt; /var/log/myapp/app.log</span></div></code></pre>
+</details>
+<p><strong>Log rotation (logrotate):</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># see how a specific app&#x27;s rotation is configured — size/age thresholds, compression, retention count</span><span class="cmdline" tabindex="0" data-tip="See how a specific app&#x27;s rotation is configured — size/age thresholds, compression, retention count.
+Example: cat /etc/logrotate.d/myapp
+Use case: Logs">cat /etc/logrotate.d/myapp</span></div><div class="cmd-box"><span class="c"># dry-run: shows what WOULD happen, without actually rotating anything</span><span class="cmdline" tabindex="0" data-tip="Dry-run: shows what WOULD happen, without actually rotating anything.
+Example: logrotate -d /etc/logrotate.d/myapp
+Use case: Logs">logrotate -d /etc/logrotate.d/myapp</span></div><div class="cmd-box"><span class="c"># force an out-of-cycle rotation right now, useful before a disk fills up</span><span class="cmdline" tabindex="0" data-tip="Force an out-of-cycle rotation right now, useful before a disk fills up.
+Example: logrotate -f /etc/logrotate.d/myapp
+Use case: Logs">logrotate -f /etc/logrotate.d/myapp</span></div></code></pre>
+<details class="section-block" open><summary><h2 id="health-check">Health check</h2></summary>
+<ol>
+<li><strong>Is anything actually writing logs</strong> — <code>tail -f /var/log/myapp/app.log</code> and watch for fresh lines during known activity — red flag: silence despite active traffic — the app may be logging somewhere else entirely.</li>
+<li><strong>Disk headroom for logs</strong> — <code>df -h /var/log</code> — red flag: above 90% — rotation may not be keeping up.</li>
+<li><strong>Rotation is actually running</strong> — check the log file's size and timestamp against what <code>logrotate</code> config expects — red flag: a file far past its configured rotation size/age means rotation silently isn't firing.</li>
+</ol>
+</details><details class="section-block" open><summary><h2 id="troubleshooting">Troubleshooting</h2></summary>
+<p><strong>Can't find where an app actually logs to:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># list open files for the process — its log file(s) show up here even with a nonstandard path</span><span class="cmdline" tabindex="0" data-tip="List open files for the process — its log file(s) show up here even with a nonstandard path.
+Example: lsof -p 12345 | grep -i log
+Use case: Troubleshooting">lsof -p &lt;pid&gt; | grep -i log</span></div><div class="cmd-box"><span class="c"># files touched in the last 5 minutes — catches an active log you don&#x27;t know the location of</span><span class="cmdline" tabindex="0" data-tip="Files touched in the last 5 minutes — catches an active log you don&#x27;t know the location of.
+Example: find / -xdev -name &quot;*.log&quot; -newer /tmp -mmin -5 2&gt;/dev/null
+Use case: Troubleshooting">find / -xdev -name &quot;*.log&quot; -newer /tmp -mmin -5 2&gt;/dev/null</span></div></code></pre>
+<p><strong>A single log file has grown huge and is filling the disk:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># truncate in place, safe even if a process still has it open — see the Enhanced note above</span><span class="cmdline" tabindex="0" data-tip="Truncate in place, safe even if a process still has it open — see the Enhanced note above.
+Example: : &gt; /var/log/myapp/app.log
+Use case: Troubleshooting">: &gt; /var/log/myapp/app.log</span></div><div class="cmd-box"><span class="c"># if rotation should have caught this already, force it and check why it didn&#x27;t run on schedule</span><span class="cmdline" tabindex="0" data-tip="If rotation should have caught this already, force it and check why it didn&#x27;t run on schedule.
+Example: logrotate -f /etc/logrotate.d/myapp
+Use case: Troubleshooting">logrotate -f /etc/logrotate.d/myapp</span></div></code></pre>
+<p><strong>Searching a large log is too slow:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># -F (fixed string) skips regex parsing — much faster when you&#x27;re not actually using regex features</span><span class="cmdline" tabindex="0" data-tip="F (fixed string) skips regex parsing — much faster when you&#x27;re not actually using regex features.
+Example: grep -F &quot;exact string&quot; bigfile.log
+Use case: Troubleshooting">grep -F &quot;exact string&quot; bigfile.log</span></div><div class="cmd-box"><span class="c"># ripgrep, if available — multithreaded and typically far faster than grep on large files</span><span class="cmdline" tabindex="0" data-tip="Ripgrep, if available — multithreaded and typically far faster than grep on large files.
+Example: rg &quot;pattern&quot; bigfile.log
+Use case: Troubleshooting">rg &quot;pattern&quot; bigfile.log</span></div></code></pre>
+<hr /></details>
+  </main>
+</div>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/search.js"></script>
+<script src="../../assets/tooltip.js"></script>
+</body>
+</html>

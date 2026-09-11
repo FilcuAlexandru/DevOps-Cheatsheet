@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PostgreSQL — DevOps Cheatsheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="topbar">
+  <span class="brand">~/devops-cheatsheet</span>
+  <button id="search-trigger" class="search-btn" data-prefix="../">Search <span class="kbd">/</span></button>
+  <a href="../index.html">index</a>
+  <a href="../linux/index.html">linux</a>
+  <a href="../docker/index.html">docker</a>
+  <a href="../kubernetes/index.html">kubernetes</a>
+  <a href="../ansible/index.html">ansible</a>
+  <a href="../vault/index.html">vault</a>
+  <a href="../oracle-db/index.html">oracle database</a>
+  <a href="../postgresql/index.html" class="active">postgresql</a>
+  <a href="../weblogic/index.html">weblogic</a>
+  <a href="../prometheus/index.html">prometheus</a>
+  <a href="../grafana/index.html">grafana</a>
+  <a href="../checkmk/index.html">check_mk</a>
+  <a href="../python/index.html">python</a>
+  <a href="../powershell/index.html">powershell</a>
+  <a href="../git/index.html">git</a>
+  <a href="../data-formats/index.html">yaml / json / jq</a>
+  <a href="../troubleshooting/index.html">troubleshooting</a>
+  <a href="../production-safety/index.html">production safety</a>
+  <a href="../quick-reference/index.html">quick references</a>
+</div>
+<div id="search-overlay" class="search-overlay" hidden>
+  <div class="search-panel">
+    <input id="search-input" type="text" placeholder="Search commands…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="label">ON THIS PAGE</div>
+    <ul>
+      <li><a href="#health-check" style="padding-left:20px;font-size:12px;">Health check</a></li>
+      <li><a href="#troubleshooting" style="padding-left:20px;font-size:12px;">Troubleshooting</a></li>
+    </ul>
+  </div>
+  <main>
+    
+    <div class="title-frame">
+      <h1>PostgreSQL</h1>
+      <div class="subtitle-readout">36 COMMANDS INDEXED</div>
+    </div>
+    
+    <pre><code class="language-bash"><div class="cmd-box"><span class="c"># opens an interactive session against a specific database on a host</span><span class="cmdline" tabindex="0" data-tip="Opens an interactive session against a specific database on a host.
+Example: psql -h myserver -U myuser -d mydb
+Use case: PostgreSQL">psql -h &lt;host&gt; -U &lt;username&gt; -d &lt;database&gt;</span></div><div class="cmd-box"><span class="c"># run one statement without an interactive session, scriptable</span><span class="cmdline" tabindex="0" data-tip="Run one statement without an interactive session, scriptable.
+Example: psql -h myserver -U myuser -d mydb -c &quot;SELECT 1;&quot;
+Use case: PostgreSQL">psql -h &lt;host&gt; -U &lt;username&gt; -d &lt;database&gt; -c &quot;&lt;SQL&gt;&quot;</span></div><div class="cmd-box"><span class="c"># logical backup, plain SQL</span><span class="cmdline" tabindex="0" data-tip="Logical backup, plain SQL.
+Example: pg_dump -h myserver -U myuser mydb &gt; backup.sql
+Use case: PostgreSQL">pg_dump -h &lt;host&gt; -U &lt;username&gt; &lt;database&gt; &gt; backup.sql</span></div><div class="cmd-box"><span class="c"># custom format — required for pg_restore, supports parallel restore</span><span class="cmdline" tabindex="0" data-tip="Custom format — required for pg_restore, supports parallel restore.
+Example: pg_dump -Fc -h myserver -U myuser mydb &gt; backup.dump
+Use case: PostgreSQL">pg_dump -Fc -h &lt;host&gt; -U &lt;username&gt; &lt;database&gt; &gt; backup.dump</span></div><div class="cmd-box"><span class="c"># restore from a custom-format dump</span><span class="cmdline" tabindex="0" data-tip="Restore from a custom-format dump.
+Example: pg_restore -h myserver -U myuser -d mydb backup.dump
+Use case: PostgreSQL">pg_restore -h &lt;host&gt; -U &lt;username&gt; -d &lt;database&gt; backup.dump</span></div></code></pre>
+<pre><code class="language-sql"><div class="cmd-box"><span class="c">-- list databases</span><span class="cmdline" tabindex="0" data-tip="List databases.
+Example: \l
+Use case: PostgreSQL">\l</span></div><div class="cmd-box"><span class="c">-- switch database</span><span class="cmdline" tabindex="0" data-tip="Switch database.
+Example: \c mydb
+Use case: PostgreSQL">\c &lt;database&gt;</span></div><div class="cmd-box"><span class="c">-- list tables in the current schema</span><span class="cmdline" tabindex="0" data-tip="List tables in the current schema.
+Example: \dt
+Use case: PostgreSQL">\dt</span></div><div class="cmd-box"><span class="c">-- describe a table: columns, types, indexes, constraints</span><span class="cmdline" tabindex="0" data-tip="Describe a table: columns, types, indexes, constraints.
+Example: \d mytable
+Use case: PostgreSQL">\d &lt;table&gt;</span></div><div class="cmd-box"><span class="c">-- list roles/users and their privileges</span><span class="cmdline" tabindex="0" data-tip="List roles/users and their privileges.
+Example: \du
+Use case: PostgreSQL">\du</span></div><div class="cmd-box"><span class="c">-- list installed extensions</span><span class="cmdline" tabindex="0" data-tip="List installed extensions.
+Example: \dx
+Use case: PostgreSQL">\dx</span></div><div class="cmd-box"><span class="c">-- confirm exact PostgreSQL version</span><span class="cmdline" tabindex="0" data-tip="Confirm exact PostgreSQL version.
+Example: SELECT version();
+Use case: PostgreSQL">SELECT version();</span></div><div class="cmd-box"><span class="c">-- who you&#x27;re connected as, and to which database</span><span class="cmdline" tabindex="0" data-tip="Who you&#x27;re connected as, and to which database.
+Example: SELECT current_user, current_database();
+Use case: PostgreSQL">SELECT current_user, current_database();</span></div><div class="cmd-box"><span class="c">-- what&#x27;s running right now</span><span class="cmdline" tabindex="0" data-tip="What&#x27;s running right now.
+Example: SELECT * FROM pg_stat_activity WHERE state = &#x27;active&#x27;;
+Use case: PostgreSQL">SELECT * FROM pg_stat_activity WHERE state = 'active';</span></div><div class="cmd-box"><span class="c">-- database size, human-readable</span><span class="cmdline" tabindex="0" data-tip="Database size, human-readable.
+Example: SELECT pg_size_pretty(pg_database_size(&#x27;mydb&#x27;));
+Use case: PostgreSQL">SELECT pg_size_pretty(pg_database_size('&lt;database&gt;'));</span></div><div class="cmd-box"><span class="c">-- largest tables in the current database</span><span class="cmdline" tabindex="0" data-tip="Largest tables in the current database.">SELECT relname, pg_size_pretty(pg_total_relation_size(relid))
+  FROM   pg_catalog.pg_statio_user_tables
+  ORDER  BY pg_total_relation_size(relid) DESC
+  LIMIT  10;</span></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced</summary>
+<pre><code class="language-sql"><div class="cmd-box"><span class="c">-- longest-running active queries, sorted</span><span class="cmdline" tabindex="0" data-tip="Longest-running active queries, sorted.">SELECT pid, now() - query_start AS duration, query
+  FROM   pg_stat_activity
+  WHERE  state = 'active'
+  ORDER  BY duration DESC;</span></div><div class="cmd-box"><span class="cmdline">&lt;/details&gt;</span></div><div class="cmd-box"><span class="c">-- kill a stuck query by PID (confirm it&#x27;s the right one via the query above first)</span><span class="cmdline" tabindex="0" data-tip="Kill a stuck query by PID (confirm it&#x27;s the right one via the query above first)
+Example: SELECT pg_terminate_backend(12345);
+Use case: PostgreSQL">SELECT pg_terminate_backend(&lt;pid&gt;);</span></div><div class="cmd-box"><span class="c">-- actual execution plan + real timings, not just the estimate</span><span class="cmdline" tabindex="0" data-tip="Actual execution plan + real timings, not just the estimate.
+Example: EXPLAIN ANALYZE SELECT 1;;
+Use case: PostgreSQL">EXPLAIN ANALYZE &lt;query&gt;;</span></div><div class="cmd-box"><span class="c">-- reclaim dead tuple space and refresh planner stats — routine maintenance, not just an emergency tool</span><span class="cmdline" tabindex="0" data-tip="Reclaim dead tuple space and refresh planner stats — routine maintenance, not just an emergency tool.
+Example: VACUUM (VERBOSE, ANALYZE) mytable;
+Use case: PostgreSQL">VACUUM (VERBOSE, ANALYZE) &lt;table&gt;;</span></div><div class="cmd-box"><span class="c">-- replication lag, if this instance has standbys</span><span class="cmdline" tabindex="0" data-tip="Replication lag, if this instance has standbys.">SELECT client_addr, state, sent_lsn, replay_lsn,
+       pg_wal_lsn_diff(sent_lsn, replay_lsn) AS lag_bytes
+  FROM   pg_stat_replication;</span></div><div class="cmd-box"><span class="c">-- dead-tuple bloat per table — the number autovacuum is racing against</span><span class="cmdline" tabindex="0" data-tip="Dead-tuple bloat per table — the number autovacuum is racing against.">SELECT schemaname, relname, n_dead_tup, n_live_tup
+  FROM   pg_stat_user_tables
+  ORDER  BY n_dead_tup DESC
+  LIMIT  10;</span></div><div class="cmd-box"><span class="c">-- indexes that are barely (or never) used — candidates for dropping</span><span class="cmdline" tabindex="0" data-tip="Indexes that are barely (or never) used — candidates for dropping.">SELECT indexrelname, idx_scan, idx_tup_read
+  FROM   pg_stat_user_indexes
+  WHERE  idx_scan &lt; 50
+  ORDER  BY idx_scan;</span></div><div class="cmd-box"><span class="c">-- current locks — granted=false rows are the ones actually blocked</span><span class="cmdline" tabindex="0" data-tip="Current locks — granted=false rows are the ones actually blocked.">SELECT locktype, relation::regclass, mode, granted, pid
+  FROM   pg_locks
+  WHERE  NOT granted;</span></div><div class="cmd-box"><span class="c">-- top queries by total time (needs the pg_stat_statements extension enabled)</span><span class="cmdline" tabindex="0" data-tip="Top queries by total time (needs the pg_stat_statements extension enabled)">SELECT query, calls, total_exec_time, mean_exec_time
+  FROM   pg_stat_statements
+  ORDER  BY total_exec_time DESC
+  LIMIT  10;</span></div><div class="cmd-box"><span class="c">-- roles/users and whether they&#x27;re superusers or can even log in</span><span class="cmdline" tabindex="0" data-tip="Roles/users and whether they&#x27;re superusers or can even log in.
+Example: SELECT rolname, rolsuper, rolcanlogin
+Use case: PostgreSQL">SELECT rolname, rolsuper, rolcanlogin</span></div><div class="cmd-box"><span class="cmdline">FROM   pg_roles;</span></div><div class="cmd-box"><span class="c">-- approximate row counts for every table, fast (no full COUNT scan)</span><span class="cmdline" tabindex="0" data-tip="Approximate row counts for every table, fast (no full COUNT scan)">SELECT n.nspname AS schema, c.relname AS table, c.reltuples::bigint AS approx_rows
+  FROM   pg_class c
+  JOIN   pg_namespace n ON n.oid = c.relnamespace
+  WHERE  c.relkind = 'r'
+  ORDER  BY c.reltuples DESC
+  LIMIT  10;</span></div><div class="cmd-box"><span class="c">-- per-database activity summary — commit/rollback ratio hints at app-level error rates</span><span class="cmdline" tabindex="0" data-tip="Per-database activity summary — commit/rollback ratio hints at app-level error rates.
+Example: SELECT datname, numbackends, xact_commit, xact_rollback
+Use case: PostgreSQL">SELECT datname, numbackends, xact_commit, xact_rollback</span></div><div class="cmd-box"><span class="cmdline">FROM   pg_stat_database;</span></div></code></pre>
+<details class="section-block" open><summary><h2 id="health-check">Health check</h2></summary>
+<ol>
+<li><strong>Connection count</strong> — <code>SELECT count(*) FROM pg_stat_activity;</code> — red flag: approaching <code>max_connections</code> — new connections are about to start failing.</li>
+<li><strong>Long-running queries</strong> — filter <code>pg_stat_activity</code> by <code>now() - query_start</code> — red flag: queries running far longer than your normal workload's baseline.</li>
+<li><strong>Replication lag</strong> (if you have standbys) — <code>pg_stat_replication</code> — red flag: lag bytes climbing over successive checks, not just momentarily nonzero.</li>
+<li><strong>Autovacuum keeping up</strong> — check <code>pg_stat_user_tables</code> for <code>n_dead_tup</code> — red flag: dead tuple count growing faster than autovacuum clears it — bloat and slow queries follow.</li>
+</ol>
+</details><details class="section-block" open><summary><h2 id="troubleshooting">Troubleshooting</h2></summary>
+<p><strong>"too many connections" errors:</strong></p>
+<pre><code class="language-sql"><div class="cmd-box"><span class="c">-- see where connections are actually going (active vs idle)</span><span class="cmdline" tabindex="0" data-tip="See where connections are actually going (active vs idle)">SELECT count(*), state
+  FROM   pg_stat_activity
+  GROUP  BY state;</span></div><div class="cmd-box"><span class="c">-- long-idle connections are usually a connection pool misconfiguration, not real load</span><span class="cmdline" tabindex="0" data-tip="Long-idle connections are usually a connection pool misconfiguration, not real load.">SELECT pid, state, now() - state_change AS idle_for
+  FROM   pg_stat_activity
+  WHERE  state = 'idle'
+  ORDER  BY idle_for DESC
+  LIMIT  10;</span></div></code></pre>
+<p><strong>Replication lag growing:</strong></p>
+<pre><code class="language-sql"><div class="cmd-box"><span class="c">-- confirm it&#x27;s actually growing, not just momentarily behind</span><span class="cmdline" tabindex="0" data-tip="Confirm it&#x27;s actually growing, not just momentarily behind.">SELECT client_addr, pg_wal_lsn_diff(sent_lsn, replay_lsn) AS lag_bytes
+  FROM   pg_stat_replication;</span></div></code></pre>
+<p>Check the standby's own disk I/O and network to the primary — lag is almost always a resource bottleneck on the replica, not the primary doing anything wrong.</p>
+<p><strong>Query stuck / deadlock suspected:</strong></p>
+<pre><code class="language-sql"><div class="cmd-box"><span class="c">-- who&#x27;s waiting, and on what kind of lock</span><span class="cmdline" tabindex="0" data-tip="Who&#x27;s waiting, and on what kind of lock.">SELECT pid, query, state, wait_event_type
+  FROM   pg_stat_activity
+  WHERE  wait_event_type = 'Lock';</span></div><div class="cmd-box"><span class="c">-- terminate the blocking session once you&#x27;ve confirmed which one it is</span><span class="cmdline" tabindex="0" data-tip="Terminate the blocking session once you&#x27;ve confirmed which one it is.
+Example: SELECT pg_terminate_backend(12345);
+Use case: Troubleshooting">SELECT pg_terminate_backend(&lt;pid&gt;);</span></div></code></pre>
+<hr />
+</details></details>
+  </main>
+</div>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/search.js"></script>
+<script src="../assets/tooltip.js"></script>
+</body>
+</html>
