@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prometheus — DevOps Cheatsheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="topbar">
+  <span class="brand">~/devops-cheatsheet</span>
+  <button id="search-trigger" class="search-btn" data-prefix="../">Search <span class="kbd">/</span></button>
+  <a href="../index.html">index</a>
+  <a href="../linux/index.html">linux</a>
+  <a href="../docker/index.html">docker</a>
+  <a href="../kubernetes/index.html">kubernetes</a>
+  <a href="../ansible/index.html">ansible</a>
+  <a href="../vault/index.html">vault</a>
+  <a href="../oracle-db/index.html">oracle database</a>
+  <a href="../postgresql/index.html">postgresql</a>
+  <a href="../weblogic/index.html">weblogic</a>
+  <a href="../prometheus/index.html" class="active">prometheus</a>
+  <a href="../grafana/index.html">grafana</a>
+  <a href="../checkmk/index.html">check_mk</a>
+  <a href="../python/index.html">python</a>
+  <a href="../powershell/index.html">powershell</a>
+  <a href="../git/index.html">git</a>
+  <a href="../data-formats/index.html">yaml / json / jq</a>
+  <a href="../troubleshooting/index.html">troubleshooting</a>
+  <a href="../production-safety/index.html">production safety</a>
+  <a href="../quick-reference/index.html">quick references</a>
+</div>
+<div id="search-overlay" class="search-overlay" hidden>
+  <div class="search-panel">
+    <input id="search-input" type="text" placeholder="Search commands…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="label">ON THIS PAGE</div>
+    <ul>
+      <li><a href="#health-check" style="padding-left:20px;font-size:12px;">Health check</a></li>
+      <li><a href="#troubleshooting" style="padding-left:20px;font-size:12px;">Troubleshooting</a></li>
+    </ul>
+  </div>
+  <main>
+    
+    <div class="title-frame">
+      <h1>Prometheus</h1>
+      <div class="subtitle-readout">16 COMMANDS INDEXED</div>
+    </div>
+    
+    <pre><code class="language-bash"><span class="c"># validate config before reloading — catches typos before they break scraping</span><span class="cmdline" tabindex="0" data-tip="Validate config before reloading — catches typos before they break scraping.
+Example: promtool check config prometheus.yml
+Use case: Prometheus">promtool check config prometheus.yml</span><span class="c"># validate alerting rules syntax</span><span class="cmdline" tabindex="0" data-tip="Validate alerting rules syntax.
+Example: promtool check rules alerts.yml
+Use case: Prometheus">promtool check rules alerts.yml</span><span class="c"># hot-reload config without restarting the process</span><span class="cmdline" tabindex="0" data-tip="Hot-reload config without restarting the process.
+Example: curl -X POST http://myserver:9090/-/reload
+Use case: Prometheus">curl -X POST http://&lt;host&gt;:9090/-/reload</span><span class="c"># which targets are currently down</span><span class="cmdline" tabindex="0" data-tip="Which targets are currently down.
+Example: curl http://myserver:9090/api/v1/targets | jq &#x27;.data.activeTargets[] | select(.health!=&quot;up&quot;)&#x27;
+Use case: Prometheus">curl http://&lt;host&gt;:9090/api/v1/targets | jq '.data.activeTargets[] | select(.health!=&quot;up&quot;)'</span><span class="c"># run a PromQL query straight from the CLI, no UI needed</span><span class="cmdline" tabindex="0" data-tip="Run a PromQL query straight from the CLI, no UI needed.
+Example: curl -g &#x27;http://myserver:9090/api/v1/query?query=up&#x27;
+Use case: Prometheus">curl -g 'http://&lt;host&gt;:9090/api/v1/query?query=up'</span></code></pre>
+<p><strong>PromQL — the queries you'll actually reach for:</strong></p>
+<pre><code class="language-promql"><span class="c"># per-second request rate over a 5-minute window</span><span class="cmdline" tabindex="0" data-tip="Per-second request rate over a 5-minute window.
+Example: rate(http_requests_total[5m])
+Use case: Prometheus">rate(http_requests_total[5m])</span><span class="c"># total increase over the window — good for counting events, not rates</span><span class="cmdline" tabindex="0" data-tip="Total increase over the window — good for counting events, not rates.
+Example: increase(http_requests_total[1h])
+Use case: Prometheus">increase(http_requests_total[1h])</span><span class="c"># p95 latency from a histogram metric</span><span class="cmdline" tabindex="0" data-tip="P95 latency from a histogram metric.
+Example: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))
+Use case: Prometheus">histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))</span><span class="c"># every target Prometheus currently can&#x27;t scrape</span><span class="cmdline" tabindex="0" data-tip="Every target Prometheus currently can&#x27;t scrape.
+Example: up == 0
+Use case: Prometheus">up == 0</span><span class="c"># error rate grouped by job — the standard &amp;quot;what&#x27;s on fire&amp;quot; query</span><span class="cmdline" tabindex="0" data-tip="Error rate grouped by job — the standard &amp;quot;what&#x27;s on fire&amp;quot; query.
+Example: sum by (job) (rate(errors_total[5m]))
+Use case: Prometheus">sum by (job) (rate(errors_total[5m]))</span></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced</summary>
+<pre><code class="language-bash"><span class="c"># TSDB stats — series count, chunk count, memory — useful when Prometheus itself is slow</span><span class="cmdline" tabindex="0" data-tip="TSDB stats — series count, chunk count, memory — useful when Prometheus itself is slow.
+Example: curl -s http://myserver:9090/api/v1/status/tsdb | jq
+Use case: Prometheus">curl -s http://&lt;host&gt;:9090/api/v1/status/tsdb | jq</span><span class="c"># list active Alertmanager silences, confirm nobody muted the alert you&#x27;re chasing</span><span class="cmdline" tabindex="0" data-tip="List active Alertmanager silences, confirm nobody muted the alert you&#x27;re chasing.
+Example: curl -s http://myserver:9093/api/v2/silences
+Use case: Prometheus">curl -s http://&lt;host&gt;:9093/api/v2/silences</span><span class="c"># query current firing alerts from the CLI</span><span class="cmdline" tabindex="0" data-tip="Query current firing alerts from the CLI.
+Example: amtool alert query --alertmanager.url=http://myserver:9093
+Use case: Prometheus">amtool alert query --alertmanager.url=http://&lt;host&gt;:9093</span></code></pre>
+</details>
+<details class="section-block" open><summary><h2 id="health-check">Health check</h2></summary>
+<ol>
+<li><strong>Targets</strong> — <code>/api/v1/targets</code> — red flag: any target <code>health != "up"</code>.</li>
+<li><strong>TSDB size/memory</strong> — <code>/api/v1/status/tsdb</code> — red flag: series count or memory climbing steadily — usually a cardinality problem (see Enhanced above).</li>
+<li><strong>Alertmanager silences</strong> — <code>/api/v2/silences</code> — red flag: an active silence you don't recognize — someone may have muted the exact alert you're chasing.</li>
+</ol>
+</details><details class="section-block" open><summary><h2 id="troubleshooting">Troubleshooting</h2></summary>
+<p><strong>Target shows as <code>down</code>:</strong></p>
+<pre><code class="language-bash"><span class="c"># the actual scrape error, per target</span><span class="cmdline" tabindex="0" data-tip="The actual scrape error, per target.
+Example: curl http://myserver:9090/api/v1/targets | jq &#x27;.data.activeTargets[] | select(.health!=&quot;up&quot;) | {job: .labels.job, error: .lastError}&#x27;
+Use case: Troubleshooting">curl http://&lt;host&gt;:9090/api/v1/targets | jq '.data.activeTargets[] | select(.health!=&quot;up&quot;) | {job: .labels.job, error: .lastError}'</span><span class="c"># confirm the target&#x27;s metrics endpoint is actually reachable and returning data, independent of Prometheus</span><span class="cmdline" tabindex="0" data-tip="Confirm the target&#x27;s metrics endpoint is actually reachable and returning data, independent of Prometheus.
+Example: curl http://myserver:8080/metrics
+Use case: Troubleshooting">curl http://&lt;target_host&gt;:&lt;target_port&gt;/metrics</span></code></pre>
+<p><strong>Prometheus itself is slow or using too much memory:</strong></p>
+<pre><code class="language-bash"><span class="c"># top metrics by series count — cardinality explosions are the usual cause</span><span class="cmdline" tabindex="0" data-tip="Top metrics by series count — cardinality explosions are the usual cause.
+Example: curl -s http://myserver:9090/api/v1/status/tsdb | jq &#x27;.data.seriesCountByMetricName[:10]&#x27;
+Use case: Troubleshooting">curl -s http://&lt;host&gt;:9090/api/v1/status/tsdb | jq '.data.seriesCountByMetricName[:10]'</span></code></pre>
+<p>A single label with high cardinality (like a raw user ID or request ID as a label value) can silently create millions of series — this query finds the offender fast.</p>
+<hr /></details>
+  </main>
+</div>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/search.js"></script>
+</body>
+</html>

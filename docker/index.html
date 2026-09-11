@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docker — DevOps Cheatsheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="topbar">
+  <span class="brand">~/devops-cheatsheet</span>
+  <button id="search-trigger" class="search-btn" data-prefix="../">Search <span class="kbd">/</span></button>
+  <a href="../index.html">index</a>
+  <a href="../linux/index.html">linux</a>
+  <a href="../docker/index.html" class="active">docker</a>
+  <a href="../kubernetes/index.html">kubernetes</a>
+  <a href="../ansible/index.html">ansible</a>
+  <a href="../vault/index.html">vault</a>
+  <a href="../oracle-db/index.html">oracle database</a>
+  <a href="../postgresql/index.html">postgresql</a>
+  <a href="../weblogic/index.html">weblogic</a>
+  <a href="../prometheus/index.html">prometheus</a>
+  <a href="../grafana/index.html">grafana</a>
+  <a href="../checkmk/index.html">check_mk</a>
+  <a href="../python/index.html">python</a>
+  <a href="../powershell/index.html">powershell</a>
+  <a href="../git/index.html">git</a>
+  <a href="../data-formats/index.html">yaml / json / jq</a>
+  <a href="../troubleshooting/index.html">troubleshooting</a>
+  <a href="../production-safety/index.html">production safety</a>
+  <a href="../quick-reference/index.html">quick references</a>
+</div>
+<div id="search-overlay" class="search-overlay" hidden>
+  <div class="search-panel">
+    <input id="search-input" type="text" placeholder="Search commands…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="label">ON THIS PAGE</div>
+    <ul>
+      <li><a href="#docker-compose" style="padding-left:20px;font-size:12px;">Docker Compose</a></li>
+      <li><a href="#health-check" style="padding-left:20px;font-size:12px;">Health check</a></li>
+      <li><a href="#troubleshooting" style="padding-left:20px;font-size:12px;">Troubleshooting</a></li>
+    </ul>
+  </div>
+  <main>
+    
+    <div class="title-frame">
+      <h1>Docker</h1>
+      <div class="subtitle-readout">30 COMMANDS INDEXED</div>
+    </div>
+    
+    <pre><code class="language-bash"><span class="c"># readable custom columns</span><span class="cmdline" tabindex="0" data-tip="Readable custom columns.
+Example: docker ps -a --format &#x27;table {{.Names}}\t{{.Status}}\t{{.Ports}}&#x27;
+Use case: Docker">docker ps -a --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'</span><span class="cmdline">docker logs -f --since 10m mycontainer</span><span class="c"># get a shell in a running container</span><span class="cmdline" tabindex="0" data-tip="Get a shell in a running container.
+Example: docker exec -it mycontainer sh
+Use case: Docker">docker exec -it mycontainer sh</span><span class="c"># inspect an image without running its default command</span><span class="cmdline" tabindex="0" data-tip="Inspect an image without running its default command.
+Example: docker run --rm -it --entrypoint sh myimage
+Use case: Docker">docker run --rm -it --entrypoint sh myimage</span><span class="c"># one-shot resource usage snapshot, all containers</span><span class="cmdline" tabindex="0" data-tip="One-shot resource usage snapshot, all containers.
+Example: docker stats --no-stream
+Use case: Docker">docker stats --no-stream</span><span class="c"># disk usage breakdown by images/containers/volumes</span><span class="cmdline" tabindex="0" data-tip="Disk usage breakdown by images/containers/volumes.
+Example: docker system df
+Use case: Docker">docker system df</span><span class="c"># reclaim space — destructive, see Production Safety</span><span class="cmdline" tabindex="0" data-tip="Reclaim space — destructive, see Production Safety.
+Example: docker system prune -af --volumes
+Use case: Docker">docker system prune -af --volumes</span><span class="c"># pull one field instead of parsing full JSON</span><span class="cmdline" tabindex="0" data-tip="Pull one field instead of parsing full JSON.
+Example: docker inspect --format &#x27;{{.State.Health.Status}}&#x27; mycontainer
+Use case: Docker">docker inspect --format '{{.State.Health.Status}}' mycontainer</span></code></pre>
+<hr />
+<details class="section-block" open><summary><h2 id="docker-compose">Docker Compose</h2></summary>
+<pre><code class="language-bash"><span class="c"># start everything in the background</span><span class="cmdline" tabindex="0" data-tip="Start everything in the background.
+Example: docker compose up -d
+Use case: Docker Compose">docker compose up -d</span><span class="c"># rebuild images first, then start</span><span class="cmdline" tabindex="0" data-tip="Rebuild images first, then start.
+Example: docker compose up -d --build
+Use case: Docker Compose">docker compose up -d --build</span><span class="c"># stop and remove containers, networks (keeps volumes)</span><span class="cmdline" tabindex="0" data-tip="Stop and remove containers, networks (keeps volumes)
+Example: docker compose down
+Use case: Docker Compose">docker compose down</span><span class="c"># also remove volumes — destructive, see Production Safety</span><span class="cmdline" tabindex="0" data-tip="Also remove volumes — destructive, see Production Safety.
+Example: docker compose down -v
+Use case: Docker Compose">docker compose down -v</span><span class="c"># status of every service in this project</span><span class="cmdline" tabindex="0" data-tip="Status of every service in this project.
+Example: docker compose ps
+Use case: Docker Compose">docker compose ps</span><span class="c"># follow logs for one service only</span><span class="cmdline" tabindex="0" data-tip="Follow logs for one service only.
+Example: docker compose logs -f service_name
+Use case: Docker Compose">docker compose logs -f service_name</span><span class="c"># shell into a running service</span><span class="cmdline" tabindex="0" data-tip="Shell into a running service.
+Example: docker compose exec service_name sh
+Use case: Docker Compose">docker compose exec service_name sh</span><span class="c"># restart one service without touching the rest</span><span class="cmdline" tabindex="0" data-tip="Restart one service without touching the rest.
+Example: docker compose restart service_name
+Use case: Docker Compose">docker compose restart service_name</span><span class="c"># render the fully resolved config (env vars, overrides applied) — great for debugging &amp;quot;why isn&#x27;t my variable being picked up&amp;quot;</span><span class="cmdline" tabindex="0" data-tip="Render the fully resolved config (env vars, overrides applied) — great for debugging &amp;quot;why isn&#x27;t my variable being picked up&amp;quot;.
+Example: docker compose config
+Use case: Docker Compose">docker compose config</span></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced</summary>
+<pre><code class="language-bash"><span class="c"># run 3 instances of one service, useful for quick local load testing</span><span class="cmdline" tabindex="0" data-tip="Run 3 instances of one service, useful for quick local load testing.
+Example: docker compose up -d --scale worker=3
+Use case: Docker Compose">docker compose up -d --scale worker=3</span><span class="c"># explicitly combine multiple compose files instead of relying on auto-discovery</span><span class="cmdline" tabindex="0" data-tip="Explicitly combine multiple compose files instead of relying on auto-discovery.
+Example: docker compose -f docker-compose.yml -f docker-compose.override.yml up -d
+Use case: Docker Compose">docker compose -f docker-compose.yml -f docker-compose.override.yml up -d</span><span class="c"># follow, but only the last 100 lines first — avoids a wall of scrollback on attach</span><span class="cmdline" tabindex="0" data-tip="Follow, but only the last 100 lines first — avoids a wall of scrollback on attach.
+Example: docker compose logs -f --tail=100 service_name
+Use case: Docker Compose">docker compose logs -f --tail=100 service_name</span><span class="c"># check what env vars a service actually sees at runtime, not what you think you set</span><span class="cmdline" tabindex="0" data-tip="Check what env vars a service actually sees at runtime, not what you think you set.
+Example: docker compose exec service_name env
+Use case: Docker Compose">docker compose exec service_name env</span><span class="c"># processes running inside each service&#x27;s container, without exec-ing in</span><span class="cmdline" tabindex="0" data-tip="Processes running inside each service&#x27;s container, without exec-ing in.
+Example: docker compose top
+Use case: Docker Compose">docker compose top</span></code></pre>
+</details>
+</details><details class="section-block" open><summary><h2 id="health-check">Health check</h2></summary>
+<ol>
+<li><strong>Container state</strong> — <code>docker ps -a</code> — red flag: <code>Restarting</code> (loop) or <code>Exited</code> with a non-zero code.</li>
+<li><strong>Resource usage</strong> — <code>docker stats --no-stream</code> — red flag: memory usage sitting right at its limit — OOM-kill is imminent, not hypothetical.</li>
+<li><strong>Recent events</strong> — <code>docker events --since 10m</code> — red flag: repeated <code>die</code> or <code>oom</code> events for the same container.</li>
+<li><strong>Disk</strong> — <code>docker system df</code> — red flag: total usage approaching the host's actual free disk, not just a high "reclaimable" number (that part is normal and expected).</li>
+</ol>
+</details><details class="section-block" open><summary><h2 id="troubleshooting">Troubleshooting</h2></summary>
+<p><strong>Container exits immediately after starting:</strong></p>
+<pre><code class="language-bash"><span class="c"># almost always shows the actual error, even for a container that&#x27;s already stopped</span><span class="cmdline" tabindex="0" data-tip="Almost always shows the actual error, even for a container that&#x27;s already stopped.
+Example: docker logs mycontainer
+Use case: Troubleshooting">docker logs mycontainer</span><span class="c"># exit code — 137 usually means OOM-killed, 1 is a generic app error</span><span class="cmdline" tabindex="0" data-tip="Exit code — 137 usually means OOM-killed, 1 is a generic app error.
+Example: docker inspect mycontainer --format &#x27;{{.State.ExitCode}}&#x27;
+Use case: Troubleshooting">docker inspect mycontainer --format '{{.State.ExitCode}}'</span><span class="c"># override the entrypoint to get a shell instead, poke around manually</span><span class="cmdline" tabindex="0" data-tip="Override the entrypoint to get a shell instead, poke around manually.
+Example: docker run -it --entrypoint sh myimage
+Use case: Troubleshooting">docker run -it --entrypoint sh myimage</span></code></pre>
+<p><strong>"No space left on device" but df shows free space:</strong></p>
+<pre><code class="language-bash"><span class="c"># Docker&#x27;s own disk usage, separate from the host filesystem view</span><span class="cmdline" tabindex="0" data-tip="Docker&#x27;s own disk usage, separate from the host filesystem view.
+Example: docker system df
+Use case: Troubleshooting">docker system df</span><span class="c"># Docker images/layers/volumes accumulate in their own storage driver — this is almost always the real cause</span><span class="cmdline" tabindex="0" data-tip="Docker images/layers/volumes accumulate in their own storage driver — this is almost always the real cause.
+Example: docker system prune -af --volumes
+Use case: Troubleshooting">docker system prune -af --volumes</span></code></pre>
+<p><strong>Two containers can't reach each other:</strong></p>
+<pre><code class="language-bash"><span class="c"># confirm both containers are actually on the same network</span><span class="cmdline" tabindex="0" data-tip="Confirm both containers are actually on the same network.
+Example: docker network ls
+Use case: Troubleshooting">docker network ls</span><span class="c"># see which containers are attached, and their IPs</span><span class="cmdline" tabindex="0" data-tip="See which containers are attached, and their IPs.
+Example: docker network inspect example
+Use case: Troubleshooting">docker network inspect &lt;network_name&gt;</span><span class="c"># containers on the same user-defined network can reach each other by name — if this fails, they&#x27;re not on the same network</span><span class="cmdline" tabindex="0" data-tip="Containers on the same user-defined network can reach each other by name — if this fails, they&#x27;re not on the same network.
+Example: docker exec mycontainer1 ping mycontainer2
+Use case: Troubleshooting">docker exec mycontainer1 ping mycontainer2</span></code></pre>
+<hr /></details>
+  </main>
+</div>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/search.js"></script>
+</body>
+</html>

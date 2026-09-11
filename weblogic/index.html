@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebLogic — DevOps Cheatsheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="topbar">
+  <span class="brand">~/devops-cheatsheet</span>
+  <button id="search-trigger" class="search-btn" data-prefix="../">Search <span class="kbd">/</span></button>
+  <a href="../index.html">index</a>
+  <a href="../linux/index.html">linux</a>
+  <a href="../docker/index.html">docker</a>
+  <a href="../kubernetes/index.html">kubernetes</a>
+  <a href="../ansible/index.html">ansible</a>
+  <a href="../vault/index.html">vault</a>
+  <a href="../oracle-db/index.html">oracle database</a>
+  <a href="../postgresql/index.html">postgresql</a>
+  <a href="../weblogic/index.html" class="active">weblogic</a>
+  <a href="../prometheus/index.html">prometheus</a>
+  <a href="../grafana/index.html">grafana</a>
+  <a href="../checkmk/index.html">check_mk</a>
+  <a href="../python/index.html">python</a>
+  <a href="../powershell/index.html">powershell</a>
+  <a href="../git/index.html">git</a>
+  <a href="../data-formats/index.html">yaml / json / jq</a>
+  <a href="../troubleshooting/index.html">troubleshooting</a>
+  <a href="../production-safety/index.html">production safety</a>
+  <a href="../quick-reference/index.html">quick references</a>
+</div>
+<div id="search-overlay" class="search-overlay" hidden>
+  <div class="search-panel">
+    <input id="search-input" type="text" placeholder="Search commands…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="label">ON THIS PAGE</div>
+    <ul>
+      <li><a href="#health-check" style="padding-left:20px;font-size:12px;">Health check</a></li>
+      <li><a href="#troubleshooting" style="padding-left:20px;font-size:12px;">Troubleshooting</a></li>
+    </ul>
+  </div>
+  <main>
+    
+    <div class="title-frame">
+      <h1>WebLogic</h1>
+      <div class="subtitle-readout">28 COMMANDS INDEXED</div>
+    </div>
+    
+    <pre><code class="language-bash"><span class="c"># start the WebLogic Scripting Tool (interactive Jython shell)</span><span class="cmdline" tabindex="0" data-tip="Start the WebLogic Scripting Tool (interactive Jython shell)
+Example: java weblogic.WLST
+Use case: WebLogic">java weblogic.WLST</span><span class="c"># run a WLST script non-interactively</span><span class="cmdline" tabindex="0" data-tip="Run a WLST script non-interactively.
+Example: java weblogic.WLST example
+Use case: WebLogic">java weblogic.WLST &lt;script.py&gt;</span><span class="c"># start the admin server directly (foreground, useful for first-boot errors)</span><span class="cmdline" tabindex="0" data-tip="Start the admin server directly (foreground, useful for first-boot errors)
+Example: $DOMAIN_HOME/bin/startWebLogic.sh
+Use case: WebLogic">$DOMAIN_HOME/bin/startWebLogic.sh</span><span class="c"># start a managed server, pointing at the admin server</span><span class="cmdline" tabindex="0" data-tip="Start a managed server, pointing at the admin server.
+Example: $DOMAIN_HOME/bin/startManagedWebLogic.sh myserver example
+Use case: WebLogic">$DOMAIN_HOME/bin/startManagedWebLogic.sh &lt;server_name&gt; &lt;admin_url&gt;</span><span class="c"># WLST: start a server via Node Manager instead of the shell script directly</span><span class="cmdline" tabindex="0" data-tip="WLST: start a server via Node Manager instead of the shell script directly.
+Example: nmConnect() / nmStart(&#x27;myserver&#x27;)
+Use case: WebLogic">nmConnect() / nmStart('&lt;server_name&gt;')</span></code></pre>
+<pre><code class="language-python"><span class="cmdline"># inside WLST</span><span class="c"># connect to a running admin server</span><span class="cmdline" tabindex="0" data-tip="Connect to a running admin server.
+Example: connect(&#x27;myuser&#x27;, &#x27;••••••••&#x27;, &#x27;t3://myserver:8080&#x27;)
+Use case: WebLogic">connect('&lt;username&gt;', '&lt;password&gt;', 't3://&lt;host&gt;:&lt;port&gt;')</span><span class="c"># switch to the domain runtime MBean tree</span><span class="cmdline" tabindex="0" data-tip="Switch to the domain runtime MBean tree.
+Example: domainRuntime()
+Use case: WebLogic">domainRuntime()</span><span class="c"># navigate the MBean tree like a filesystem</span><span class="cmdline" tabindex="0" data-tip="Navigate the MBean tree like a filesystem.
+Example: cd(&#x27;/ServerRuntimes/myserver/JMSRuntime&#x27;)
+Use case: WebLogic">cd('/ServerRuntimes/&lt;server_name&gt;/JMSRuntime')</span><span class="c"># RUNNING / ADMIN / FAILED etc, for one managed server</span><span class="cmdline" tabindex="0" data-tip="RUNNING / ADMIN / FAILED etc, for one managed server.
+Example: state(&#x27;myserver&#x27;)
+Use case: WebLogic">state('&lt;server_name&gt;')</span><span class="c"># list MBeans/attributes at the current tree location</span><span class="cmdline" tabindex="0" data-tip="List MBeans/attributes at the current tree location.
+Example: ls()
+Use case: WebLogic">ls()</span></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced</summary>
+<pre><code class="language-bash"><span class="c"># trigger a thread dump to stdout/stderr log without restarting the JVM — first move on a hang, not a restart</span><span class="cmdline" tabindex="0" data-tip="Trigger a thread dump to stdout/stderr log without restarting the JVM — first move on a hang, not a restart.
+Example: kill -3 12345
+Use case: WebLogic">kill -3 &lt;pid&gt;</span><span class="c"># cleaner thread dump straight to a file, easier to diff between two hangs</span><span class="cmdline" tabindex="0" data-tip="Cleaner thread dump straight to a file, easier to diff between two hangs.
+Example: jstack 12345 &gt; threaddump_$(date +%s).txt
+Use case: WebLogic">jstack &lt;pid&gt; &gt; threaddump_$(date +%s).txt</span><span class="c"># inspect a truststore&#x27;s certs and expiry dates — the recurring fix for SSLHandshakeException</span><span class="cmdline" tabindex="0" data-tip="Inspect a truststore&#x27;s certs and expiry dates — the recurring fix for SSLHandshakeException.
+Example: keytool -list -v -keystore trust.jks
+Use case: WebLogic">keytool -list -v -keystore trust.jks</span><span class="c"># add a renewed CA cert to an existing truststore</span><span class="cmdline" tabindex="0" data-tip="Add a renewed CA cert to an existing truststore.
+Example: keytool -importcert -alias myalias -file mycert.pem -keystore trust.jks
+Use case: WebLogic">keytool -importcert -alias &lt;alias&gt; -file &lt;cert.pem&gt; -keystore trust.jks</span></code></pre>
+</details>
+<pre><code class="language-python"><span class="cmdline"># inside WLST — JMS queue depth, the fast way to confirm a backlog before digging further</span><span class="cmdline">cd('/ServerRuntimes/&lt;server_name&gt;/JMSRuntime/&lt;server_name&gt;.jms/JMSServers/&lt;jms_server_name&gt;/Destinations/&lt;queue_name&gt;')</span><span class="c"># messages sitting in the queue right now</span><span class="cmdline" tabindex="0" data-tip="Messages sitting in the queue right now.
+Example: print cmo.getMessagesCurrentCount()
+Use case: WebLogic">print cmo.getMessagesCurrentCount()</span><span class="c"># active consumers — zero consumers with a growing count means nobody&#x27;s draining it</span><span class="cmdline" tabindex="0" data-tip="Active consumers — zero consumers with a growing count means nobody&#x27;s draining it.
+Example: print cmo.getConsumersCurrentCount()
+Use case: WebLogic">print cmo.getConsumersCurrentCount()</span></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced — logs and monitoring</summary>
+<pre><code class="language-bash"><span class="c"># tail a managed server&#x27;s own log directly</span><span class="cmdline" tabindex="0" data-tip="Tail a managed server&#x27;s own log directly.
+Example: tail -f $DOMAIN_HOME/servers/myserver/logs/myserver.log
+Use case: WebLogic">tail -f $DOMAIN_HOME/servers/&lt;server_name&gt;/logs/&lt;server_name&gt;.log</span><span class="c"># last 50 severe/error lines, fast triage</span><span class="cmdline" tabindex="0" data-tip="Last 50 severe/error lines, fast triage.
+Example: grep -i &quot;SEVERE\|example&quot; $DOMAIN_HOME/servers/myserver/logs/myserver.log | tail -50
+Use case: WebLogic">grep -i &quot;SEVERE\|&lt;Error&gt;&quot; $DOMAIN_HOME/servers/&lt;server_name&gt;/logs/&lt;server_name&gt;.log | tail -50</span><span class="c"># read server state over Jolokia JMX-HTTP, no WLST session needed — useful from monitoring scripts</span><span class="cmdline" tabindex="0" data-tip="Read server state over Jolokia JMX-HTTP, no WLST session needed — useful from monitoring scripts.
+Example: curl -s &quot;http://myserver:8080/jolokia/read/com.bea:Type=ServerRuntime,Name=myserver/State&quot;
+Use case: WebLogic">curl -s &quot;http://&lt;host&gt;:&lt;jolokia_port&gt;/jolokia/read/com.bea:Type=ServerRuntime,Name=&lt;server_name&gt;/State&quot;</span></code></pre>
+</details>
+<details class="section-block" open><summary><h2 id="health-check">Health check</h2></summary>
+<ol>
+<li><strong>Server state</strong> — check the admin console or <code>state('&lt;server_name&gt;')</code> in WLST — red flag: anything other than <code>RUNNING</code>.</li>
+<li><strong>Thread status</strong> — a thread dump (<code>kill -3 &lt;pid&gt;</code>) — red flag: a high count of <code>STUCK</code> threads — this is the actual cause of most "server is up but not responding" tickets.</li>
+<li><strong>Heap usage</strong> — GC logs or <code>jmap -heap &lt;pid&gt;</code> — red flag: heap usage sustained near max with frequent full GCs — the server is thrashing, not just busy.</li>
+</ol>
+</details><details class="section-block" open><summary><h2 id="troubleshooting">Troubleshooting</h2></summary>
+<p><strong>Managed server won't start:</strong></p>
+<pre><code class="language-bash"><span class="c"># the actual startup error is almost always in the last lines</span><span class="cmdline" tabindex="0" data-tip="The actual startup error is almost always in the last lines.
+Example: tail -100 $DOMAIN_HOME/servers/myserver/logs/myserver.log
+Use case: Troubleshooting">tail -100 $DOMAIN_HOME/servers/&lt;server_name&gt;/logs/&lt;server_name&gt;.log</span><span class="c"># confirm it isn&#x27;t already running under a stale process before retrying</span><span class="cmdline" tabindex="0" data-tip="Confirm it isn&#x27;t already running under a stale process before retrying.
+Example: ps -ef | grep myserver
+Use case: Troubleshooting">ps -ef | grep &lt;server_name&gt;</span></code></pre>
+<p><strong>Server running but unresponsive (hung):</strong></p>
+<pre><code class="language-bash"><span class="c"># thread dump first, always — a restart destroys the evidence of what caused the hang</span><span class="cmdline" tabindex="0" data-tip="Thread dump first, always — a restart destroys the evidence of what caused the hang.
+Example: kill -3 12345
+Use case: Troubleshooting">kill -3 &lt;pid&gt;</span><span class="c"># a high count of BLOCKED threads usually points to lock contention, not raw overload</span><span class="cmdline" tabindex="0" data-tip="A high count of BLOCKED threads usually points to lock contention, not raw overload.
+Example: grep -c &quot;BLOCKED&quot; threaddump.txt
+Use case: Troubleshooting">grep -c &quot;BLOCKED&quot; threaddump.txt</span></code></pre>
+<p><strong>OutOfMemoryError:</strong></p>
+<pre><code class="language-bash"><span class="c"># confirm it&#x27;s heap, not PermGen/Metaspace — the message names which one</span><span class="cmdline" tabindex="0" data-tip="Confirm it&#x27;s heap, not PermGen/Metaspace — the message names which one.
+Example: grep -i &quot;OutOfMemoryError&quot; $DOMAIN_HOME/servers/myserver/logs/myserver.log
+Use case: Troubleshooting">grep -i &quot;OutOfMemoryError&quot; $DOMAIN_HOME/servers/&lt;server_name&gt;/logs/&lt;server_name&gt;.log</span><span class="c"># current heap usage breakdown, if the process is still alive</span><span class="cmdline" tabindex="0" data-tip="Current heap usage breakdown, if the process is still alive.
+Example: jmap -heap 12345
+Use case: Troubleshooting">jmap -heap &lt;pid&gt;</span></code></pre>
+<p>Heap OOM is a capacity/leak question (raise -Xmx or find what's not being released); Metaspace OOM is almost always a classloader leak from repeated redeployments.</p>
+<hr /></details>
+  </main>
+</div>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/search.js"></script>
+</body>
+</html>

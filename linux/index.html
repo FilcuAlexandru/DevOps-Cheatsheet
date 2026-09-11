@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linux — DevOps Cheatsheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="topbar">
+  <span class="brand">~/devops-cheatsheet</span>
+  <button id="search-trigger" class="search-btn" data-prefix="../">Search <span class="kbd">/</span></button>
+  <a href="../index.html">index</a>
+  <a href="../linux/index.html" class="active">linux</a>
+  <a href="../docker/index.html">docker</a>
+  <a href="../kubernetes/index.html">kubernetes</a>
+  <a href="../ansible/index.html">ansible</a>
+  <a href="../vault/index.html">vault</a>
+  <a href="../oracle-db/index.html">oracle database</a>
+  <a href="../postgresql/index.html">postgresql</a>
+  <a href="../weblogic/index.html">weblogic</a>
+  <a href="../prometheus/index.html">prometheus</a>
+  <a href="../grafana/index.html">grafana</a>
+  <a href="../checkmk/index.html">check_mk</a>
+  <a href="../python/index.html">python</a>
+  <a href="../powershell/index.html">powershell</a>
+  <a href="../git/index.html">git</a>
+  <a href="../data-formats/index.html">yaml / json / jq</a>
+  <a href="../troubleshooting/index.html">troubleshooting</a>
+  <a href="../production-safety/index.html">production safety</a>
+  <a href="../quick-reference/index.html">quick references</a>
+</div>
+<div id="search-overlay" class="search-overlay" hidden>
+  <div class="search-panel">
+    <input id="search-input" type="text" placeholder="Search commands…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="label">ON THIS PAGE</div>
+    <ul>
+      <li><a href="#linux-system-information">System Information</a></li>
+      <li><a href="#linux-processes">Processes</a></li>
+      <li><a href="#linux-cpu-and-memory">CPU and Memory</a></li>
+      <li><a href="#linux-disk-and-storage">Disk and Storage</a></li>
+      <li><a href="#linux-files-and-directories">Files and Directories</a></li>
+      <li><a href="#linux-permissions">Permissions</a></li>
+      <li><a href="#linux-ssh">SSH</a></li>
+      <li><a href="#linux-troubleshooting">Troubleshooting</a></li>
+      <li><a href="#health-check" style="padding-left:20px;font-size:12px;">Health check</a></li>
+      <li><a href="#specific-problems" style="padding-left:20px;font-size:12px;">Specific problems</a></li>
+    </ul>
+  </div>
+  <main>
+    
+    <div class="title-frame">
+      <h1>Linux</h1>
+      <div class="subtitle-readout">71 COMMANDS INDEXED</div>
+    </div>
+    <div class="label" style="margin:24px 0 8px;">SECTIONS</div><div class="grid" style="margin-top:0;"><div class="card"><a href="./bash/index.html">Bash</a></div><div class="card"><a href="./networking/index.html">Networking</a></div><div class="card"><a href="./logs/index.html">Logs</a></div><div class="card"><a href="./systemd/index.html">Systemd</a></div><div class="card"><a href="./performance/index.html">Performance</a></div></div>
+    <details class="section-block" open><summary><h1 id="linux-system-information">Linux — System Information</h1></summary>
+<pre><code class="language-bash"><span class="c"># distro, version</span><span class="cmdline" tabindex="0" data-tip="Distro, version.
+Example: cat /etc/os-release
+Use case: System Information">cat /etc/os-release</span><span class="c"># hostname, kernel, arch, virt type — one command, everything</span><span class="cmdline" tabindex="0" data-tip="Hostname, kernel, arch, virt type — one command, everything.
+Example: hostnamectl
+Use case: System Information">hostnamectl</span><span class="c"># kernel version, arch</span><span class="cmdline" tabindex="0" data-tip="Kernel version, arch.
+Example: uname -a
+Use case: System Information">uname -a</span><span class="c"># timezone, NTP sync status — check this first on cert/log timing bugs</span><span class="cmdline" tabindex="0" data-tip="Timezone, NTP sync status — check this first on cert/log timing bugs.
+Example: timedatectl
+Use case: System Information">timedatectl</span><span class="c"># human-readable uptime</span><span class="cmdline" tabindex="0" data-tip="Human-readable uptime.
+Example: uptime -p
+Use case: System Information">uptime -p</span><span class="c"># CPU model, cores, sockets, cache — better than /proc/cpuinfo</span><span class="cmdline" tabindex="0" data-tip="CPU model, cores, sockets, cache — better than /proc/cpuinfo.
+Example: lscpu
+Use case: System Information">lscpu</span><span class="c"># block devices + filesystem + mount, in a tree</span><span class="cmdline" tabindex="0" data-tip="Block devices + filesystem + mount, in a tree.
+Example: lsblk -f
+Use case: System Information">lsblk -f</span><span class="c"># hardware/BIOS info (needs root)</span><span class="cmdline" tabindex="0" data-tip="Hardware/BIOS info (needs root)
+Example: dmidecode -t system
+Use case: System Information">dmidecode -t system</span><span class="c"># every boot this machine has had, with timestamps</span><span class="cmdline" tabindex="0" data-tip="Every boot this machine has had, with timestamps.
+Example: journalctl --list-boots
+Use case: System Information">journalctl --list-boots</span></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced</summary>
+<p><code>hostnamectl</code> and <code>timedatectl</code> in one shot tell you 80% of what you need before touching anything else — especially <code>timedatectl</code>, since silent clock drift is behind a surprising number of "random" TLS/Kerberos/cert failures.</p>
+</details>
+</details><details class="section-block" open><summary><h1 id="linux-processes">Linux — Processes</h1></summary>
+<pre><code class="language-bash"><span class="c"># top memory consumers, readable</span><span class="cmdline" tabindex="0" data-tip="Top memory consumers, readable.
+Example: ps -eo pid,ppid,%cpu,%mem,cmd --sort=-%mem | head
+Use case: Processes">ps -eo pid,ppid,%cpu,%mem,cmd --sort=-%mem | head</span><span class="c"># process tree with PIDs</span><span class="cmdline" tabindex="0" data-tip="Process tree with PIDs.
+Example: pstree -p
+Use case: Processes">pstree -p</span><span class="c"># same idea, no extra package needed</span><span class="cmdline" tabindex="0" data-tip="Same idea, no extra package needed.
+Example: ps -ef --forest
+Use case: Processes">ps -ef --forest</span><span class="c"># sort live view by CPU</span><span class="cmdline" tabindex="0" data-tip="Sort live view by CPU.
+Example: top -o %CPU
+Use case: Processes">top -o %CPU</span></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced — priority and I/O control</summary>
+<pre><code class="language-bash"><span class="c"># lower CPU priority (nice) + idle I/O class (ionice) — run heavy batch jobs without starving the box</span><span class="cmdline" tabindex="0" data-tip="Lower CPU priority (nice) + idle I/O class (ionice) — run heavy batch jobs without starving the box.
+Example: nice -n 10 ionice -c3 ./heavy_script.sh
+Use case: Processes">nice -n 10 ionice -c3 ./heavy_script.sh</span><span class="c"># change priority of an already-running process</span><span class="cmdline" tabindex="0" data-tip="Change priority of an already-running process.
+Example: renice -n 5 -p 1234
+Use case: Processes">renice -n 5 -p 1234</span><span class="c"># bump I/O priority of a running PID back up</span><span class="cmdline" tabindex="0" data-tip="Bump I/O priority of a running PID back up.
+Example: ionice -c2 -n0 -p 1234
+Use case: Processes">ionice -c2 -n0 -p 1234</span><span class="c"># pin a process to specific CPU cores</span><span class="cmdline" tabindex="0" data-tip="Pin a process to specific CPU cores.
+Example: taskset -c 0,1 ./script.sh
+Use case: Processes">taskset -c 0,1 ./script.sh</span><span class="c"># run with real-time scheduling (careful — can starve everything else)</span><span class="cmdline" tabindex="0" data-tip="Run with real-time scheduling (careful — can starve everything else)
+Example: chrt -r 10 ./script.sh
+Use case: Processes">chrt -r 10 ./script.sh</span></code></pre>
+</details>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced — inspecting without killing</summary>
+<pre><code class="language-bash"><span class="c"># exit code 0 = process exists, no signal actually sent — great for scripts</span><span class="cmdline" tabindex="0" data-tip="Exit code 0 = process exists, no signal actually sent — great for scripts.
+Example: kill -0 1234
+Use case: Processes">kill -0 1234</span><span class="c"># attach to a running process, see every syscall (find what it&#x27;s stuck on)</span><span class="cmdline" tabindex="0" data-tip="Attach to a running process, see every syscall (find what it&#x27;s stuck on)
+Example: strace -p 1234 -f
+Use case: Processes">strace -p 1234 -f</span><span class="c"># every file/socket a process has open</span><span class="cmdline" tabindex="0" data-tip="Every file/socket a process has open.
+Example: lsof -p 1234
+Use case: Processes">lsof -p 1234</span><span class="c"># memory, threads, state — no tools needed</span><span class="cmdline" tabindex="0" data-tip="Memory, threads, state — no tools needed.
+Example: cat /proc/1234/status
+Use case: Processes">cat /proc/1234/status</span><span class="c"># ulimits actually applied to that process</span><span class="cmdline" tabindex="0" data-tip="Ulimits actually applied to that process.
+Example: cat /proc/1234/limits
+Use case: Processes">cat /proc/1234/limits</span></code></pre>
+</details>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced — detach safely</summary>
+<pre><code class="language-bash"><span class="c"># survives terminal close</span><span class="cmdline" tabindex="0" data-tip="Survives terminal close.
+Example: nohup ./script.sh &gt; out.log 2&gt;&amp;1 &amp;
+Use case: Processes">nohup ./script.sh &gt; out.log 2&gt;&amp;1 &amp;</span><span class="c"># detach a job from the shell without nohup</span><span class="cmdline" tabindex="0" data-tip="Detach a job from the shell without nohup.
+Example: disown -h %1
+Use case: Processes">disown -h %1</span><span class="c"># fully detach from controlling terminal (stronger than nohup)</span><span class="cmdline" tabindex="0" data-tip="Fully detach from controlling terminal (stronger than nohup)
+Example: setsid ./script.sh &amp;
+Use case: Processes">setsid ./script.sh &amp;</span></code></pre>
+</details>
+</details><details class="section-block" open><summary><h1 id="linux-cpu-and-memory">Linux — CPU and Memory</h1></summary>
+<pre><code class="language-bash"><span class="c"># memory overview</span><span class="cmdline" tabindex="0" data-tip="Memory overview.
+Example: free -h
+Use case: CPU and Memory">free -h</span><span class="c"># 5 samples, 1s apart — watch &#x27;r&#x27; (run queue) and &#x27;wa&#x27; (I/O wait)</span><span class="cmdline" tabindex="0" data-tip="5 samples, 1s apart — watch &#x27;r&#x27; (run queue) and &#x27;wa&#x27; (I/O wait)
+Example: vmstat 1 5
+Use case: CPU and Memory">vmstat 1 5</span><span class="c"># per-core CPU usage</span><span class="cmdline" tabindex="0" data-tip="Per-core CPU usage.
+Example: mpstat -P ALL 1
+Use case: CPU and Memory">mpstat -P ALL 1</span><span class="c"># historical CPU stats (needs sysstat)</span><span class="cmdline" tabindex="0" data-tip="Historical CPU stats (needs sysstat)
+Example: sar -u 1 5
+Use case: CPU and Memory">sar -u 1 5</span></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced</summary>
+<pre><code class="language-bash"><span class="c"># NUMA topology — matters on multi-socket DB/JVM hosts</span><span class="cmdline" tabindex="0" data-tip="NUMA topology — matters on multi-socket DB/JVM hosts.
+Example: numactl --hardware
+Use case: CPU and Memory">numactl --hardware</span><span class="c"># total memory footprint of one process, broken down</span><span class="cmdline" tabindex="0" data-tip="Total memory footprint of one process, broken down.
+Example: pmap -x 1234 | tail -1
+Use case: CPU and Memory">pmap -x 1234 | tail -1</span><span class="c"># accounts for shared memory properly (free/ps double-count it)</span><span class="cmdline" tabindex="0" data-tip="Accounts for shared memory properly (free/ps double-count it)
+Example: smem -tk
+Use case: CPU and Memory">smem -tk</span><span class="c"># live-refreshing memory view without extra tools</span><span class="cmdline" tabindex="0" data-tip="Live-refreshing memory view without extra tools.
+Example: watch -n1 &#x27;free -h&#x27;
+Use case: CPU and Memory">watch -n1 'free -h'</span></code></pre>
+</details>
+</details><details class="section-block" open><summary><h1 id="linux-disk-and-storage">Linux — Disk and Storage</h1></summary>
+<pre><code class="language-bash"><span class="c"># usage + filesystem type</span><span class="cmdline" tabindex="0" data-tip="Usage + filesystem type.
+Example: df -hT
+Use case: Disk and Storage">df -hT</span><span class="c"># find what&#x27;s eating a directory, sorted biggest-first</span><span class="cmdline" tabindex="0" data-tip="Find what&#x27;s eating a directory, sorted biggest-first.
+Example: du -sh --max-depth=1 /var | sort -rh
+Use case: Disk and Storage">du -sh --max-depth=1 /var | sort -rh</span><span class="cmdline">lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINT</span><span class="c"># mount tree, easier to read than `mount`</span><span class="cmdline" tabindex="0" data-tip="Mount tree, easier to read than `mount`.
+Example: findmnt
+Use case: Disk and Storage">findmnt</span></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced</summary>
+<pre><code class="language-bash"><span class="c"># who has files open under a directory — essential before umount fails</span><span class="cmdline" tabindex="0" data-tip="Who has files open under a directory — essential before umount fails.
+Example: lsof +D /var/log
+Use case: Disk and Storage">lsof +D /var/log</span><span class="c"># what&#x27;s using a mount point</span><span class="cmdline" tabindex="0" data-tip="What&#x27;s using a mount point.
+Example: fuser -vm /mnt/data
+Use case: Disk and Storage">fuser -vm /mnt/data</span><span class="c"># per-device I/O, %util column is the one that matters</span><span class="cmdline" tabindex="0" data-tip="Per-device I/O, %util column is the one that matters.
+Example: iostat -xz 1
+Use case: Disk and Storage">iostat -xz 1</span><span class="c"># interactive du — much faster to navigate than plain du</span><span class="cmdline" tabindex="0" data-tip="Interactive du — much faster to navigate than plain du.
+Example: ncdu /var
+Use case: Disk and Storage">ncdu /var</span><span class="c"># truncate a log file in place without deleting it (keeps the inode/fd alive — safe for a process still writing to it)</span><span class="cmdline" tabindex="0" data-tip="Truncate a log file in place without deleting it (keeps the inode/fd alive — safe for a process still writing to it)
+Example: : &gt; /var/log/huge.log
+Use case: Disk and Storage">: &gt; /var/log/huge.log</span></code></pre>
+</details>
+</details><details class="section-block" open><summary><h1 id="linux-files-and-directories">Linux — Files and Directories</h1></summary>
+<pre><code class="language-bash"><span class="c"># big files, current filesystem only (no NFS crawl)</span><span class="cmdline" tabindex="0" data-tip="Big files, current filesystem only (no NFS crawl)
+Example: find / -xdev -type f -size +100M 2&gt;/dev/null
+Use case: Files and Directories">find / -xdev -type f -size +100M 2&gt;/dev/null</span><span class="c"># modified in the last 24h</span><span class="cmdline" tabindex="0" data-tip="Modified in the last 24h.
+Example: find . -mtime -1
+Use case: Files and Directories">find . -mtime -1</span><span class="c"># anything newer than a given file</span><span class="cmdline" tabindex="0" data-tip="Anything newer than a given file.
+Example: find . -type f -newer reference_file
+Use case: Files and Directories">find . -type f -newer reference_file</span><span class="c"># cleanup, but see Production Safety first</span><span class="cmdline" tabindex="0" data-tip="Cleanup, but see Production Safety first.
+Example: find . -name &#x27;*.log&#x27; -mtime +30 -delete
+Use case: Files and Directories">find . -name '*.log' -mtime +30 -delete</span></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced</summary>
+<pre><code class="language-bash"><span class="c"># always dry-run a sync before committing to it</span><span class="cmdline" tabindex="0" data-tip="Always dry-run a sync before committing to it.
+Example: rsync -avz --dry-run src/ dst/
+Use case: Files and Directories">rsync -avz --dry-run src/ dst/</span><span class="c"># parallelize find/xargs pipelines (4 at a time)</span><span class="cmdline" tabindex="0" data-tip="Parallelize find/xargs pipelines (4 at a time)
+Example: xargs -P4 -I{} cmd {}
+Use case: Files and Directories">xargs -P4 -I{} cmd {}</span><span class="c"># process substitution — compare without temp files</span><span class="cmdline" tabindex="0" data-tip="Process substitution — compare without temp files.
+Example: diff &lt;(sort file1) &lt;(sort file2)
+Use case: Files and Directories">diff &lt;(sort file1) &lt;(sort file2)</span><span class="c"># lines in a.txt not in b.txt</span><span class="cmdline" tabindex="0" data-tip="Lines in a.txt not in b.txt.
+Example: comm -23 &lt;(sort a.txt) &lt;(sort b.txt)
+Use case: Files and Directories">comm -23 &lt;(sort a.txt) &lt;(sort b.txt)</span></code></pre>
+</details>
+</details><details class="section-block" open><summary><h1 id="linux-permissions">Linux — Permissions</h1></summary>
+<pre><code class="language-bash"><span class="c"># copy permissions from one file to another</span><span class="cmdline" tabindex="0" data-tip="Copy permissions from one file to another.
+Example: chmod --reference=file1 file2
+Use case: Permissions">chmod --reference=file1 file2</span><span class="c"># fine-grained ACLs beyond owner/group/other</span><span class="cmdline" tabindex="0" data-tip="Fine-grained ACLs beyond owner/group/other.
+Example: getfacl file / setfacl -m u:name:rwx file
+Use case: Permissions">getfacl file / setfacl -m u:name:rwx file</span><span class="c"># make a file immutable, even root can&#x27;t delete it without unsetting first</span><span class="cmdline" tabindex="0" data-tip="Make a file immutable, even root can&#x27;t delete it without unsetting first.
+Example: chattr +i file
+Use case: Permissions">chattr +i file</span><span class="c"># find every SUID binary — useful in a security review</span><span class="cmdline" tabindex="0" data-tip="Find every SUID binary — useful in a security review.
+Example: find / -perm -4000 2&gt;/dev/null
+Use case: Permissions">find / -perm -4000 2&gt;/dev/null</span><span class="c"># what you&#x27;re actually allowed to sudo, before you assume</span><span class="cmdline" tabindex="0" data-tip="What you&#x27;re actually allowed to sudo, before you assume.
+Example: sudo -l
+Use case: Permissions">sudo -l</span></code></pre>
+</details><details class="section-block" open><summary><h1 id="linux-ssh">Linux — SSH</h1></summary>
+<pre><code class="language-bash"><span class="c"># jump host in one line, no manual tunnel</span><span class="cmdline" tabindex="0" data-tip="Jump host in one line, no manual tunnel.
+Example: ssh -J bastion user@internal-host
+Use case: SSH">ssh -J bastion user@internal-host</span><span class="c"># local port forward, no shell — great for reaching internal dashboards</span><span class="cmdline" tabindex="0" data-tip="Local port forward, no shell — great for reaching internal dashboards.
+Example: ssh -N -L 8080:localhost:80 user@host
+Use case: SSH">ssh -N -L 8080:localhost:80 user@host</span><span class="c"># SOCKS proxy through a single host</span><span class="cmdline" tabindex="0" data-tip="SOCKS proxy through a single host.
+Example: ssh -N -D 1080 user@host
+Use case: SSH">ssh -N -D 1080 user@host</span><span class="c"># push your key without manual cat/append</span><span class="cmdline" tabindex="0" data-tip="Push your key without manual cat/append.
+Example: ssh-copy-id user@host
+Use case: SSH">ssh-copy-id user@host</span></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced — `~/.ssh/config` aliases</summary>
+<pre><code><span class="cmdline">Host eip-prod</span><span class="cmdline">    HostName 10.0.4.12</span><span class="cmdline">    User afilcu</span><span class="cmdline">    ProxyJump bastion</span><span class="cmdline">    ServerAliveInterval 30</span></code></pre>
+<p>Then just <code>ssh eip-prod</code> — no more remembering IPs, jump hosts, or usernames.</p>
+</details>
+<hr />
+</details><details class="section-block" open><summary><h1 id="linux-troubleshooting">Linux — Troubleshooting</h1></summary>
+</details><details class="section-block" open><summary><h2 id="health-check">Health check</h2></summary>
+<p>Run through these in order — each step's red flag tells you where to dig deeper, without guessing.</p>
+<ol>
+<li><strong>Load &amp; CPU</strong> — <code>uptime</code> — red flag: load average sustained above the core count for more than a minute or two.</li>
+<li><strong>Memory</strong> — <code>free -h</code> — red flag: available memory near zero <em>and</em> swap actively growing (a little swap use alone is normal).</li>
+<li><strong>Disk space</strong> — <code>df -h</code> — red flag: any filesystem above 90%, especially <code>/</code> or <code>/var</code>.</li>
+<li><strong>Disk I/O</strong> — <code>iostat -xz 1</code> — red flag: <code>%util</code> near 100 on a device — that's your actual bottleneck, not CPU.</li>
+<li><strong>Recent errors</strong> — <code>journalctl -p err -b</code> — red flag: errors clustering right around when the symptom started.</li>
+</ol>
+</details><details class="section-block" open><summary><h2 id="specific-problems">Specific problems</h2></summary>
+<p><strong>Disk fills up unexpectedly:</strong></p>
+<pre><code class="language-bash"><span class="c"># which top-level directory is actually growing</span><span class="cmdline" tabindex="0" data-tip="Which top-level directory is actually growing.
+Example: du -sh --max-depth=1 / 2&gt;/dev/null | sort -rh | head
+Use case: Specific problems">du -sh --max-depth=1 / 2&gt;/dev/null | sort -rh | head</span><span class="c"># check for deleted-but-still-open files first — df and du disagreeing is the classic sign</span><span class="cmdline" tabindex="0" data-tip="Check for deleted-but-still-open files first — df and du disagreeing is the classic sign.
+Example: lsof +D /var/log 2&gt;/dev/null | awk &#x27;{print $NF}&#x27; | sort -u
+Use case: Specific problems">lsof +D /var/log 2&gt;/dev/null | awk '{print $NF}' | sort -u</span></code></pre>
+<p><strong>Process won't die:</strong></p>
+<pre><code class="language-bash"><span class="c"># zombie processes (state Z) — these can&#x27;t be killed directly, the problem is the parent not reaping them</span><span class="cmdline" tabindex="0" data-tip="Zombie processes (state Z) — these can&#x27;t be killed directly, the problem is the parent not reaping them.
+Example: ps -eo pid,ppid,stat,cmd | grep &#x27;Z&#x27;
+Use case: Specific problems">ps -eo pid,ppid,stat,cmd | grep 'Z'</span><span class="c"># killing the parent usually clears the zombie; if the parent is PID 1, a reboot is the only fix</span><span class="cmdline" tabindex="0" data-tip="Killing the parent usually clears the zombie; if the parent is PID 1, a reboot is the only fix.
+Example: kill -9 12345
+Use case: Specific problems">kill -9 &lt;parent_pid&gt;</span></code></pre>
+<p><strong>System killed my process (OOM):</strong></p>
+<pre><code class="language-bash"><span class="c"># confirm it was actually the OOM killer, not a crash</span><span class="cmdline" tabindex="0" data-tip="Confirm it was actually the OOM killer, not a crash.
+Example: dmesg -T | grep -i &quot;out of memory&quot;
+Use case: Specific problems">dmesg -T | grep -i &quot;out of memory&quot;</span><span class="c"># OOM killer&#x27;s own log entries, including which process it picked and why</span><span class="cmdline" tabindex="0" data-tip="OOM killer&#x27;s own log entries, including which process it picked and why.
+Example: grep -i oom /var/log/syslog
+Use case: Specific problems">grep -i oom /var/log/syslog</span></code></pre>
+<p>The OOM killer picks based on a memory-usage score, not always the "obvious" culprit — always confirm from the log rather than assuming.</p>
+<hr /></details>
+  </main>
+</div>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/search.js"></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oracle Database — DevOps Cheatsheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="topbar">
+  <span class="brand">~/devops-cheatsheet</span>
+  <button id="search-trigger" class="search-btn" data-prefix="../">Search <span class="kbd">/</span></button>
+  <a href="../index.html">index</a>
+  <a href="../linux/index.html">linux</a>
+  <a href="../docker/index.html">docker</a>
+  <a href="../kubernetes/index.html">kubernetes</a>
+  <a href="../ansible/index.html">ansible</a>
+  <a href="../vault/index.html">vault</a>
+  <a href="../oracle-db/index.html" class="active">oracle database</a>
+  <a href="../postgresql/index.html">postgresql</a>
+  <a href="../weblogic/index.html">weblogic</a>
+  <a href="../prometheus/index.html">prometheus</a>
+  <a href="../grafana/index.html">grafana</a>
+  <a href="../checkmk/index.html">check_mk</a>
+  <a href="../python/index.html">python</a>
+  <a href="../powershell/index.html">powershell</a>
+  <a href="../git/index.html">git</a>
+  <a href="../data-formats/index.html">yaml / json / jq</a>
+  <a href="../troubleshooting/index.html">troubleshooting</a>
+  <a href="../production-safety/index.html">production safety</a>
+  <a href="../quick-reference/index.html">quick references</a>
+</div>
+<div id="search-overlay" class="search-overlay" hidden>
+  <div class="search-panel">
+    <input id="search-input" type="text" placeholder="Search commands…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="label">ON THIS PAGE</div>
+    <ul>
+      <li><a href="#health-check" style="padding-left:20px;font-size:12px;">Health check</a></li>
+      <li><a href="#troubleshooting" style="padding-left:20px;font-size:12px;">Troubleshooting</a></li>
+    </ul>
+  </div>
+  <main>
+    
+    <div class="title-frame">
+      <h1>Oracle Database</h1>
+      <div class="subtitle-readout">23 COMMANDS INDEXED</div>
+    </div>
+    
+    <pre><code class="language-bash"><span class="c"># connect via a configured TNS entry</span><span class="cmdline" tabindex="0" data-tip="Connect via a configured TNS entry.
+Example: sqlplus myuser/••••••••@MYDB
+Use case: Oracle Database">sqlplus &lt;username&gt;/&lt;password&gt;@&lt;tns_alias&gt;</span><span class="c"># connect directly without relying on tnsnames.ora</span><span class="cmdline" tabindex="0" data-tip="Connect directly without relying on tnsnames.ora.
+Example: sqlplus myuser/••••••••@myserver:8080/myservice
+Use case: Oracle Database">sqlplus &lt;username&gt;/&lt;password&gt;@&lt;host&gt;:&lt;port&gt;/&lt;service_name&gt;</span><span class="c"># confirm the listener is reachable and how long it takes, before blaming the DB</span><span class="cmdline" tabindex="0" data-tip="Confirm the listener is reachable and how long it takes, before blaming the DB.
+Example: tnsping MYDB
+Use case: Oracle Database">tnsping &lt;tns_alias&gt;</span><span class="c"># listener status — services registered, uptime</span><span class="cmdline" tabindex="0" data-tip="Listener status — services registered, uptime.
+Example: lsnrctl status
+Use case: Oracle Database">lsnrctl status</span></code></pre>
+<pre><code class="language-sql"><span class="cmdline">SELECT * FROM v$version;                                    -- confirm exact Oracle version/patch level</span><span class="cmdline">SELECT username, status, sid, serial# FROM v$session;          -- who's connected right now</span><span class="cmdline">SELECT tablespace_name, ROUND(used_percent,1) AS used_pct       -- quick tablespace usage check</span><span class="cmdline">  FROM dba_tablespace_usage_metrics;</span><span class="cmdline">SELECT * FROM dba_data_files WHERE tablespace_name = '&lt;TABLESPACE&gt;';   -- datafiles backing a tablespace, and their sizes</span><span class="cmdline">ALTER SYSTEM SWITCH LOGFILE;                                     -- force a log switch (useful before checking archive status)</span><span class="cmdline">SELECT name, open_mode, log_mode FROM v$database;                  -- is it in ARCHIVELOG mode, mount/open state</span></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced</summary>
+<pre><code class="language-sql"><span class="cmdline">SELECT sid, serial#, sql_id, status, event FROM v$session WHERE status = 'ACTIVE';   -- what's actually running right now, and what it's waiting on</span><span class="cmdline">ALTER SYSTEM KILL SESSION '&lt;sid&gt;,&lt;serial#&gt;';                                            -- kill a stuck/runaway session (confirm it's actually the right one first)</span><span class="cmdline">SELECT sql_text, executions, elapsed_time/1000000 AS elapsed_sec                          -- top time-consuming SQL, from the shared pool</span><span class="cmdline">  FROM v$sql ORDER BY elapsed_time DESC FETCH FIRST 10 ROWS ONLY;</span><span class="cmdline">SELECT * FROM v$diag_info WHERE name = 'Diag Trace';                                        -- where the alert log / trace files actually live on disk</span><span class="cmdline">tail -f $(sqlplus -s &lt;username&gt;/&lt;password&gt; &lt;&lt;&lt; &quot;SELECT value FROM v\$diag_info WHERE name='Diag Trace';&quot; | tail -1)/alert_&lt;SID&gt;.log   -- tail the alert log directly from the shell, no separate lookup step</span></code></pre>
+</details>
+<details class="section-block" open><summary><h2 id="health-check">Health check</h2></summary>
+<ol>
+<li><strong>Instance status</strong> — <code>SELECT open_mode FROM v$database;</code> — red flag: anything other than <code>READ WRITE</code> when you expect the DB to be fully open.</li>
+<li><strong>Session count</strong> — <code>SELECT count(*) FROM v$session;</code> — red flag: approaching <code>sessions</code> parameter limit — new connections will start failing soon.</li>
+<li><strong>Tablespace usage</strong> — <code>dba_tablespace_usage_metrics</code> — red flag: any tablespace above 90% used.</li>
+<li><strong>Alert log</strong> — tail the current alert log — red flag: any <code>ORA-</code> error, especially repeating ones — a single old one in history is not urgent, a fresh repeating one is.</li>
+</ol>
+</details><details class="section-block" open><summary><h2 id="troubleshooting">Troubleshooting</h2></summary>
+<p><strong>Database won't accept connections:</strong></p>
+<pre><code class="language-bash"><span class="c"># is the listener even up</span><span class="cmdline" tabindex="0" data-tip="Is the listener even up.
+Example: lsnrctl status
+Use case: Troubleshooting">lsnrctl status</span><span class="c"># is the instance actually open, or stuck in MOUNT</span><span class="cmdline" tabindex="0" data-tip="Is the instance actually open, or stuck in MOUNT.
+Example: sqlplus / as sysdba &lt;&lt;&lt; &quot;SELECT status FROM v\$instance;&quot;
+Use case: Troubleshooting">sqlplus / as sysdba &lt;&lt;&lt; &quot;SELECT status FROM v\$instance;&quot;</span></code></pre>
+<p><strong>Archiver stuck / "ORA-00257: archiver error":</strong></p>
+<pre><code class="language-sql"><span class="cmdline">SELECT * FROM v$flash_recovery_area_usage;   -- almost always the recovery area filling up</span></code></pre>
+<pre><code class="language-bash"><span class="c"># clear old archived logs older than 3 days — adjust the window to your actual recovery needs before running</span><span class="cmdline" tabindex="0" data-tip="Clear old archived logs older than 3 days — adjust the window to your actual recovery needs before running.
+Example: rman target / &lt;&lt;&lt; &quot;DELETE ARCHIVELOG ALL COMPLETED BEFORE &#x27;SYSDATE-3&#x27;;&quot;
+Use case: Troubleshooting">rman target / &lt;&lt;&lt; &quot;DELETE ARCHIVELOG ALL COMPLETED BEFORE 'SYSDATE-3';&quot;</span></code></pre>
+<p><strong>Tablespace full:</strong></p>
+<pre><code class="language-sql"><span class="cmdline">SELECT tablespace_name, ROUND(used_percent,1) FROM dba_tablespace_usage_metrics WHERE used_percent &gt; 90;   -- confirm which one, first</span><span class="cmdline">ALTER TABLESPACE mytablespace ADD DATAFILE '/path/to/new_datafile.dbf' SIZE 500M AUTOEXTEND ON;   -- add space; autoextend prevents an immediate repeat</span></code></pre>
+<hr /></details>
+  </main>
+</div>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/search.js"></script>
+</body>
+</html>
