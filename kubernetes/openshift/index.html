@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenShift — DevOps Cheatsheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<div class="topbar">
+  <span class="brand">~/devops-cheatsheet</span>
+  <button id="search-trigger" class="search-btn" data-prefix="../../">Search <span class="kbd">/</span></button>
+  <a href="../../index.html">index</a>
+  <a href="../../linux/index.html">linux</a>
+  <a href="../../docker/index.html">docker</a>
+  <a href="../../kubernetes/index.html" class="active">kubernetes</a>
+  <a href="../../ansible/index.html">ansible</a>
+  <a href="../../vault/index.html">vault</a>
+  <a href="../../oracle-db/index.html">oracle database</a>
+  <a href="../../postgresql/index.html">postgresql</a>
+  <a href="../../weblogic/index.html">weblogic</a>
+  <a href="../../prometheus/index.html">prometheus</a>
+  <a href="../../grafana/index.html">grafana</a>
+  <a href="../../checkmk/index.html">check_mk</a>
+  <a href="../../python/index.html">python</a>
+  <a href="../../powershell/index.html">powershell</a>
+  <a href="../../git/index.html">git</a>
+  <a href="../../data-formats/index.html">yaml / json / jq</a>
+  <a href="../../troubleshooting/index.html">troubleshooting</a>
+  <a href="../../production-safety/index.html">production safety</a>
+  <a href="../../quick-reference/index.html">quick references</a>
+</div>
+<div id="search-overlay" class="search-overlay" hidden>
+  <div class="search-panel">
+    <input id="search-input" type="text" placeholder="Search commands…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="label">ON THIS PAGE</div>
+    <ul>
+      <li><a href="#health-check" style="padding-left:20px;font-size:12px;">Health check</a></li>
+      <li><a href="#troubleshooting" style="padding-left:20px;font-size:12px;">Troubleshooting</a></li>
+    </ul>
+  </div>
+  <main>
+    <div style="font-size:12px;margin-bottom:6px;"><a href="../index.html">Kubernetes</a> <span style="color:var(--text-dim);">/</span> OpenShift</div>
+    <div class="title-frame">
+      <h1>OpenShift</h1>
+      <div class="subtitle-readout">19 COMMANDS INDEXED</div>
+    </div>
+    
+    <p><code>oc</code> extends <code>kubectl</code> with OpenShift-specific project, build, and security workflows — every plain <code>kubectl</code> command still works, this is what's on top.</p>
+<pre><code class="language-bash"><span class="c"># authenticates the CLI against a cluster&#x27;s API server, prompts for credentials</span><span class="cmdline" tabindex="0" data-tip="Authenticates the CLI against a cluster&#x27;s API server, prompts for credentials.
+Example: oc login https://api.cluster.example.com:6443 -u myuser
+Use case: OpenShift">oc login https://api.cluster.example.com:6443 -u &lt;username&gt;</span><span class="c"># confirm current user, useful after switching contexts/logins</span><span class="cmdline" tabindex="0" data-tip="Confirm current user, useful after switching contexts/logins.
+Example: oc whoami
+Use case: OpenShift">oc whoami</span><span class="c"># create + switch to a new project (OpenShift&#x27;s namespaced wrapper)</span><span class="cmdline" tabindex="0" data-tip="Create + switch to a new project (OpenShift&#x27;s namespaced wrapper)
+Example: oc new-project myproject
+Use case: OpenShift">oc new-project &lt;project_name&gt;</span><span class="c"># switch between existing projects</span><span class="cmdline" tabindex="0" data-tip="Switch between existing projects.
+Example: oc project myproject
+Use case: OpenShift">oc project &lt;project_name&gt;</span><span class="c"># deploy straight from a container image</span><span class="cmdline" tabindex="0" data-tip="Deploy straight from a container image.
+Example: oc new-app --image=example/example:example --name=myapp
+Use case: OpenShift">oc new-app --image=&lt;registry&gt;/&lt;image&gt;:&lt;tag&gt; --name=&lt;app_name&gt;</span><span class="c"># expose a service with TLS-terminated Route (OpenShift&#x27;s built-in Ingress)</span><span class="cmdline" tabindex="0" data-tip="Expose a service with TLS-terminated Route (OpenShift&#x27;s built-in Ingress)
+Example: oc create route edge myroute --service=myservice --port=8080 --hostname=myserver
+Use case: OpenShift">oc create route edge &lt;route_name&gt; --service=&lt;service_name&gt; --port=&lt;port&gt; --hostname=&lt;hostname&gt;</span><span class="c"># list exposed routes and their hostnames</span><span class="cmdline" tabindex="0" data-tip="List exposed routes and their hostnames.
+Example: oc get routes
+Use case: OpenShift">oc get routes</span><span class="c"># shorthand for exec -it ... sh</span><span class="cmdline" tabindex="0" data-tip="Shorthand for exec -it ... sh.
+Example: oc rsh mypod
+Use case: OpenShift">oc rsh mypod</span></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced</summary>
+<pre><code class="language-bash"><span class="c"># grant a Security Context Constraint to a service account — needed when a pod legitimately requires a UID the default restricted-v2 SCC blocks</span><span class="cmdline" tabindex="0" data-tip="Grant a Security Context Constraint to a service account — needed when a pod legitimately requires a UID the default restricted-v2 SCC blocks.
+Example: oc adm policy add-scc-to-user anyuid -z mysa -n myproject
+Use case: OpenShift">oc adm policy add-scc-to-user anyuid -z &lt;service_account&gt; -n &lt;project&gt;</span><span class="c"># list available SCCs and what each permits</span><span class="cmdline" tabindex="0" data-tip="List available SCCs and what each permits.
+Example: oc get scc
+Use case: OpenShift">oc get scc</span><span class="c"># safely empty a node before maintenance — cordon first so nothing new schedules there, then drain</span><span class="cmdline" tabindex="0" data-tip="Safely empty a node before maintenance — cordon first so nothing new schedules there, then drain.
+Example: oc adm cordon mynode &amp;&amp; oc adm drain mynode --ignore-daemonsets --delete-emptydir-data
+Use case: OpenShift">oc adm cordon &lt;node_name&gt; &amp;&amp; oc adm drain &lt;node_name&gt; --ignore-daemonsets --delete-emptydir-data</span><span class="c"># node-level resource usage, cluster-wide</span><span class="cmdline" tabindex="0" data-tip="Node-level resource usage, cluster-wide.
+Example: oc adm top nodes
+Use case: OpenShift">oc adm top nodes</span><span class="c"># namespace-level pod resource usage</span><span class="cmdline" tabindex="0" data-tip="Namespace-level pod resource usage.
+Example: oc adm top pods --sort-by=cpu -n myproject
+Use case: OpenShift">oc adm top pods --sort-by=cpu -n &lt;project&gt;</span><span class="c"># check current cluster version and available upgrade path</span><span class="cmdline" tabindex="0" data-tip="Check current cluster version and available upgrade path.
+Example: oc adm upgrade
+Use case: OpenShift">oc adm upgrade</span><span class="c"># project-scoped event stream, chronological — same idea as kubectl get events -A, narrowed down</span><span class="cmdline" tabindex="0" data-tip="Project-scoped event stream, chronological — same idea as kubectl get events -A, narrowed down.
+Example: oc get events --sort-by=&#x27;.lastTimestamp&#x27; -n myproject
+Use case: OpenShift">oc get events --sort-by='.lastTimestamp' -n &lt;project&gt;</span></code></pre>
+</details>
+<details class="section-block" open><summary><h2 id="health-check">Health check</h2></summary>
+<ol>
+<li><strong>Correct project active</strong> — <code>oc project</code> — red flag: you're in the wrong project — a classic way to "fix" the wrong environment.</li>
+<li><strong>Route actually admitted</strong> — <code>oc get routes</code> — red flag: missing an <code>ADMITTED</code> status — the route exists but isn't actually being served.</li>
+<li><strong>No SCC denials</strong> — <code>oc get events -n &lt;project&gt; | grep -i scc</code> — red flag: any "unable to validate against any security context constraint" — the pod isn't just failing, it's being actively blocked.</li>
+</ol>
+</details><details class="section-block" open><summary><h2 id="troubleshooting">Troubleshooting</h2></summary>
+<p><strong>Pod denied by Security Context Constraint:</strong></p>
+<pre><code class="language-bash"><span class="c"># the denial reason is in the event, naming the exact SCC rule that blocked it</span><span class="cmdline" tabindex="0" data-tip="The denial reason is in the event, naming the exact SCC rule that blocked it.
+Example: oc get events -n myproject --sort-by=&#x27;.lastTimestamp&#x27; | grep -i scc
+Use case: Troubleshooting">oc get events -n myproject --sort-by='.lastTimestamp' | grep -i scc</span><span class="c"># see exactly what the default SCC does and doesn&#x27;t allow</span><span class="cmdline" tabindex="0" data-tip="See exactly what the default SCC does and doesn&#x27;t allow.
+Example: oc get scc restricted-v2 -o yaml
+Use case: Troubleshooting">oc get scc restricted-v2 -o yaml</span></code></pre>
+<p>Before granting a broader SCC like <code>anyuid</code>, check whether the image can just be rebuilt to not need root — it's the safer fix and the one that survives a security review.</p>
+<p><strong>Route returns 503 or doesn't resolve:</strong></p>
+<pre><code class="language-bash"><span class="c"># confirm the route actually points at the right service and port</span><span class="cmdline" tabindex="0" data-tip="Confirm the route actually points at the right service and port.
+Example: oc get route myroute -o yaml
+Use case: Troubleshooting">oc get route myroute -o yaml</span><span class="c"># empty endpoints means the service has no healthy pods behind it — the route is fine, the backend isn&#x27;t</span><span class="cmdline" tabindex="0" data-tip="Empty endpoints means the service has no healthy pods behind it — the route is fine, the backend isn&#x27;t.
+Example: oc get endpoints myservice
+Use case: Troubleshooting">oc get endpoints myservice</span></code></pre>
+<hr /></details>
+  </main>
+</div>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/search.js"></script>
+</body>
+</html>
