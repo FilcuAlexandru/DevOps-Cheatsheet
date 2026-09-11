@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bash — DevOps Cheatsheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<div class="topbar">
+  <span class="brand">~/devops-cheatsheet</span>
+  <button id="search-trigger" class="search-btn" data-prefix="../../">Search <span class="kbd">/</span></button>
+  <a href="../../index.html">index</a>
+  <a href="../../linux/index.html" class="active">linux</a>
+  <a href="../../docker/index.html">docker</a>
+  <a href="../../kubernetes/index.html">kubernetes</a>
+  <a href="../../ansible/index.html">ansible</a>
+  <a href="../../vault/index.html">vault</a>
+  <a href="../../oracle-db/index.html">oracle database</a>
+  <a href="../../postgresql/index.html">postgresql</a>
+  <a href="../../weblogic/index.html">weblogic</a>
+  <a href="../../prometheus/index.html">prometheus</a>
+  <a href="../../grafana/index.html">grafana</a>
+  <a href="../../checkmk/index.html">check_mk</a>
+  <a href="../../python/index.html">python</a>
+  <a href="../../powershell/index.html">powershell</a>
+  <a href="../../git/index.html">git</a>
+  <a href="../../data-formats/index.html">yaml / json / jq</a>
+  <a href="../../troubleshooting/index.html">troubleshooting</a>
+  <a href="../../production-safety/index.html">production safety</a>
+  <a href="../../quick-reference/index.html">quick references</a>
+</div>
+<div id="search-overlay" class="search-overlay" hidden>
+  <div class="search-panel">
+    <input id="search-input" type="text" placeholder="Search commands…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="label">ON THIS PAGE</div>
+    <ul>
+      <li><a href="#bash-script-execution">Script Execution</a></li>
+      <li><a href="#bash-debugging">Debugging</a></li>
+      <li><a href="#bash-background-jobs">Background Jobs</a></li>
+      <li><a href="#bash-locks-and-timeouts">Locks and Timeouts</a></li>
+      <li><a href="#bash-troubleshooting">Troubleshooting</a></li>
+      <li><a href="#health-check" style="padding-left:20px;font-size:12px;">Health check</a></li>
+    </ul>
+  </div>
+  <main>
+    <div style="font-size:12px;margin-bottom:6px;"><a href="../index.html">Linux</a> <span style="color:var(--text-dim);">/</span> Bash</div>
+    <div class="title-frame">
+      <h1>Bash</h1>
+      <div class="subtitle-readout">37 COMMANDS INDEXED</div>
+    </div>
+    
+    <details class="section-block" open><summary><h1 id="bash-script-execution">Bash — Script Execution</h1></summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># syntax check only, doesn&#x27;t run anything</span><span class="cmdline" tabindex="0" data-tip="Syntax check only, doesn&#x27;t run anything.
+Example: bash -n script.sh
+Use case: Script Execution">bash -n script.sh</span></div><div class="cmd-box"><span class="c"># trace every command as it executes</span><span class="cmdline" tabindex="0" data-tip="Trace every command as it executes.
+Example: bash -x script.sh
+Use case: Script Execution">bash -x script.sh</span></div><div class="cmd-box"><span class="c"># fail fast: exit on error, unset var, or failed pipe stage — put this at the top of every script</span><span class="cmdline" tabindex="0" data-tip="Fail fast: exit on error, unset var, or failed pipe stage — put this at the top of every script.
+Example: set -euo pipefail
+Use case: Script Execution">set -euo pipefail</span></div></code></pre>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># positional args available as $1 $2, all of them as $@, count as $#</span><span class="cmdline" tabindex="0" data-tip="Positional args available as $1 $2, all of them as $@, count as $#.
+Example: bash script.sh arg1 arg2
+Use case: Script Execution">bash script.sh arg1 arg2</span></div><div class="cmd-box"><span class="c"># run a script in the CURRENT shell, so its variable exports persist afterward (vs a subshell with bash script.sh)</span><span class="cmdline" tabindex="0" data-tip="Run a script in the CURRENT shell, so its variable exports persist afterward (vs a subshell with bash script.sh)
+Example: source ./env.sh
+Use case: Script Execution">source ./env.sh</span></div><div class="cmd-box"><span class="c"># make a script directly executable with ./script.sh</span><span class="cmdline" tabindex="0" data-tip="Make a script directly executable with ./script.sh.
+Example: chmod +x script.sh
+Use case: Script Execution">chmod +x script.sh</span></div><div class="cmd-box"><span class="c"># portable shebang — finds bash via PATH instead of assuming /bin/bash exists at that exact path</span><span class="cmdline" tabindex="0" data-tip="Portable shebang — finds bash via PATH instead of assuming /bin/bash exists at that exact path.
+Example: #!/usr/bin/env bash
+Use case: Script Execution">#!/usr/bin/env bash</span></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced — functions and arrays</summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># function definition — $1 etc. are the function&#x27;s own args, not the script&#x27;s</span><span class="cmdline" tabindex="0" data-tip="Function definition — $1 etc. are the function&#x27;s own args, not the script&#x27;s.
+Example: my_func() { echo &quot;arg1=$1&quot;; return 0; }
+Use case: Script Execution">my_func() { echo &quot;arg1=$1&quot;; return 0; }</span></div><div class="cmd-box"><span class="c"># inside a function, scopes a variable to that function only — always use this over a bare assignment in functions</span><span class="cmdline" tabindex="0" data-tip="Inside a function, scopes a variable to that function only — always use this over a bare assignment in functions.
+Example: local var=&quot;value&quot;
+Use case: Script Execution">local var=&quot;value&quot;</span></div><div class="cmd-box"><span class="c"># array literal + zero-indexed access — prints &amp;quot;two&amp;quot;</span><span class="cmdline" tabindex="0" data-tip="Array literal + zero-indexed access — prints &amp;quot;two&amp;quot;.
+Example: arr=(one two three); echo &quot;${arr[1]}&quot;
+Use case: Script Execution">arr=(one two three); echo &quot;${arr[1]}&quot;</span></div><div class="cmd-box"><span class="c"># iterate an array safely, quoted to survive spaces in elements</span><span class="cmdline" tabindex="0" data-tip="Iterate an array safely, quoted to survive spaces in elements.
+Example: for item in &quot;${arr[@]}&quot;; do echo &quot;$item&quot;; done
+Use case: Script Execution">for item in &quot;${arr[@]}&quot;; do echo &quot;$item&quot;; done</span></div></code></pre>
+</details>
+</details><details class="section-block" open><summary><h1 id="bash-debugging">Bash — Debugging</h1></summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># turn tracing on mid-script</span><span class="cmdline" tabindex="0" data-tip="Turn tracing on mid-script.
+Example: set -x
+Use case: Debugging">set -x</span></div><div class="cmd-box"><span class="c"># turn it back off (bracket only the suspicious block)</span><span class="cmdline" tabindex="0" data-tip="Turn it back off (bracket only the suspicious block)
+Example: set +x
+Use case: Debugging">set +x</span></div><div class="cmd-box"><span class="c"># know exactly where a script died</span><span class="cmdline" tabindex="0" data-tip="Know exactly where a script died.
+Example: trap &#x27;echo &quot;failed at line $LINENO&quot;&#x27; ERR
+Use case: Debugging">trap 'echo &quot;failed at line $LINENO&quot;' ERR</span></div><div class="cmd-box"><span class="c"># timestamped trace output when combined with set -x</span><span class="cmdline" tabindex="0" data-tip="Timestamped trace output when combined with set -x.
+Example: PS4=&#x27;+ $(date &quot;+%T&quot;) ${BASH_SOURCE}:${LINENO}: &#x27;
+Use case: Debugging">PS4='+ $(date &quot;+%T&quot;) ${BASH_SOURCE}:${LINENO}: '</span></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced</summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># send xtrace output to its own file descriptor/file instead of stderr — lets you debug a script without its trace lines mixing into real stderr output that other tools might parse</span><span class="cmdline" tabindex="0" data-tip="Send xtrace output to its own file descriptor/file instead of stderr — lets you debug a script without its trace lines mixing into real stderr output that other tools might parse.
+Example: exec 5&gt;debug.log; BASH_XTRACEFD=5; set -x
+Use case: Debugging">exec 5&gt;debug.log; BASH_XTRACEFD=5; set -x</span></div></code></pre>
+</details>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># static analysis — catches quoting bugs, unused vars, and common mistakes before you run anything</span><span class="cmdline" tabindex="0" data-tip="Static analysis — catches quoting bugs, unused vars, and common mistakes before you run anything.
+Example: shellcheck script.sh
+Use case: Debugging">shellcheck script.sh</span></div><div class="cmd-box"><span class="c"># treat unset variables as an error and exit — catches typos in variable names</span><span class="cmdline" tabindex="0" data-tip="Treat unset variables as an error and exit — catches typos in variable names.
+Example: bash -u script.sh
+Use case: Debugging">bash -u script.sh</span></div><div class="cmd-box"><span class="c"># a poor man&#x27;s breakpoint — send debug output to stderr so it doesn&#x27;t pollute stdout a caller might be parsing</span><span class="cmdline" tabindex="0" data-tip="A poor man&#x27;s breakpoint — send debug output to stderr so it doesn&#x27;t pollute stdout a caller might be parsing.
+Example: echo &quot;DEBUG: var=$var&quot; &gt;&amp;2
+Use case: Debugging">echo &quot;DEBUG: var=$var&quot; &gt;&amp;2</span></div></code></pre>
+</details><details class="section-block" open><summary><h1 id="bash-background-jobs">Bash — Background Jobs</h1></summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># run in background</span><span class="cmdline" tabindex="0" data-tip="Run in background.
+Example: long_task &amp;
+Use case: Background Jobs">long_task &amp;</span></div><div class="cmd-box"><span class="c"># list background jobs with PIDs</span><span class="cmdline" tabindex="0" data-tip="List background jobs with PIDs.
+Example: jobs -l
+Use case: Background Jobs">jobs -l</span></div><div class="cmd-box"><span class="c"># bring to foreground / resume in background</span><span class="cmdline" tabindex="0" data-tip="Bring to foreground / resume in background.
+Example: fg %1 / bg %1
+Use case: Background Jobs">fg %1 / bg %1</span></div><div class="cmd-box"><span class="c"># detach all jobs from this shell — they survive shell exit</span><span class="cmdline" tabindex="0" data-tip="Detach all jobs from this shell — they survive shell exit.
+Example: disown -a
+Use case: Background Jobs">disown -a</span></div></code></pre>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># kill background job 1 by job number, not PID</span><span class="cmdline" tabindex="0" data-tip="Kill background job 1 by job number, not PID.
+Example: kill %1
+Use case: Background Jobs">kill %1</span></div><div class="cmd-box"><span class="c"># block until job 1 finishes, useful before reading its output/exit code</span><span class="cmdline" tabindex="0" data-tip="Block until job 1 finishes, useful before reading its output/exit code.
+Example: wait %1
+Use case: Background Jobs">wait %1</span></div><div class="cmd-box"><span class="c"># block until ANY background job finishes (not all) — good for basic parallel task management</span><span class="cmdline" tabindex="0" data-tip="Block until ANY background job finishes (not all) — good for basic parallel task management.
+Example: wait -n
+Use case: Background Jobs">wait -n</span></div><div class="cmd-box"><span class="c"># PID of the most recently backgrounded process — capture it right after the &amp;amp; line</span><span class="cmdline" tabindex="0" data-tip="PID of the most recently backgrounded process — capture it right after the &amp;amp; line.
+Example: $!
+Use case: Background Jobs">$!</span></div></code></pre>
+</details><details class="section-block" open><summary><h1 id="bash-locks-and-timeouts">Bash — Locks and Timeouts</h1></summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># prevent overlapping cron runs — non-blocking, exits if already locked</span><span class="cmdline" tabindex="0" data-tip="Prevent overlapping cron runs — non-blocking, exits if already locked.
+Example: flock -n /tmp/job.lock -c &quot;./script.sh&quot;
+Use case: Locks and Timeouts">flock -n /tmp/job.lock -c &quot;./script.sh&quot;</span></div><div class="cmd-box"><span class="c"># kill a hung command after 30s</span><span class="cmdline" tabindex="0" data-tip="Kill a hung command after 30s.
+Example: timeout 30 curl https://slow-service
+Use case: Locks and Timeouts">timeout 30 curl https://slow-service</span></div><div class="cmd-box"><span class="c"># SIGTERM at 30s, SIGKILL 5s later if it ignores the first</span><span class="cmdline" tabindex="0" data-tip="SIGTERM at 30s, SIGKILL 5s later if it ignores the first.
+Example: timeout -k5 30 ./script.sh
+Use case: Locks and Timeouts">timeout -k5 30 ./script.sh</span></div></code></pre>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># wait up to 30s for the lock instead of failing immediately</span><span class="cmdline" tabindex="0" data-tip="Wait up to 30s for the lock instead of failing immediately.
+Example: flock -w 30 /tmp/job.lock -c &quot;./script.sh&quot;
+Use case: Locks and Timeouts">flock -w 30 /tmp/job.lock -c &quot;./script.sh&quot;</span></div><div class="cmd-box"><span class="c"># hold a lock for the rest of the script&#x27;s lifetime via a file descriptor, released automatically on exit</span><span class="cmdline" tabindex="0" data-tip="Hold a lock for the rest of the script&#x27;s lifetime via a file descriptor, released automatically on exit.
+Example: exec 200&gt;/tmp/job.lock; flock -n 200 || exit 1
+Use case: Locks and Timeouts">exec 200&gt;/tmp/job.lock; flock -n 200 || exit 1</span></div><div class="cmd-box"><span class="c"># propagate the wrapped command&#x27;s actual exit code instead of timeout&#x27;s own 124</span><span class="cmdline" tabindex="0" data-tip="Propagate the wrapped command&#x27;s actual exit code instead of timeout&#x27;s own 124.
+Example: timeout --preserve-status 30 ./script.sh
+Use case: Locks and Timeouts">timeout --preserve-status 30 ./script.sh</span></div></code></pre>
+</details><details class="section-block" open><summary><h1 id="bash-troubleshooting">Bash — Troubleshooting</h1></summary>
+</details><details class="section-block" open><summary><h2 id="health-check">Health check</h2></summary>
+<p>Before trusting any script in production, run through this:</p>
+<ol>
+<li><strong>Syntax is valid</strong> — <code>bash -n script.sh</code> — red flag: any syntax error, obviously — don't run it.</li>
+<li><strong>Safety flags present</strong> — check the top of the file for <code>set -euo pipefail</code> — red flag: missing on anything that touches production; a silent partial failure is worse than a loud one.</li>
+<li><strong>No hardcoded secrets</strong> — <code>grep -in "password\|token\|api_key" script.sh</code> — red flag: any hit that isn't reading from an env var or a secrets manager.</li>
+<li><strong>Destructive commands are guarded</strong> — search for <code>rm -rf</code>, <code>DROP</code>, <code>DELETE</code> — red flag: any of these without a confirmation prompt or a <code>--dry-run</code> flag ahead of it.</li>
+</ol>
+<p><strong>Script exits with no error message:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># see the last commands executed before it died</span><span class="cmdline" tabindex="0" data-tip="See the last commands executed before it died.
+Example: bash -x ./script.sh 2&gt;&amp;1 | tail -30
+Use case: Health check">bash -x ./script.sh 2&gt;&amp;1 | tail -30</span></div><div class="cmd-box"><span class="c"># exit code of the last command — nonzero means something failed silently</span><span class="cmdline" tabindex="0" data-tip="Exit code of the last command — nonzero means something failed silently.
+Example: echo $?
+Use case: Health check">echo $?</span></div></code></pre>
+<p>Most silent-exit scripts are missing <code>set -euo pipefail</code> at the top — without it, a failed command in the middle just gets skipped.</p>
+<p><strong>Script works interactively but fails in cron/CI:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># run with a stripped-down environment, closer to what cron actually provides</span><span class="cmdline" tabindex="0" data-tip="Run with a stripped-down environment, closer to what cron actually provides.
+Example: env -i /bin/bash --noprofile --norc ./script.sh
+Use case: Health check">env -i /bin/bash --noprofile --norc ./script.sh</span></div><div class="cmd-box"><span class="c"># confirm the command is on PATH — cron&#x27;s PATH is much shorter than an interactive shell&#x27;s</span><span class="cmdline" tabindex="0" data-tip="Confirm the command is on PATH — cron&#x27;s PATH is much shorter than an interactive shell&#x27;s.
+Example: which mycommand
+Use case: Health check">which &lt;command_used_in_script&gt;</span></div></code></pre>
+<hr /></details>
+  </main>
+</div>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/search.js"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Performance — DevOps Cheatsheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<div class="topbar">
+  <span class="brand">~/devops-cheatsheet</span>
+  <button id="search-trigger" class="search-btn" data-prefix="../../">Search <span class="kbd">/</span></button>
+  <a href="../../index.html">index</a>
+  <a href="../../linux/index.html" class="active">linux</a>
+  <a href="../../docker/index.html">docker</a>
+  <a href="../../kubernetes/index.html">kubernetes</a>
+  <a href="../../ansible/index.html">ansible</a>
+  <a href="../../vault/index.html">vault</a>
+  <a href="../../oracle-db/index.html">oracle database</a>
+  <a href="../../postgresql/index.html">postgresql</a>
+  <a href="../../weblogic/index.html">weblogic</a>
+  <a href="../../prometheus/index.html">prometheus</a>
+  <a href="../../grafana/index.html">grafana</a>
+  <a href="../../checkmk/index.html">check_mk</a>
+  <a href="../../python/index.html">python</a>
+  <a href="../../powershell/index.html">powershell</a>
+  <a href="../../git/index.html">git</a>
+  <a href="../../data-formats/index.html">yaml / json / jq</a>
+  <a href="../../troubleshooting/index.html">troubleshooting</a>
+  <a href="../../production-safety/index.html">production safety</a>
+  <a href="../../quick-reference/index.html">quick references</a>
+</div>
+<div id="search-overlay" class="search-overlay" hidden>
+  <div class="search-panel">
+    <input id="search-input" type="text" placeholder="Search commands…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="label">ON THIS PAGE</div>
+    <ul>
+      <li><a href="#health-check" style="padding-left:20px;font-size:12px;">Health check</a></li>
+      <li><a href="#troubleshooting" style="padding-left:20px;font-size:12px;">Troubleshooting</a></li>
+    </ul>
+  </div>
+  <main>
+    <div style="font-size:12px;margin-bottom:6px;"><a href="../index.html">Linux</a> <span style="color:var(--text-dim);">/</span> Performance</div>
+    <div class="title-frame">
+      <h1>Performance</h1>
+      <div class="subtitle-readout">17 COMMANDS INDEXED</div>
+    </div>
+    
+    <pre><code class="language-bash"><div class="cmd-box"><span class="c"># load average — compare to core count, not to 1.0</span><span class="cmdline" tabindex="0" data-tip="Load average — compare to core count, not to 1.0.
+Example: uptime
+Use case: Performance">uptime</span></div><div class="cmd-box"><span class="c"># &#x27;r&#x27; column &amp;gt; core count sustained = CPU-bound; high &#x27;wa&#x27; = I/O-bound</span><span class="cmdline" tabindex="0" data-tip="&#x27;r&#x27; column &amp;gt; core count sustained = CPU-bound; high &#x27;wa&#x27; = I/O-bound.
+Example: vmstat 1
+Use case: Performance">vmstat 1</span></div><div class="cmd-box"><span class="c"># live, per-function CPU profiling (needs perf installed)</span><span class="cmdline" tabindex="0" data-tip="Live, per-function CPU profiling (needs perf installed)
+Example: perf top
+Use case: Performance">perf top</span></div><div class="cmd-box"><span class="c"># syscall summary — which syscalls dominate, and how many</span><span class="cmdline" tabindex="0" data-tip="Syscall summary — which syscalls dominate, and how many.
+Example: strace -c ./binary
+Use case: Performance">strace -c ./binary</span></div><div class="cmd-box"><span class="c"># %util near 100 on a device = your actual bottleneck</span><span class="cmdline" tabindex="0" data-tip="%util near 100 on a device = your actual bottleneck.
+Example: iostat -xz 1
+Use case: Performance">iostat -xz 1</span></div><div class="cmd-box"><span class="c"># historical load average + run queue length, needs sysstat</span><span class="cmdline" tabindex="0" data-tip="Historical load average + run queue length, needs sysstat.
+Example: sar -q 1 5
+Use case: Performance">sar -q 1 5</span></div><div class="cmd-box"><span class="c"># combined CPU/disk/net/memory view, one screen — a friendlier vmstat+iostat+ifstat</span><span class="cmdline" tabindex="0" data-tip="Combined CPU/disk/net/memory view, one screen — a friendlier vmstat+iostat+ifstat.
+Example: dstat
+Use case: Performance">dstat</span></div><div class="cmd-box"><span class="c"># interactive top with per-core bars, tree view, easier mouse-driven sorting</span><span class="cmdline" tabindex="0" data-tip="Interactive top with per-core bars, tree view, easier mouse-driven sorting.
+Example: htop
+Use case: Performance">htop</span></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced</summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># per-process CPU/context-switch breakdown over time — narrower and clearer than top when you already know which process to watch</span><span class="cmdline" tabindex="0" data-tip="Per-process CPU/context-switch breakdown over time — narrower and clearer than top when you already know which process to watch.
+Example: pidstat -p 12345 1
+Use case: Performance">pidstat -p &lt;pid&gt; 1</span></div><div class="cmd-box"><span class="c"># profile one process for 10s with call graphs, then `perf report` to see exactly which functions are hot</span><span class="cmdline" tabindex="0" data-tip="Profile one process for 10s with call graphs, then `perf report` to see exactly which functions are hot.
+Example: perf record -p 12345 -g -- sleep 10
+Use case: Performance">perf record -p &lt;pid&gt; -g -- sleep 10</span></div><div class="cmd-box"><span class="c"># summary counters for one run — instructions, cache misses, context switches, branch mispredicts</span><span class="cmdline" tabindex="0" data-tip="Summary counters for one run — instructions, cache misses, context switches, branch mispredicts.
+Example: perf stat ./binary
+Use case: Performance">perf stat ./binary</span></div><div class="cmd-box"><span class="c"># like top but for disk I/O, -o hides processes doing zero I/O</span><span class="cmdline" tabindex="0" data-tip="Like top but for disk I/O, -o hides processes doing zero I/O.
+Example: iotop -o
+Use case: Performance">iotop -o</span></div></code></pre>
+</details>
+<details class="section-block" open><summary><h2 id="health-check">Health check</h2></summary>
+<ol>
+<li><strong>Load &amp; CPU</strong> — <code>uptime</code> — red flag: load average sustained above the core count.</li>
+<li><strong>I/O wait</strong> — <code>vmstat 1</code> — red flag: high <code>wa</code> column consistently, not just a momentary spike.</li>
+<li><strong>Swap activity</strong> — <code>free -h</code> — red flag: swap actively growing, not just present (a little used swap at rest is normal).</li>
+<li><strong>Per-core imbalance</strong> — <code>mpstat -P ALL 1</code> — red flag: one core pegged near 100% while others sit idle — points to a single-threaded bottleneck, not overall capacity.</li>
+</ol>
+</details><details class="section-block" open><summary><h2 id="troubleshooting">Troubleshooting</h2></summary>
+<p><strong>Server feels slow but no single process looks bad in <code>top</code>:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># check &#x27;r&#x27; (run queue) and &#x27;wa&#x27; (I/O wait) columns — a slowdown can be system-wide contention, not one process</span><span class="cmdline" tabindex="0" data-tip="Check &#x27;r&#x27; (run queue) and &#x27;wa&#x27; (I/O wait) columns — a slowdown can be system-wide contention, not one process.
+Example: vmstat 1 5
+Use case: Troubleshooting">vmstat 1 5</span></div><div class="cmd-box"><span class="c"># per-core breakdown — one pegged core hiding behind an average that looks fine is a common trap</span><span class="cmdline" tabindex="0" data-tip="Per-core breakdown — one pegged core hiding behind an average that looks fine is a common trap.
+Example: mpstat -P ALL 1
+Use case: Troubleshooting">mpstat -P ALL 1</span></div></code></pre>
+<p><strong>High load average but low CPU usage:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># processes in uninterruptible sleep (D state) count toward load average but not CPU% — usually I/O-bound</span><span class="cmdline" tabindex="0" data-tip="Processes in uninterruptible sleep (D state) count toward load average but not CPU% — usually I/O-bound.
+Example: ps -eo stat,pid,cmd | grep &quot;^D&quot;
+Use case: Troubleshooting">ps -eo stat,pid,cmd | grep &quot;^D&quot;</span></div><div class="cmd-box"><span class="c"># confirm which device those D-state processes are actually waiting on</span><span class="cmdline" tabindex="0" data-tip="Confirm which device those D-state processes are actually waiting on.
+Example: iostat -xz 1
+Use case: Troubleshooting">iostat -xz 1</span></div></code></pre>
+<p><strong>Suspected memory leak, not sure which process:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># watch top memory consumers over time — a steadily climbing RSS on one process is the tell</span><span class="cmdline" tabindex="0" data-tip="Watch top memory consumers over time — a steadily climbing RSS on one process is the tell.
+Example: watch -n5 &#x27;ps -eo pid,cmd,%mem,rss --sort=-rss | head -10&#x27;
+Use case: Troubleshooting">watch -n5 'ps -eo pid,cmd,%mem,rss --sort=-rss | head -10'</span></div></code></pre>
+<hr /></details>
+  </main>
+</div>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/search.js"></script>
+</body>
+</html>

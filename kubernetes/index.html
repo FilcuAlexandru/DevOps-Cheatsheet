@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kubernetes — DevOps Cheatsheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="topbar">
+  <span class="brand">~/devops-cheatsheet</span>
+  <button id="search-trigger" class="search-btn" data-prefix="../">Search <span class="kbd">/</span></button>
+  <a href="../index.html">index</a>
+  <a href="../linux/index.html">linux</a>
+  <a href="../docker/index.html">docker</a>
+  <a href="../kubernetes/index.html" class="active">kubernetes</a>
+  <a href="../ansible/index.html">ansible</a>
+  <a href="../vault/index.html">vault</a>
+  <a href="../oracle-db/index.html">oracle database</a>
+  <a href="../postgresql/index.html">postgresql</a>
+  <a href="../weblogic/index.html">weblogic</a>
+  <a href="../prometheus/index.html">prometheus</a>
+  <a href="../grafana/index.html">grafana</a>
+  <a href="../checkmk/index.html">check_mk</a>
+  <a href="../python/index.html">python</a>
+  <a href="../powershell/index.html">powershell</a>
+  <a href="../git/index.html">git</a>
+  <a href="../data-formats/index.html">yaml / json / jq</a>
+  <a href="../troubleshooting/index.html">troubleshooting</a>
+  <a href="../production-safety/index.html">production safety</a>
+  <a href="../quick-reference/index.html">quick references</a>
+</div>
+<div id="search-overlay" class="search-overlay" hidden>
+  <div class="search-panel">
+    <input id="search-input" type="text" placeholder="Search commands…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="label">ON THIS PAGE</div>
+    <ul>
+      <li><a href="#basic" style="padding-left:20px;font-size:12px;">Basic</a></li>
+      <li><a href="#health-check" style="padding-left:20px;font-size:12px;">Health check</a></li>
+      <li><a href="#troubleshooting" style="padding-left:20px;font-size:12px;">Troubleshooting</a></li>
+    </ul>
+  </div>
+  <main>
+    
+    <div class="title-frame">
+      <h1>Kubernetes</h1>
+      <div class="subtitle-readout">49 COMMANDS INDEXED</div>
+    </div>
+    <div class="label" style="margin:24px 0 8px;">SECTIONS</div><div class="grid" style="margin-top:0;"><a class="card" href="./helm/index.html">Helm</a><a class="card" href="./openshift/index.html">OpenShift</a><a class="card" href="./argocd/index.html">ArgoCD</a></div>
+    <p><em>(commands below are <code>kubectl</code>; on OpenShift, <code>oc</code> is a superset — every <code>kubectl</code> command works with <code>oc</code> too)</em></p>
+<details class="section-block" open><summary><h2 id="basic">Basic</h2></summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># list every cluster/context you have configured</span><span class="cmdline" tabindex="0" data-tip="List every cluster/context you have configured.
+Example: kubectl config get-contexts
+Use case: Basic">kubectl config get-contexts</span></div><div class="cmd-box"><span class="c"># switch clusters — check this before anything destructive</span><span class="cmdline" tabindex="0" data-tip="Switch clusters — check this before anything destructive.
+Example: kubectl config use-context mycontext
+Use case: Basic">kubectl config use-context mycontext</span></div><div class="cmd-box"><span class="c"># stop typing -n myns on every command</span><span class="cmdline" tabindex="0" data-tip="Stop typing -n myns on every command.
+Example: kubectl config set-context --current --namespace=myns
+Use case: Basic">kubectl config set-context --current --namespace=myns</span></div><div class="cmd-box"><span class="c"># multiple resource types in one call</span><span class="cmdline" tabindex="0" data-tip="Multiple resource types in one call.
+Example: kubectl get pods,svc,deploy -n myns
+Use case: Basic">kubectl get pods,svc,deploy -n myns</span></div><div class="cmd-box"><span class="c"># create or update from a manifest</span><span class="cmdline" tabindex="0" data-tip="Create or update from a manifest.
+Example: kubectl apply -f manifest.yaml
+Use case: Basic">kubectl apply -f manifest.yaml</span></div><div class="cmd-box"><span class="c"># remove everything defined in that manifest</span><span class="cmdline" tabindex="0" data-tip="Remove everything defined in that manifest.
+Example: kubectl delete -f manifest.yaml
+Use case: Basic">kubectl delete -f manifest.yaml</span></div><div class="cmd-box"><span class="c"># scale up/down manually</span><span class="cmdline" tabindex="0" data-tip="Scale up/down manually.
+Example: kubectl scale deployment/myapp --replicas=3
+Use case: Basic">kubectl scale deployment/myapp --replicas=3</span></div><div class="cmd-box"><span class="c"># reach a cluster service from localhost, no ingress needed</span><span class="cmdline" tabindex="0" data-tip="Reach a cluster service from localhost, no ingress needed.
+Example: kubectl port-forward svc/myapp 8080:80
+Use case: Basic">kubectl port-forward svc/myapp 8080:80</span></div><div class="cmd-box"><span class="c"># copy a file out of a running pod</span><span class="cmdline" tabindex="0" data-tip="Copy a file out of a running pod.
+Example: kubectl cp mypod:/var/log/app.log ./app.log
+Use case: Basic">kubectl cp mypod:/var/log/app.log ./app.log</span></div></code></pre>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># newest pods last, useful after a rollout</span><span class="cmdline" tabindex="0" data-tip="Newest pods last, useful after a rollout.
+Example: kubectl get pods -o wide --sort-by=.status.startTime
+Use case: Basic">kubectl get pods -o wide --sort-by=.status.startTime</span></div><div class="cmd-box"><span class="c"># needs metrics-server, but invaluable</span><span class="cmdline" tabindex="0" data-tip="Needs metrics-server, but invaluable.
+Example: kubectl top pods --sort-by=memory
+Use case: Basic">kubectl top pods --sort-by=memory</span></div><div class="cmd-box"><span class="c"># events at the bottom are usually the real answer</span><span class="cmdline" tabindex="0" data-tip="Events at the bottom are usually the real answer.
+Example: kubectl describe pod mypod
+Use case: Basic">kubectl describe pod mypod</span></div><div class="cmd-box"><span class="c"># logs from the container BEFORE the last crash — the one you actually need for CrashLoopBackOff</span><span class="cmdline" tabindex="0" data-tip="Logs from the container BEFORE the last crash — the one you actually need for CrashLoopBackOff.
+Example: kubectl logs -f mypod --previous
+Use case: Basic">kubectl logs -f mypod --previous</span></div><div class="cmd-box"><span class="c"># cluster-wide event stream, chronological</span><span class="cmdline" tabindex="0" data-tip="Cluster-wide event stream, chronological.
+Example: kubectl get events --sort-by=&#x27;.lastTimestamp&#x27; -A
+Use case: Basic">kubectl get events --sort-by='.lastTimestamp' -A</span></div><div class="cmd-box"><span class="cmdline">kubectl exec -it mypod -- sh</span></div><div class="cmd-box"><span class="c"># create a namespace</span><span class="cmdline" tabindex="0" data-tip="Create a namespace.
+Example: kubectl create namespace myns
+Use case: Basic">kubectl create namespace myns</span></div><div class="cmd-box"><span class="c"># delete a namespace and everything in it — destructive</span><span class="cmdline" tabindex="0" data-tip="Delete a namespace and everything in it — destructive.
+Example: kubectl delete namespace myns
+Use case: Basic">kubectl delete namespace myns</span></div><div class="cmd-box"><span class="c"># every common resource type in a namespace at once</span><span class="cmdline" tabindex="0" data-tip="Every common resource type in a namespace at once.
+Example: kubectl get all -n myns
+Use case: Basic">kubectl get all -n myns</span></div><div class="cmd-box"><span class="c"># attach a label to a running resource</span><span class="cmdline" tabindex="0" data-tip="Attach a label to a running resource.
+Example: kubectl label pod mypod env=prod
+Use case: Basic">kubectl label pod mypod env=prod</span></div><div class="cmd-box"><span class="c"># attach metadata that isn&#x27;t used for selection, unlike labels</span><span class="cmdline" tabindex="0" data-tip="Attach metadata that isn&#x27;t used for selection, unlike labels.
+Example: kubectl annotate pod mypod note=&quot;value&quot;
+Use case: Basic">kubectl annotate pod mypod note=&quot;value&quot;</span></div><div class="cmd-box"><span class="c"># full resource definition as YAML, including server-set fields</span><span class="cmdline" tabindex="0" data-tip="Full resource definition as YAML, including server-set fields.
+Example: kubectl get pod mypod -o yaml
+Use case: Basic">kubectl get pod mypod -o yaml</span></div><div class="cmd-box"><span class="c"># open a live resource in $EDITOR, applies on save</span><span class="cmdline" tabindex="0" data-tip="Open a live resource in $EDITOR, applies on save.
+Example: kubectl edit deployment myapp
+Use case: Basic">kubectl edit deployment myapp</span></div><div class="cmd-box"><span class="c"># update just the image of a container, no manifest edit needed</span><span class="cmdline" tabindex="0" data-tip="Update just the image of a container, no manifest edit needed.
+Example: kubectl set image deployment/myapp app=myapp:v2
+Use case: Basic">kubectl set image deployment/myapp app=myapp:v2</span></div><div class="cmd-box"><span class="c"># watch a rollout until it completes or fails</span><span class="cmdline" tabindex="0" data-tip="Watch a rollout until it completes or fails.
+Example: kubectl rollout status deployment/myapp
+Use case: Basic">kubectl rollout status deployment/myapp</span></div><div class="cmd-box"><span class="c"># quickly create a Service for an existing Deployment</span><span class="cmdline" tabindex="0" data-tip="Quickly create a Service for an existing Deployment.
+Example: kubectl expose deployment myapp --port=80 --target-port=8080
+Use case: Basic">kubectl expose deployment myapp --port=80 --target-port=8080</span></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced</summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># ephemeral debug pod on a node, no SSH needed</span><span class="cmdline" tabindex="0" data-tip="Ephemeral debug pod on a node, no SSH needed.
+Example: kubectl debug node/mynode -it --image=busybox
+Use case: Basic">kubectl debug node/mynode -it --image=busybox</span></div><div class="cmd-box"><span class="c"># attach a debug container to a running pod (great when the app image has no shell)</span><span class="cmdline" tabindex="0" data-tip="Attach a debug container to a running pod (great when the app image has no shell)
+Example: kubectl debug mypod -it --image=busybox --target=mypod
+Use case: Basic">kubectl debug mypod -it --image=busybox --target=mypod</span></div><div class="cmd-box"><span class="c"># see exactly what would change, before you apply</span><span class="cmdline" tabindex="0" data-tip="See exactly what would change, before you apply.
+Example: kubectl diff -f manifest.yaml
+Use case: Basic">kubectl diff -f manifest.yaml</span></div><div class="cmd-box"><span class="c"># server-side validation without applying</span><span class="cmdline" tabindex="0" data-tip="Server-side validation without applying.
+Example: kubectl apply -f manifest.yaml --dry-run=server
+Use case: Basic">kubectl apply -f manifest.yaml --dry-run=server</span></div><div class="cmd-box"><span class="c"># built-in field docs, no browser needed</span><span class="cmdline" tabindex="0" data-tip="Built-in field docs, no browser needed.
+Example: kubectl explain deployment.spec.strategy
+Use case: Basic">kubectl explain deployment.spec.strategy</span></div><div class="cmd-box"><span class="c"># instant rollback to the previous revision</span><span class="cmdline" tabindex="0" data-tip="Instant rollback to the previous revision.
+Example: kubectl rollout undo deployment/myapp
+Use case: Basic">kubectl rollout undo deployment/myapp</span></div><div class="cmd-box"><span class="c"># see all revisions before deciding which to roll back to</span><span class="cmdline" tabindex="0" data-tip="See all revisions before deciding which to roll back to.
+Example: kubectl rollout history deployment/myapp
+Use case: Basic">kubectl rollout history deployment/myapp</span></div><div class="cmd-box"><span class="c"># OpenShift shorthand for exec -it ... sh</span><span class="cmdline" tabindex="0" data-tip="OpenShift shorthand for exec -it ... sh.
+Example: oc rsh mypod
+Use case: Basic">oc rsh mypod</span></div><div class="cmd-box"><span class="c"># OpenShift admin-level resource view</span><span class="cmdline" tabindex="0" data-tip="OpenShift admin-level resource view.
+Example: oc adm top pods --sort-by=cpu -n mynamespace
+Use case: Basic">oc adm top pods --sort-by=cpu -n mynamespace</span></div><div class="cmd-box"><span class="c"># filter server-side instead of piping through grep</span><span class="cmdline" tabindex="0" data-tip="Filter server-side instead of piping through grep.
+Example: kubectl get pods --field-selector=status.phase=Running -A
+Use case: Basic">kubectl get pods --field-selector=status.phase=Running -A</span></div><div class="cmd-box"><span class="c"># filter by label selector, see every label on the result</span><span class="cmdline" tabindex="0" data-tip="Filter by label selector, see every label on the result.
+Example: kubectl get pods -l app=myapp --show-labels
+Use case: Basic">kubectl get pods -l app=myapp --show-labels</span></div><div class="cmd-box"><span class="c"># target a specific container inside a multi-container pod</span><span class="cmdline" tabindex="0" data-tip="Target a specific container inside a multi-container pod.
+Example: kubectl exec -it mypod -c sidecar -- sh
+Use case: Basic">kubectl exec -it mypod -c sidecar -- sh</span></div><div class="cmd-box"><span class="c"># same idea for kubectl cp with multiple containers</span><span class="cmdline" tabindex="0" data-tip="Same idea for kubectl cp with multiple containers.
+Example: kubectl cp mypod:/etc/config.yaml ./config.yaml -c sidecar
+Use case: Basic">kubectl cp mypod:/etc/config.yaml ./config.yaml -c sidecar</span></div><div class="cmd-box"><span class="c"># extract exactly one field, scriptable, no jq needed</span><span class="cmdline" tabindex="0" data-tip="Extract exactly one field, scriptable, no jq needed.
+Example: kubectl get pod mypod -o jsonpath=&#x27;{.status.podIP}&#x27;
+Use case: Basic">kubectl get pod mypod -o jsonpath='{.status.podIP}'</span></div><div class="cmd-box"><span class="c"># imperative partial update without a full manifest apply</span><span class="cmdline" tabindex="0" data-tip="Imperative partial update without a full manifest apply.
+Example: kubectl patch deployment myapp -p &#x27;{&quot;spec&quot;:{&quot;replicas&quot;:5}}&#x27;
+Use case: Basic">kubectl patch deployment myapp -p '{&quot;spec&quot;:{&quot;replicas&quot;:5}}'</span></div><div class="cmd-box"><span class="c"># block until a condition is met, useful in scripts/CI</span><span class="cmdline" tabindex="0" data-tip="Block until a condition is met, useful in scripts/CI.
+Example: kubectl wait --for=condition=Ready pod/mypod --timeout=60s
+Use case: Basic">kubectl wait --for=condition=Ready pod/mypod --timeout=60s</span></div><div class="cmd-box"><span class="c"># check your own RBAC permissions before you try and fail</span><span class="cmdline" tabindex="0" data-tip="Check your own RBAC permissions before you try and fail.
+Example: kubectl auth can-i delete pods -n myns
+Use case: Basic">kubectl auth can-i delete pods -n myns</span></div><div class="cmd-box"><span class="c"># check what a specific service account can do</span><span class="cmdline" tabindex="0" data-tip="Check what a specific service account can do.
+Example: kubectl auth can-i delete pods --as=system:serviceaccount:myns:mysa
+Use case: Basic">kubectl auth can-i delete pods --as=system:serviceaccount:myns:mysa</span></div></code></pre>
+</details>
+</details><details class="section-block" open><summary><h2 id="health-check">Health check</h2></summary>
+<ol>
+<li><strong>Node health</strong> — <code>kubectl get nodes</code> — red flag: any node <code>NotReady</code>.</li>
+<li><strong>Pod status cluster-wide</strong> — <code>kubectl get pods -A | grep -v Running</code> — red flag: anything not <code>Running</code> or <code>Completed</code>.</li>
+<li><strong>Recent events</strong> — <code>kubectl get events -A --sort-by='.lastTimestamp'</code> — red flag: the same <code>Warning</code> event repeating on one object — a single event is often noise, a repeat is a pattern.</li>
+<li><strong>Resource pressure</strong> — <code>kubectl top nodes</code> — red flag: any node near 100% CPU or memory — new pods may be failing to schedule because of it.</li>
+</ol>
+</details><details class="section-block" open><summary><h2 id="troubleshooting">Troubleshooting</h2></summary>
+<p><strong>Pod stuck in <code>Pending</code>:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># events at the bottom almost always say why — insufficient CPU/memory, no matching node, unbound PVC</span><span class="cmdline" tabindex="0" data-tip="Events at the bottom almost always say why — insufficient CPU/memory, no matching node, unbound PVC.
+Example: kubectl describe pod mypod
+Use case: Troubleshooting">kubectl describe pod mypod</span></div><div class="cmd-box"><span class="c"># confirm there&#x27;s actually capacity to schedule onto</span><span class="cmdline" tabindex="0" data-tip="Confirm there&#x27;s actually capacity to schedule onto.
+Example: kubectl get nodes -o wide
+Use case: Troubleshooting">kubectl get nodes -o wide</span></div></code></pre>
+<p><strong>Pod stuck in <code>ImagePullBackOff</code>:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># wrong image tag, private registry auth missing, or a typo in the image name — the event message names which one</span><span class="cmdline" tabindex="0" data-tip="Wrong image tag, private registry auth missing, or a typo in the image name — the event message names which one.
+Example: kubectl describe pod mypod | grep -A5 Events
+Use case: Troubleshooting">kubectl describe pod mypod | grep -A5 Events</span></div><div class="cmd-box"><span class="c"># confirm the pull secret actually exists in this namespace, secrets don&#x27;t cross namespaces</span><span class="cmdline" tabindex="0" data-tip="Confirm the pull secret actually exists in this namespace, secrets don&#x27;t cross namespaces.
+Example: kubectl get secret example -n mynamespace
+Use case: Troubleshooting">kubectl get secret &lt;registry_secret&gt; -n mynamespace</span></div></code></pre>
+<p><strong>CrashLoopBackOff:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># the crash reason is in the PREVIOUS container&#x27;s logs, not the new one that just started</span><span class="cmdline" tabindex="0" data-tip="The crash reason is in the PREVIOUS container&#x27;s logs, not the new one that just started.
+Example: kubectl logs mypod --previous
+Use case: Troubleshooting">kubectl logs mypod --previous</span></div><div class="cmd-box"><span class="c"># exit code and reason without digging through full logs</span><span class="cmdline" tabindex="0" data-tip="Exit code and reason without digging through full logs.
+Example: kubectl describe pod mypod | grep -A3 &quot;Last State&quot;
+Use case: Troubleshooting">kubectl describe pod mypod | grep -A3 &quot;Last State&quot;</span></div></code></pre>
+<hr /></details>
+  </main>
+</div>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/search.js"></script>
+</body>
+</html>
