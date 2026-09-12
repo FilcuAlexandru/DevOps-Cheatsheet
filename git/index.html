@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="DevOps Cheatsheet — a searchable, self-hosted command reference — Linux, Kubernetes, databases, monitoring, and more, with hover explanations and per-topic troubleshooting.">
+<meta name="theme-color" content="#08090C">
+<meta property="og:title" content="Git — DevOps Cheatsheet">
+<meta property="og:description" content="A searchable, self-hosted DevOps command reference with hover explanations and per-topic troubleshooting.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%2308090C%22/%3E%3Cpath%20d%3D%22M4%204%20L4%2013%20M4%204%20L13%204%22%20stroke%3D%22%23FF6A1A%22%20stroke-width%3D%223%22%20fill%3D%22none%22/%3E%3Cpath%20d%3D%22M28%2028%20L28%2019%20M28%2028%20L19%2028%22%20stroke%3D%22%23FF6A1A%22%20stroke-width%3D%223%22%20fill%3D%22none%22/%3E%3C/svg%3E">
+<title>Git — DevOps Cheatsheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="topbar">
+  <span class="brand">~/devops-cheatsheet</span>
+  <button id="search-trigger" class="search-btn" data-prefix="../">Search <span class="kbd">/</span></button>
+  <a href="../index.html">index</a>
+  <a href="../linux/index.html">linux</a>
+  <a href="../docker/index.html">docker</a>
+  <a href="../kubernetes/index.html">kubernetes</a>
+  <a href="../ansible/index.html">ansible</a>
+  <a href="../vault/index.html">vault</a>
+  <a href="../oracle-db/index.html">oracle database</a>
+  <a href="../postgresql/index.html">postgresql</a>
+  <a href="../weblogic/index.html">weblogic</a>
+  <a href="../prometheus/index.html">prometheus</a>
+  <a href="../grafana/index.html">grafana</a>
+  <a href="../checkmk/index.html">check_mk</a>
+  <a href="../python/index.html">python</a>
+  <a href="../powershell/index.html">powershell</a>
+  <a href="../git/index.html" class="active">git</a>
+  <a href="../data-formats/index.html">yaml / json / jq</a>
+  <a href="../troubleshooting/index.html">troubleshooting</a>
+  <a href="../production-safety/index.html">production safety</a>
+  <a href="../quick-reference/index.html">quick references</a>
+</div>
+<div id="search-overlay" class="search-overlay" hidden>
+  <div class="search-panel">
+    <input id="search-input" type="text" placeholder="Search commands…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="label">ON THIS PAGE</div>
+    <ul>
+      <li><a href="#health-check" style="padding-left:20px;font-size:12px;">Health check</a></li>
+      <li><a href="#troubleshooting" style="padding-left:20px;font-size:12px;">Troubleshooting</a></li>
+    </ul>
+  </div>
+  <main>
+    
+    <div class="title-frame">
+      <h1>Git</h1>
+      <div class="subtitle-readout">18 COMMANDS INDEXED</div>
+    </div>
+    
+    <pre><code class="language-bash"><div class="cmd-box"><span class="c"># the single most useful &amp;quot;what&#x27;s actually going on&amp;quot; view</span><span class="cmdline" tabindex="0" data-tip="The single most useful &amp;quot;what&#x27;s actually going on&amp;quot; view.
+Example: git log --oneline --graph --all --decorate
+Use case: Git">git log --oneline --graph --all --decorate</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># recover commits after a bad reset — your safety net</span><span class="cmdline" tabindex="0" data-tip="Recover commits after a bad reset — your safety net.
+Example: git reflog
+Use case: Git">git reflog</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># binary search for the commit that introduced a bug</span><span class="cmdline" tabindex="0" data-tip="Binary search for the commit that introduced a bug.
+Example: git bisect start / good / bad
+Use case: Git">git bisect start / good / bad</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># interactively stash only some hunks, not everything</span><span class="cmdline" tabindex="0" data-tip="Interactively stash only some hunks, not everything.
+Example: git stash -p
+Use case: Git">git stash -p</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># squash/reorder/edit the last 5 commits</span><span class="cmdline" tabindex="0" data-tip="Squash/reorder/edit the last 5 commits.
+Example: git rebase -i HEAD~5
+Use case: Git">git rebase -i HEAD~5</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># who changed just these lines, not the whole file</span><span class="cmdline" tabindex="0" data-tip="Who changed just these lines, not the whole file.
+Example: git blame -L 40,60 file.py
+Use case: Git">git blame -L 40,60 file.py</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># apply one specific commit onto the current branch</span><span class="cmdline" tabindex="0" data-tip="Apply one specific commit onto the current branch.
+Example: git cherry-pick example
+Use case: Git">git cherry-pick &lt;sha&gt;</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># work on two branches in two directories, no stashing</span><span class="cmdline" tabindex="0" data-tip="Work on two branches in two directories, no stashing.
+Example: git worktree add ../hotfix hotfix-branch
+Use case: Git">git worktree add ../hotfix hotfix-branch</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># summary of what changed, file by file, no noise</span><span class="cmdline" tabindex="0" data-tip="Summary of what changed, file by file, no noise.
+Example: git diff --stat
+Use case: Git">git diff --stat</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced</summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># find every commit that added or removed a specific string/function — much sharper than blame when you&#x27;re hunting for when something was introduced</span><span class="cmdline" tabindex="0" data-tip="Find every commit that added or removed a specific string/function — much sharper than blame when you&#x27;re hunting for when something was introduced.
+Example: git log -S&quot;functionName&quot; --oneline
+Use case: Git">git log -S&quot;functionName&quot; --oneline</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># auto-orders fixup!/squash! commits into place — pair with `git commit --fixup &amp;lt;sha&amp;gt;` while working, then one clean rebase at the end</span><span class="cmdline" tabindex="0" data-tip="Auto-orders fixup!/squash! commits into place — pair with `git commit --fixup &amp;lt;sha&amp;gt;` while working, then one clean rebase at the end.
+Example: git rebase -i --autosquash HEAD~10
+Use case: Git">git rebase -i --autosquash HEAD~10</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+</details>
+<details class="section-block" open><summary><h2 id="health-check">Health check</h2></summary>
+<ol>
+<li><strong>Working tree is clean, or intentionally not</strong> — <code>git status</code> — red flag: uncommitted changes you don't remember making — confirm before you do anything destructive nearby.</li>
+<li><strong>In sync with the remote</strong> — <code>git fetch &amp;&amp; git status</code> — red flag: unexpectedly ahead or behind — someone else may have pushed, or your last push didn't actually land.</li>
+<li><strong>Nothing oversized or sensitive about to be committed</strong> — <code>git diff --stat --cached</code> — red flag: a suspiciously large diff or a file that looks like it holds credentials — much cheaper to catch before the commit than after.</li>
+</ol>
+</details><details class="section-block" open><summary><h2 id="troubleshooting">Troubleshooting</h2></summary>
+<p><strong>Merge conflict:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># lists every conflicted file</span><span class="cmdline" tabindex="0" data-tip="Lists every conflicted file.
+Example: git status
+Use case: Troubleshooting">git status</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># same info, easier to pipe into a script</span><span class="cmdline" tabindex="0" data-tip="Same info, easier to pipe into a script.
+Example: git diff --name-only --diff-filter=U
+Use case: Troubleshooting">git diff --name-only --diff-filter=U</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># take your version entirely for one file, if that&#x27;s the right call</span><span class="cmdline" tabindex="0" data-tip="Take your version entirely for one file, if that&#x27;s the right call.
+Example: git checkout --ours myfile.yml
+Use case: Troubleshooting">git checkout --ours &lt;file&gt;</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># or take theirs entirely — for anything more nuanced, edit the conflict markers by hand</span><span class="cmdline" tabindex="0" data-tip="Or take theirs entirely — for anything more nuanced, edit the conflict markers by hand.
+Example: git checkout --theirs myfile.yml
+Use case: Troubleshooting">git checkout --theirs &lt;file&gt;</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<p><strong>Accidentally committed a secret:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># if it&#x27;s only in the last commit and NOT pushed yet, undo the commit, fix, recommit</span><span class="cmdline" tabindex="0" data-tip="If it&#x27;s only in the last commit and NOT pushed yet, undo the commit, fix, recommit.
+Example: git reset --soft HEAD~1
+Use case: Troubleshooting">git reset --soft HEAD~1</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<p>If it's already pushed, a reset isn't enough — the secret is in history and needs rotating at the source (the credential itself), plus a history rewrite (<code>git filter-repo</code> or BFG) if it must be scrubbed. Rotate first; history cleanup is damage control, not the fix.</p>
+<p><strong>Detached HEAD:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># save your current work under a real branch name before it becomes unreachable</span><span class="cmdline" tabindex="0" data-tip="Save your current work under a real branch name before it becomes unreachable.
+Example: git checkout -b temp-branch
+Use case: Troubleshooting">git checkout -b temp-branch</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># confirm which branches already contain a given commit, useful before deleting anything</span><span class="cmdline" tabindex="0" data-tip="Confirm which branches already contain a given commit, useful before deleting anything.
+Example: git branch --contains example
+Use case: Troubleshooting">git branch --contains &lt;sha&gt;</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<hr /></details>
+  </main>
+</div>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/search.js"></script>
+<script src="../assets/tooltip.js"></script>
+<script src="../assets/copy.js"></script>
+</body>
+</html>
