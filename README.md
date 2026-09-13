@@ -12,7 +12,7 @@
     <img src="https://img.shields.io/github/actions/workflow/status/FilcuAlexandru/devops-cheatsheet/deploy.yml?label=Build&style=for-the-badge" alt="Build">
   </a>
   <img src="https://img.shields.io/github/last-commit/FilcuAlexandru/devops-cheatsheet?style=for-the-badge" alt="Last Commit">
-  <img src="https://img.shields.io/github/license/FilcuAlexandru/devops-cheatsheet?style=for-the-badge" alt="License">
+  <img src="https://img.shields.io/badge/license-MIT-18181B?style=for-the-badge" alt="License: MIT">
 </p>
 
 <p align="center">
