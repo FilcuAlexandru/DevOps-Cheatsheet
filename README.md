@@ -199,7 +199,7 @@ The deployment flow is:
 Markdown Source
       |
       v
-Build
+    Build
       |
       v
 Generated Dashboard
