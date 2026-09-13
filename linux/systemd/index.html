@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="DevOps Cheatsheet — a searchable, self-hosted command reference — Linux, Kubernetes, databases, monitoring, and more, with hover explanations and per-topic troubleshooting.">
+<meta name="theme-color" content="#08090C">
+<meta property="og:title" content="Systemd — DevOps Cheatsheet">
+<meta property="og:description" content="A searchable, self-hosted DevOps command reference with hover explanations and per-topic troubleshooting.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%2308090C%22/%3E%3Cpath%20d%3D%22M4%204%20L4%2013%20M4%204%20L13%204%22%20stroke%3D%22%23FF6A1A%22%20stroke-width%3D%223%22%20fill%3D%22none%22/%3E%3Cpath%20d%3D%22M28%2028%20L28%2019%20M28%2028%20L19%2028%22%20stroke%3D%22%23FF6A1A%22%20stroke-width%3D%223%22%20fill%3D%22none%22/%3E%3C/svg%3E">
+<title>Systemd — DevOps Cheatsheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<div class="topbar">
+  <span class="brand">~/devops-cheatsheet</span>
+  <button id="search-trigger" class="search-btn" data-prefix="../../">Search <span class="kbd">/</span></button>
+  <a href="../../index.html">index</a>
+  <a href="../../linux/index.html" class="active">linux</a>
+  <a href="../../docker/index.html">docker</a>
+  <a href="../../kubernetes/index.html">kubernetes</a>
+  <a href="../../ansible/index.html">ansible</a>
+  <a href="../../vault/index.html">vault</a>
+  <a href="../../oracle-db/index.html">oracle database</a>
+  <a href="../../postgresql/index.html">postgresql</a>
+  <a href="../../weblogic/index.html">weblogic</a>
+  <a href="../../prometheus/index.html">prometheus</a>
+  <a href="../../grafana/index.html">grafana</a>
+  <a href="../../checkmk/index.html">check_mk</a>
+  <a href="../../python/index.html">python</a>
+  <a href="../../powershell/index.html">powershell</a>
+  <a href="../../git/index.html">git</a>
+  <a href="../../data-formats/index.html">yaml / json / jq</a>
+  <a href="../../troubleshooting/index.html">troubleshooting</a>
+  <a href="../../production-safety/index.html">production safety</a>
+  <a href="../../quick-reference/index.html">quick references</a>
+</div>
+<div id="search-overlay" class="search-overlay" hidden>
+  <div class="search-panel">
+    <input id="search-input" type="text" placeholder="Search commands…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="label">ON THIS PAGE</div>
+    <ul>
+      <li><a href="#health-check" style="padding-left:20px;font-size:12px;">Health check</a></li>
+      <li><a href="#troubleshooting" style="padding-left:20px;font-size:12px;">Troubleshooting</a></li>
+    </ul>
+  </div>
+  <main>
+    <div style="font-size:12px;margin-bottom:6px;"><a href="../index.html">Linux</a> <span style="color:var(--text-dim);">/</span> Systemd</div>
+    <div class="title-frame">
+      <h1>Systemd</h1>
+      <div class="subtitle-readout">32 COMMANDS INDEXED</div>
+    </div>
+    
+    <p>Service management and systemd's own journal — a structured, indexed log store, separate from plain-text application log files.</p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># follow, like tail -f but for the journal</span><span class="cmdline" tabindex="0" data-tip="Follow, like tail -f but for the journal — watch a service&#x27;s log live as it writes.
+Example: journalctl -u myservice -f
+Use case: Systemd">journalctl -u myservice -f</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="cmdline">journalctl -u myservice --since &quot;1 hour ago&quot;</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># errors only, this boot</span><span class="cmdline" tabindex="0" data-tip="Errors only, this boot — filters out noise, scoped to since the last restart.
+Example: journalctl -p err -b
+Use case: Systemd">journalctl -p err -b</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># kernel messages only</span><span class="cmdline" tabindex="0" data-tip="Kernel messages only — the journal-native equivalent of dmesg, same data different tool.
+Example: journalctl -k
+Use case: Systemd">journalctl -k</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># how much space the journal itself is using</span><span class="cmdline" tabindex="0" data-tip="How much space the journal itself is using — check before assuming disk pressure is from something else.
+Example: journalctl --disk-usage
+Use case: Systemd">journalctl --disk-usage</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># structured output, pipeable to jq</span><span class="cmdline" tabindex="0" data-tip="Structured output, pipeable to jq — parse journal entries programmatically instead of scraping text.
+Example: journalctl -o json-pretty -u myservice
+Use case: Systemd">journalctl -o json-pretty -u myservice</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced</summary>
+<p><code>journalctl -f -u myservice --output=cat</code> strips the timestamp/hostname prefix — much easier to read when you just want the app's own log lines.</p>
+</details>
+<pre><code class="language-bash"><div class="cmd-box"><span class="cmdline">systemctl status myservice</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># everything currently broken, system-wide, one command</span><span class="cmdline" tabindex="0" data-tip="Everything currently broken, system-wide, one command — a fast health check before digging into any one service.
+Example: systemctl list-units --failed
+Use case: Systemd">systemctl list-units --failed</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># pull specific properties, scriptable</span><span class="cmdline" tabindex="0" data-tip="Pull specific properties, scriptable — grab just the fields you need instead of parsing full status output.
+Example: systemctl show myservice -p MainPID -p ActiveState
+Use case: Systemd">systemctl show myservice -p MainPID -p ActiveState</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># what&#x27;s slowing down boot, sorted</span><span class="cmdline" tabindex="0" data-tip="What&#x27;s slowing down boot, sorted — points straight at the actual bottleneck instead of guessing.
+Example: systemd-analyze blame
+Use case: Systemd">systemd-analyze blame</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># the actual dependency chain that determines boot time</span><span class="cmdline" tabindex="0" data-tip="The actual dependency chain that determines boot time — shows what&#x27;s waiting on what, not just individual unit times.
+Example: systemd-analyze critical-chain
+Use case: Systemd">systemd-analyze critical-chain</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># drop-in override without touching the vendor unit file</span><span class="cmdline" tabindex="0" data-tip="Drop-in override without touching the vendor unit file — survives a package update that would overwrite a direct edit.
+Example: systemctl edit myservice
+Use case: Systemd">systemctl edit myservice</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># required after any unit file change</span><span class="cmdline" tabindex="0" data-tip="Required after any unit file change — systemd caches unit definitions, edits won&#x27;t take effect without this.
+Example: systemctl daemon-reload
+Use case: Systemd">systemctl daemon-reload</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># stronger than disable</span><span class="cmdline" tabindex="0" data-tip="Stronger than disable — prevents even manual start.
+Example: systemctl mask myservice
+Use case: Systemd">systemctl mask myservice</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># start a stopped service</span><span class="cmdline" tabindex="0" data-tip="Start a stopped service — brings it up immediately, doesn&#x27;t affect boot-time behavior.
+Example: systemctl start myservice
+Use case: Systemd">systemctl start myservice</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># stop a running service</span><span class="cmdline" tabindex="0" data-tip="Stop a running service — takes it down immediately, doesn&#x27;t affect boot-time behavior.
+Example: systemctl stop myservice
+Use case: Systemd">systemctl stop myservice</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># stop then start</span><span class="cmdline" tabindex="0" data-tip="Stop then start — a full restart, as opposed to reload which avoids downtime.
+Example: systemctl restart myservice
+Use case: Systemd">systemctl restart myservice</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># re-read config without a full restart</span><span class="cmdline" tabindex="0" data-tip="Re-read config without a full restart — avoids downtime, but only works if the service actually supports reload.
+Example: systemctl reload myservice
+Use case: Systemd">systemctl reload myservice</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># start automatically on boot</span><span class="cmdline" tabindex="0" data-tip="Start automatically on boot — doesn&#x27;t start it right now, only changes future boot behavior.
+Example: systemctl enable myservice
+Use case: Systemd">systemctl enable myservice</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># don&#x27;t start automatically on boot</span><span class="cmdline" tabindex="0" data-tip="Don&#x27;t start automatically on boot — doesn&#x27;t stop it if it&#x27;s already running now.
+Example: systemctl disable myservice
+Use case: Systemd">systemctl disable myservice</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># print the actual unit file(s) in use</span><span class="cmdline" tabindex="0" data-tip="Print the actual unit file(s) in use — including drop-in overrides.
+Example: systemctl cat myservice
+Use case: Systemd">systemctl cat myservice</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># every known service unit and its enabled/disabled state</span><span class="cmdline" tabindex="0" data-tip="Every known service unit and its enabled/disabled state — a full inventory of what would start on boot.
+Example: systemctl list-unit-files --type=service
+Use case: Systemd">systemctl list-unit-files --type=service</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced — timers (systemd's cron alternative)</summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># every scheduled timer and its next run time</span><span class="cmdline" tabindex="0" data-tip="Every scheduled timer and its next run time — the systemd-native way to see &amp;quot;what&#x27;s scheduled&amp;quot; instead of grepping crontabs.
+Example: systemctl list-timers
+Use case: Systemd">systemctl list-timers</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># is a specific timer active and enabled</span><span class="cmdline" tabindex="0" data-tip="Is a specific timer active and enabled — confirms a scheduled job is actually going to fire.
+Example: systemctl status mytimer.timer
+Use case: Systemd">systemctl status mytimer.timer</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># a timer&#x27;s logs live under its paired .service unit</span><span class="cmdline" tabindex="0" data-tip="A timer&#x27;s logs live under its paired .service unit — checking the .timer itself won&#x27;t show the job&#x27;s actual output.
+Example: journalctl -u mytimer.service
+Use case: Systemd">journalctl -u mytimer.service</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+</details>
+<details class="section-block" open><summary><h2 id="health-check">Health check</h2></summary>
+<ol>
+<li><strong>Is it active</strong> — <code>systemctl is-active myservice</code> — red flag: anything other than <code>active</code>.</li>
+<li><strong>Recent restarts</strong> — <code>systemctl show myservice -p NRestarts</code> — red flag: a climbing count means a crash loop, not a one-off.</li>
+<li><strong>Other failed units</strong> — <code>systemctl list-units --failed</code> — red flag: unrelated services also failed at the same time — points to a shared cause (disk, network) rather than this one service.</li>
+<li><strong>Journal around the failure</strong> — <code>journalctl -u myservice -p err --since "10 min ago"</code> — red flag: errors clustered right before it went down.</li>
+</ol>
+</details><details class="section-block" open><summary><h2 id="troubleshooting">Troubleshooting</h2></summary>
+<p><strong>Service fails to start with no obvious error:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># -l shows the full text, not truncated</span><span class="cmdline" tabindex="0" data-tip="L shows the full text, not truncated — the real error is often cut off without it.
+Example: systemctl status myservice -l
+Use case: Troubleshooting">systemctl status myservice -l</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># -x adds explanatory help text for common failure codes</span><span class="cmdline" tabindex="0" data-tip="X adds explanatory help text for common failure codes — often explains the fix, not just the error.
+Example: journalctl -xeu myservice
+Use case: Troubleshooting">journalctl -xeu myservice</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<p><strong>Changed the unit file but nothing happened:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># required after ANY change to a unit file</span><span class="cmdline" tabindex="0" data-tip="Required after ANY change to a unit file — systemd caches the old definition otherwise.
+Example: systemctl daemon-reload
+Use case: Troubleshooting">systemctl daemon-reload</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># confirm which file it&#x27;s actually reading from</span><span class="cmdline" tabindex="0" data-tip="Confirm which file it&#x27;s actually reading from — a stray override elsewhere is a common surprise.
+Example: systemctl show myservice -p FragmentPath
+Use case: Troubleshooting">systemctl show myservice -p FragmentPath</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<p><strong>Journal is using too much disk:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># confirm it&#x27;s actually the journal eating disk</span><span class="cmdline" tabindex="0" data-tip="Confirm it&#x27;s actually the journal eating disk — before vacuuming, make sure you&#x27;re fixing the right thing.
+Example: journalctl --disk-usage
+Use case: Troubleshooting">journalctl --disk-usage</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># shrink the journal to a target size</span><span class="cmdline" tabindex="0" data-tip="Shrink the journal to a target size — oldest entries drop first, recent history is preserved.
+Example: journalctl --vacuum-size=500M
+Use case: Troubleshooting">journalctl --vacuum-size=500M</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># or keep by age instead of size</span><span class="cmdline" tabindex="0" data-tip="Or keep by age instead of size — whichever matches your retention need.
+Example: journalctl --vacuum-time=7d
+Use case: Troubleshooting">journalctl --vacuum-time=7d</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<hr /></details>
+  </main>
+</div>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/search.js"></script>
+<script src="../../assets/tooltip.js"></script>
+<script src="../../assets/copy.js"></script>
+</body>
+</html>

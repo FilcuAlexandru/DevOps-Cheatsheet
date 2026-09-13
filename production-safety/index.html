@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="DevOps Cheatsheet — a searchable, self-hosted command reference — Linux, Kubernetes, databases, monitoring, and more, with hover explanations and per-topic troubleshooting.">
+<meta name="theme-color" content="#08090C">
+<meta property="og:title" content="Production Safety — DevOps Cheatsheet">
+<meta property="og:description" content="A searchable, self-hosted DevOps command reference with hover explanations and per-topic troubleshooting.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%2308090C%22/%3E%3Cpath%20d%3D%22M4%204%20L4%2013%20M4%204%20L13%204%22%20stroke%3D%22%23FF6A1A%22%20stroke-width%3D%223%22%20fill%3D%22none%22/%3E%3Cpath%20d%3D%22M28%2028%20L28%2019%20M28%2028%20L19%2028%22%20stroke%3D%22%23FF6A1A%22%20stroke-width%3D%223%22%20fill%3D%22none%22/%3E%3C/svg%3E">
+<title>Production Safety — DevOps Cheatsheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="topbar">
+  <span class="brand">~/devops-cheatsheet</span>
+  <button id="search-trigger" class="search-btn" data-prefix="../">Search <span class="kbd">/</span></button>
+  <a href="../index.html">index</a>
+  <a href="../linux/index.html">linux</a>
+  <a href="../docker/index.html">docker</a>
+  <a href="../kubernetes/index.html">kubernetes</a>
+  <a href="../ansible/index.html">ansible</a>
+  <a href="../vault/index.html">vault</a>
+  <a href="../oracle-db/index.html">oracle database</a>
+  <a href="../postgresql/index.html">postgresql</a>
+  <a href="../weblogic/index.html">weblogic</a>
+  <a href="../prometheus/index.html">prometheus</a>
+  <a href="../grafana/index.html">grafana</a>
+  <a href="../checkmk/index.html">check_mk</a>
+  <a href="../python/index.html">python</a>
+  <a href="../powershell/index.html">powershell</a>
+  <a href="../git/index.html">git</a>
+  <a href="../data-formats/index.html">yaml / json / jq</a>
+  <a href="../troubleshooting/index.html">troubleshooting</a>
+  <a href="../production-safety/index.html" class="active">production safety</a>
+  <a href="../quick-reference/index.html">quick references</a>
+</div>
+<div id="search-overlay" class="search-overlay" hidden>
+  <div class="search-panel">
+    <input id="search-input" type="text" placeholder="Search commands…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="label">ON THIS PAGE</div>
+    <ul>
+      <li><span style="color:var(--text-dim);font-size:12px;">—</span></li>
+    </ul>
+  </div>
+  <main>
+    
+    <div class="title-frame">
+      <h1>Production Safety</h1>
+      <div class="subtitle-readout">REFERENCE</div>
+    </div>
+    
+    <ul>
+<li><strong>Dry-run first, always:</strong> <code>--dry-run</code>, <code>rsync --dry-run</code>, <code>kubectl diff</code>, <code>kubectl apply --dry-run=server</code> — if the tool has one, use it before the real run.</li>
+<li><strong>Destructive commands get a pause:</strong> <code>alias rm='rm -i'</code> in your interactive shell; never alias it in scripts (breaks non-interactive automation).</li>
+<li><strong>Long-running or risky ops go in <code>tmux</code>/<code>screen</code></strong>, not a raw SSH session — a dropped connection shouldn't kill a migration.</li>
+<li><strong>Confirm the target before you act:</strong>
+  <code>bash
+  kubectl config current-context     # you WILL eventually run the right command in the wrong cluster otherwise
+  echo $PS1 | grep -i prod            # visual cue in your prompt for prod boxes, worth setting up</code></li>
+<li><strong>Truncate, don't delete, live log files:</strong> <code>: &gt; file.log</code> keeps the inode a running process is writing to; <code>rm</code> on a still-open file just hides the space until the process exits.</li>
+<li><strong>Snapshot/backup before schema or config changes</strong> — even a quick <code>cp file.conf file.conf.bak.$(date +%s)</code> beats reconstructing from memory at 2am.</li>
+</ul>
+<hr />
+  </main>
+</div>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/search.js"></script>
+<script src="../assets/tooltip.js"></script>
+<script src="../assets/copy.js"></script>
+</body>
+</html>

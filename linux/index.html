@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="DevOps Cheatsheet — a searchable, self-hosted command reference — Linux, Kubernetes, databases, monitoring, and more, with hover explanations and per-topic troubleshooting.">
+<meta name="theme-color" content="#08090C">
+<meta property="og:title" content="Linux — DevOps Cheatsheet">
+<meta property="og:description" content="A searchable, self-hosted DevOps command reference with hover explanations and per-topic troubleshooting.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%2308090C%22/%3E%3Cpath%20d%3D%22M4%204%20L4%2013%20M4%204%20L13%204%22%20stroke%3D%22%23FF6A1A%22%20stroke-width%3D%223%22%20fill%3D%22none%22/%3E%3Cpath%20d%3D%22M28%2028%20L28%2019%20M28%2028%20L19%2028%22%20stroke%3D%22%23FF6A1A%22%20stroke-width%3D%223%22%20fill%3D%22none%22/%3E%3C/svg%3E">
+<title>Linux — DevOps Cheatsheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="topbar">
+  <span class="brand">~/devops-cheatsheet</span>
+  <button id="search-trigger" class="search-btn" data-prefix="../">Search <span class="kbd">/</span></button>
+  <a href="../index.html">index</a>
+  <a href="../linux/index.html" class="active">linux</a>
+  <a href="../docker/index.html">docker</a>
+  <a href="../kubernetes/index.html">kubernetes</a>
+  <a href="../ansible/index.html">ansible</a>
+  <a href="../vault/index.html">vault</a>
+  <a href="../oracle-db/index.html">oracle database</a>
+  <a href="../postgresql/index.html">postgresql</a>
+  <a href="../weblogic/index.html">weblogic</a>
+  <a href="../prometheus/index.html">prometheus</a>
+  <a href="../grafana/index.html">grafana</a>
+  <a href="../checkmk/index.html">check_mk</a>
+  <a href="../python/index.html">python</a>
+  <a href="../powershell/index.html">powershell</a>
+  <a href="../git/index.html">git</a>
+  <a href="../data-formats/index.html">yaml / json / jq</a>
+  <a href="../troubleshooting/index.html">troubleshooting</a>
+  <a href="../production-safety/index.html">production safety</a>
+  <a href="../quick-reference/index.html">quick references</a>
+</div>
+<div id="search-overlay" class="search-overlay" hidden>
+  <div class="search-panel">
+    <input id="search-input" type="text" placeholder="Search commands…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="label">ON THIS PAGE</div>
+    <ul>
+      <li><a href="#linux-system-information">System Information</a></li>
+      <li><a href="#linux-processes">Processes</a></li>
+      <li><a href="#linux-cpu-and-memory">CPU and Memory</a></li>
+      <li><a href="#linux-disk-and-storage">Disk and Storage</a></li>
+      <li><a href="#linux-files-and-directories">Files and Directories</a></li>
+      <li><a href="#linux-permissions">Permissions</a></li>
+      <li><a href="#linux-ssh">SSH</a></li>
+      <li><a href="#linux-troubleshooting">Troubleshooting</a></li>
+      <li><a href="#health-check" style="padding-left:20px;font-size:12px;">Health check</a></li>
+      <li><a href="#specific-problems" style="padding-left:20px;font-size:12px;">Specific problems</a></li>
+    </ul>
+  </div>
+  <main>
+    
+    <div class="title-frame">
+      <h1>Linux</h1>
+      <div class="subtitle-readout">130 COMMANDS INDEXED</div>
+    </div>
+    <div class="label" style="margin:24px 0 8px;">SECTIONS</div><div class="grid" style="margin-top:0;"><a class="card" href="./bash/index.html">Bash</a><a class="card" href="./networking/index.html">Networking</a><a class="card" href="./logs/index.html">Logs</a><a class="card" href="./systemd/index.html">Systemd</a><a class="card" href="./performance/index.html">Performance</a></div>
+    <details class="section-block" open><summary><h1 id="linux-system-information">Linux — System Information</h1></summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># distro, version</span><span class="cmdline" tabindex="0" data-tip="Distro, version — the source of truth systemd itself reads, more reliable than /etc/*-release variants.
+Example: cat /etc/os-release
+Use case: System Information">cat /etc/os-release</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># hostname, kernel, arch, virt type</span><span class="cmdline" tabindex="0" data-tip="Hostname, kernel, arch, virt type — one command, everything.
+Example: hostnamectl
+Use case: System Information">hostnamectl</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># kernel version, arch</span><span class="cmdline" tabindex="0" data-tip="Kernel version, arch — confirms exactly what you&#x27;re running before assuming a feature/syscall is available.
+Example: uname -a
+Use case: System Information">uname -a</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># timezone, NTP sync status</span><span class="cmdline" tabindex="0" data-tip="Timezone, NTP sync status — check this first on cert/log timing bugs.
+Example: timedatectl
+Use case: System Information">timedatectl</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># human-readable uptime</span><span class="cmdline" tabindex="0" data-tip="Human-readable uptime — quick sanity check on whether a recent restart could explain a symptom.
+Example: uptime -p
+Use case: System Information">uptime -p</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># CPU model, cores, sockets, cache</span><span class="cmdline" tabindex="0" data-tip="CPU model, cores, sockets, cache — better than /proc/cpuinfo.
+Example: lscpu
+Use case: System Information">lscpu</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># block devices + filesystem + mount, in a tree</span><span class="cmdline" tabindex="0" data-tip="Block devices + filesystem + mount, in a tree — see the whole disk layout in one readable view.
+Example: lsblk -f
+Use case: System Information">lsblk -f</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># hardware/BIOS info</span><span class="cmdline" tabindex="0" data-tip="Hardware/BIOS info — needs root, useful when a bug turns out to be hardware/firmware specific.
+Example: dmidecode -t system
+Use case: System Information">dmidecode -t system</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># every boot this machine has had, with timestamps</span><span class="cmdline" tabindex="0" data-tip="Every boot this machine has had, with timestamps — confirms exactly when a restart happened.
+Example: journalctl --list-boots
+Use case: System Information">journalctl --list-boots</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># PCI devices</span><span class="cmdline" tabindex="0" data-tip="PCI devices — GPUs, network cards, controllers.
+Example: lspci
+Use case: System Information">lspci</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># USB devices connected</span><span class="cmdline" tabindex="0" data-tip="USB devices connected — confirms a device is actually recognized at the hardware level.
+Example: lsusb
+Use case: System Information">lsusb</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># number of usable CPU cores</span><span class="cmdline" tabindex="0" data-tip="Number of usable CPU cores — respects cgroup limits in containers, the number that actually matters there, not the host&#x27;s physical count.
+Example: nproc
+Use case: System Information">nproc</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># machine hardware name</span><span class="cmdline" tabindex="0" data-tip="Machine hardware name — confirms the CPU architecture before assuming a binary will even run.
+Example: arch
+Use case: System Information">arch</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># change the hostname permanently</span><span class="cmdline" tabindex="0" data-tip="Change the hostname permanently — persists across reboots, unlike a plain hostname command.
+Example: hostnamectl set-hostname myserver
+Use case: System Information">hostnamectl set-hostname myserver</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># change system timezone</span><span class="cmdline" tabindex="0" data-tip="Change system timezone — affects how every timestamp on the system is displayed.
+Example: timedatectl set-timezone Europe/Bucharest
+Use case: System Information">timedatectl set-timezone Europe/Bucharest</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># enable NTP sync if it&#x27;s currently off</span><span class="cmdline" tabindex="0" data-tip="Enable NTP sync if it&#x27;s currently off — clock drift causes confusing cert/auth failures that look unrelated.
+Example: timedatectl set-ntp true
+Use case: System Information">timedatectl set-ntp true</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># last 50 kernel ring buffer messages, human timestamps</span><span class="cmdline" tabindex="0" data-tip="Last 50 kernel ring buffer messages, human timestamps — recent hardware/driver events without scrolling the whole buffer.
+Example: dmesg -T | tail -50
+Use case: System Information">dmesg -T | tail -50</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># kernel build info</span><span class="cmdline" tabindex="0" data-tip="Kernel build info — compiler, build date, builder.
+Example: cat /proc/version
+Use case: System Information">cat /proc/version</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># last system boot time, short form</span><span class="cmdline" tabindex="0" data-tip="Last system boot time, short form — a one-line answer instead of parsing uptime&#x27;s longer output.
+Example: who -b
+Use case: System Information">who -b</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced</summary>
+<p><code>hostnamectl</code> and <code>timedatectl</code> in one shot tell you 80% of what you need before touching anything else — especially <code>timedatectl</code>, since silent clock drift is behind a surprising number of "random" TLS/Kerberos/cert failures.</p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># total cores including ones a cgroup limit may be hiding from `nproc` alone</span><span class="cmdline" tabindex="0" data-tip="Total cores including ones a cgroup limit may be hiding from `nproc` alone — the gap between the two is itself diagnostic in containers.
+Example: nproc --all
+Use case: System Information">nproc --all</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># hardware model without needing root</span><span class="cmdline" tabindex="0" data-tip="Hardware model without needing root — dmidecode usually does need it, this is the unprivileged alternative.
+Example: cat /sys/class/dmi/id/product_name
+Use case: System Information">cat /sys/class/dmi/id/product_name</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># confirms bare metal vs VM vs container</span><span class="cmdline" tabindex="0" data-tip="Confirms bare metal vs VM vs container — and which hypervisor.
+Example: systemd-detect-virt
+Use case: System Information">systemd-detect-virt</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+</details>
+</details><details class="section-block" open><summary><h1 id="linux-processes">Linux — Processes</h1></summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># top memory consumers, readable</span><span class="cmdline" tabindex="0" data-tip="Top memory consumers, readable — sorted so the worst offender is right at the top.
+Example: ps -eo pid,ppid,%cpu,%mem,cmd --sort=-%mem | head
+Use case: Processes">ps -eo pid,ppid,%cpu,%mem,cmd --sort=-%mem | head</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># process tree with PIDs</span><span class="cmdline" tabindex="0" data-tip="Process tree with PIDs — shows parent/child relationships a flat ps list hides.
+Example: pstree -p
+Use case: Processes">pstree -p</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># same idea as pstree, no extra package needed</span><span class="cmdline" tabindex="0" data-tip="Same idea as pstree, no extra package needed — built into plain ps.
+Example: ps -ef --forest
+Use case: Processes">ps -ef --forest</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># sort live view by CPU</span><span class="cmdline" tabindex="0" data-tip="Sort live view by CPU — jumps straight to the worst offender instead of scanning a default-ordered list.
+Example: top -o %CPU
+Use case: Processes">top -o %CPU</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced — priority and I/O control</summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># lower CPU priority (nice) + idle I/O class (ionice)</span><span class="cmdline" tabindex="0" data-tip="Lower CPU priority (nice) + idle I/O class (ionice) — run heavy batch jobs without starving the box.
+Example: nice -n 10 ionice -c3 ./heavy_script.sh
+Use case: Processes">nice -n 10 ionice -c3 ./heavy_script.sh</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># change priority of an already-running process</span><span class="cmdline" tabindex="0" data-tip="Change priority of an already-running process — nice only works at launch, this adjusts one already running.
+Example: renice -n 5 -p 1234
+Use case: Processes">renice -n 5 -p 1234</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># bump I/O priority of a running PID back up</span><span class="cmdline" tabindex="0" data-tip="Bump I/O priority of a running PID back up — undo an ionice that&#x27;s now slowing something down too much.
+Example: ionice -c2 -n0 -p 1234
+Use case: Processes">ionice -c2 -n0 -p 1234</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># pin a process to specific CPU cores</span><span class="cmdline" tabindex="0" data-tip="Pin a process to specific CPU cores — stops the scheduler from bouncing it between cores, useful for consistent benchmarking.
+Example: taskset -c 0,1 ./script.sh
+Use case: Processes">taskset -c 0,1 ./script.sh</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># run with real-time scheduling (careful</span><span class="cmdline" tabindex="0" data-tip="Run with real-time scheduling (careful — can starve everything else)
+Example: chrt -r 10 ./script.sh
+Use case: Processes">chrt -r 10 ./script.sh</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+</details>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced — inspecting without killing</summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># exit code 0 = process exists, no signal actually sent</span><span class="cmdline" tabindex="0" data-tip="Exit code 0 = process exists, no signal actually sent — great for scripts.
+Example: kill -0 1234
+Use case: Processes">kill -0 1234</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># attach to a running process and see every syscall</span><span class="cmdline" tabindex="0" data-tip="Attach to a running process and see every syscall — the fastest way to find exactly what it&#x27;s stuck on.
+Example: strace -p 1234 -f
+Use case: Processes">strace -p 1234 -f</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># every file/socket a process has open</span><span class="cmdline" tabindex="0" data-tip="Every file/socket a process has open — confirms what it&#x27;s actually touching, not just what you assume.
+Example: lsof -p 1234
+Use case: Processes">lsof -p 1234</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># memory, threads, state</span><span class="cmdline" tabindex="0" data-tip="Memory, threads, state — no tools needed.
+Example: cat /proc/1234/status
+Use case: Processes">cat /proc/1234/status</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># ulimits actually applied to that process</span><span class="cmdline" tabindex="0" data-tip="Ulimits actually applied to that process — the real enforced limits, not just what&#x27;s configured system-wide.
+Example: cat /proc/1234/limits
+Use case: Processes">cat /proc/1234/limits</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+</details>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced — detach safely</summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># survives terminal close</span><span class="cmdline" tabindex="0" data-tip="Survives terminal close — the process keeps running after you disconnect or close the SSH session.
+Example: nohup ./script.sh &gt; out.log 2&gt;&amp;1 &amp;
+Use case: Processes">nohup ./script.sh &gt; out.log 2&gt;&amp;1 &amp;</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># detach a job from the shell without nohup</span><span class="cmdline" tabindex="0" data-tip="Detach a job from the shell without nohup — useful for a job already running that you forgot to nohup.
+Example: disown -h %1
+Use case: Processes">disown -h %1</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># fully detach from controlling terminal</span><span class="cmdline" tabindex="0" data-tip="Fully detach from controlling terminal — stronger than nohup, no terminal signals can reach it at all.
+Example: setsid ./script.sh &amp;
+Use case: Processes">setsid ./script.sh &amp;</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+</details>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># find PIDs by name/command pattern</span><span class="cmdline" tabindex="0" data-tip="Find PIDs by name/command pattern — no ps+grep pipeline needed for the common case.
+Example: pgrep -f myprocess
+Use case: Processes">pgrep -f myprocess</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># kill by name pattern</span><span class="cmdline" tabindex="0" data-tip="Kill by name pattern — skips the step of finding the PID first.
+Example: pkill -f myprocess
+Use case: Processes">pkill -f myprocess</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># background jobs in the current shell, with PIDs</span><span class="cmdline" tabindex="0" data-tip="Background jobs in the current shell, with PIDs — confirms what&#x27;s actually running before fg/kill-ing the wrong one.
+Example: jobs -l
+Use case: Processes">jobs -l</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># bring background job 1 to the foreground</span><span class="cmdline" tabindex="0" data-tip="Bring background job 1 to the foreground — reattaches so you can interact with it directly.
+Example: fg %1
+Use case: Processes">fg %1</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="cmdline">watch -n2 'ps aux --sort=-%cpu | head' # live-refreshing view of top CPU processes, no top needed</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># every resource limit for the current shell</span><span class="cmdline" tabindex="0" data-tip="Every resource limit for the current shell — open files, processes, memory, confirms what&#x27;s actually enforced.
+Example: ulimit -a
+Use case: Processes">ulimit -a</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced — process ancestry and namespaces</summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># full ancestry: parent, process group, session</span><span class="cmdline" tabindex="0" data-tip="Full ancestry: parent, process group, session — useful for untangling orphaned processes.
+Example: ps -o pid,ppid,pgid,sid,comm -p 1234
+Use case: Processes">ps -o pid,ppid,pgid,sid,comm -p 1234</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># which cgroup(s) a process belongs to</span><span class="cmdline" tabindex="0" data-tip="Which cgroup(s) a process belongs to — the real capacity limits in a container.
+Example: cat /proc/1234/cgroup
+Use case: Processes">cat /proc/1234/cgroup</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># the actual binary a PID launched from</span><span class="cmdline" tabindex="0" data-tip="The actual binary a PID launched from — even if the file was since replaced.
+Example: readlink /proc/1234/exe
+Use case: Processes">readlink /proc/1234/exe</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># every open file descriptor for a process</span><span class="cmdline" tabindex="0" data-tip="Every open file descriptor for a process — symlinked to its target, shows exactly what files/sockets it&#x27;s using.
+Example: ls -la /proc/1234/fd
+Use case: Processes">ls -la /proc/1234/fd</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+</details>
+</details><details class="section-block" open><summary><h1 id="linux-cpu-and-memory">Linux — CPU and Memory</h1></summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># memory overview</span><span class="cmdline" tabindex="0" data-tip="Memory overview — quick totals for used/free/swap, human-readable.
+Example: free -h
+Use case: CPU and Memory">free -h</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># 5 samples, 1s apart</span><span class="cmdline" tabindex="0" data-tip="5 samples, 1s apart — watch &#x27;r&#x27; (run queue) and &#x27;wa&#x27; (I/O wait)
+Example: vmstat 1 5
+Use case: CPU and Memory">vmstat 1 5</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># per-core CPU usage</span><span class="cmdline" tabindex="0" data-tip="Per-core CPU usage — reveals imbalance a single averaged number from top would hide.
+Example: mpstat -P ALL 1
+Use case: CPU and Memory">mpstat -P ALL 1</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># historical CPU stats</span><span class="cmdline" tabindex="0" data-tip="Historical CPU stats — needs sysstat installed, shows usage over time instead of just right now.
+Example: sar -u 1 5
+Use case: CPU and Memory">sar -u 1 5</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced</summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># NUMA topology</span><span class="cmdline" tabindex="0" data-tip="NUMA topology — matters on multi-socket DB/JVM hosts.
+Example: numactl --hardware
+Use case: CPU and Memory">numactl --hardware</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># total memory footprint of one process, broken down</span><span class="cmdline" tabindex="0" data-tip="Total memory footprint of one process, broken down — shared vs private, more accurate than a single RSS number.
+Example: pmap -x 1234 | tail -1
+Use case: CPU and Memory">pmap -x 1234 | tail -1</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># accounts for shared memory properly</span><span class="cmdline" tabindex="0" data-tip="Accounts for shared memory properly — free and ps both double-count it across processes, this doesn&#x27;t.
+Example: smem -tk
+Use case: CPU and Memory">smem -tk</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># live-refreshing memory view without extra tools</span><span class="cmdline" tabindex="0" data-tip="Live-refreshing memory view without extra tools — a poor man&#x27;s dashboard using only watch + free.
+Example: watch -n1 &#x27;free -h&#x27;
+Use case: CPU and Memory">watch -n1 'free -h'</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+</details>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># per-thread CPU view for one process</span><span class="cmdline" tabindex="0" data-tip="Per-thread CPU view for one process — find which thread inside a process is hot.
+Example: top -H -p 1234
+Use case: CPU and Memory">top -H -p 1234</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># memory in MB, SI (1000-based) units</span><span class="cmdline" tabindex="0" data-tip="Memory in MB, SI (1000-based) units — matches how storage vendors usually report size, unlike the default binary units.
+Example: free -m --si
+Use case: CPU and Memory">free -m --si</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># raw load average + running/total process count, scriptable</span><span class="cmdline" tabindex="0" data-tip="Raw load average + running/total process count, scriptable — parseable without stripping uptime&#x27;s prose formatting.
+Example: cat /proc/loadavg
+Use case: CPU and Memory">cat /proc/loadavg</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># quick load average without the human-readable wrapper</span><span class="cmdline" tabindex="0" data-tip="Quick load average without the human-readable wrapper — same numbers, less text to parse.
+Example: uptime
+Use case: CPU and Memory">uptime</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced — historical and NUMA-aware</summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># historical memory usage samples</span><span class="cmdline" tabindex="0" data-tip="Historical memory usage samples — needs sysstat, same sar tool used with -u for CPU history.
+Example: sar -r 1 5
+Use case: CPU and Memory">sar -r 1 5</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># cumulative memory/swap stats since boot</span><span class="cmdline" tabindex="0" data-tip="Cumulative memory/swap stats since boot — a one-shot summary instead of vmstat&#x27;s repeating samples.
+Example: vmstat -s
+Use case: CPU and Memory">vmstat -s</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># NUMA memory allocation for one process</span><span class="cmdline" tabindex="0" data-tip="NUMA memory allocation for one process — cross-node access is a hidden latency source on multi-socket hosts.
+Example: numastat -p 1234
+Use case: CPU and Memory">numastat -p 1234</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+</details>
+</details><details class="section-block" open><summary><h1 id="linux-disk-and-storage">Linux — Disk and Storage</h1></summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># usage + filesystem type</span><span class="cmdline" tabindex="0" data-tip="Usage + filesystem type — confirms both how full a disk is and what kind of filesystem it is.
+Example: df -hT
+Use case: Disk and Storage">df -hT</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># find what&#x27;s eating a directory, sorted biggest-first</span><span class="cmdline" tabindex="0" data-tip="Find what&#x27;s eating a directory, sorted biggest-first — narrows a full disk down to the actual culprit fast.
+Example: du -sh --max-depth=1 /var | sort -rh
+Use case: Disk and Storage">du -sh --max-depth=1 /var | sort -rh</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="cmdline">lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINT</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># mount tree, easier to read than plain mount</span><span class="cmdline" tabindex="0" data-tip="Mount tree, easier to read than plain mount — a cleaner hierarchical view of what&#x27;s mounted where.
+Example: findmnt
+Use case: Disk and Storage">findmnt</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced</summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># who has files open under a directory</span><span class="cmdline" tabindex="0" data-tip="Who has files open under a directory — essential before umount fails.
+Example: lsof +D /var/log
+Use case: Disk and Storage">lsof +D /var/log</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># what&#x27;s using a mount point</span><span class="cmdline" tabindex="0" data-tip="What&#x27;s using a mount point — confirms what&#x27;s actually holding it open before an unmount fails.
+Example: fuser -vm /mnt/data
+Use case: Disk and Storage">fuser -vm /mnt/data</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># per-device I/O</span><span class="cmdline" tabindex="0" data-tip="Per-device I/O — the %util column is the one that actually tells you if a disk is the bottleneck.
+Example: iostat -xz 1
+Use case: Disk and Storage">iostat -xz 1</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># interactive du</span><span class="cmdline" tabindex="0" data-tip="Interactive du — much faster to navigate than plain du.
+Example: ncdu /var
+Use case: Disk and Storage">ncdu /var</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># truncate a log file in place without deleting it (keeps the inode/fd alive</span><span class="cmdline" tabindex="0" data-tip="Truncate a log file in place without deleting it (keeps the inode/fd alive — safe for a process still writing to it)
+Example: : &gt; /var/log/huge.log
+Use case: Disk and Storage">: &gt; /var/log/huge.log</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+</details>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># currently mounted filesystems, readable columns</span><span class="cmdline" tabindex="0" data-tip="Currently mounted filesystems, readable columns — confirms what&#x27;s mounted where without parsing raw output.
+Example: mount | column -t
+Use case: Disk and Storage">mount | column -t</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># unmount cleanly</span><span class="cmdline" tabindex="0" data-tip="Unmount cleanly — fails loudly if something still has an open file on it, rather than silently corrupting data.
+Example: umount /mnt/data
+Use case: Disk and Storage">umount /mnt/data</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># remount root read-write</span><span class="cmdline" tabindex="0" data-tip="Remount root read-write — recovers from a filesystem that mounted read-only after an unclean shutdown.
+Example: mount -o remount,rw /
+Use case: Disk and Storage">mount -o remount,rw /</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># list partition tables on every disk</span><span class="cmdline" tabindex="0" data-tip="List partition tables on every disk — confirms the actual partition layout before making any changes.
+Example: fdisk -l
+Use case: Disk and Storage">fdisk -l</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># UUID and filesystem type for every block device</span><span class="cmdline" tabindex="0" data-tip="UUID and filesystem type for every block device — the identifiers /etc/fstab actually relies on.
+Example: blkid
+Use case: Disk and Storage">blkid</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># same idea as the disk-usage command above, relative to the current directory instead of root</span><span class="cmdline" tabindex="0" data-tip="Same idea as the disk-usage command above, relative to the current directory instead of root.
+Example: du -h --max-depth=1 . | sort -rh
+Use case: Disk and Storage">du -h --max-depth=1 . | sort -rh</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced — filesystem maintenance</summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># ext4 filesystem parameters</span><span class="cmdline" tabindex="0" data-tip="Ext4 filesystem parameters — last check date, mount count, features enabled.
+Example: tune2fs -l /dev/sda1
+Use case: Disk and Storage">tune2fs -l /dev/sda1</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># check filesystem without fixing anything (-n = answer no to all repairs)</span><span class="cmdline" tabindex="0" data-tip="Check filesystem without fixing anything (-n = answer no to all repairs) — safe on a mounted disk only for inspection.
+Example: fsck -n /dev/sda1
+Use case: Disk and Storage">fsck -n /dev/sda1</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># partition tables with GPT support</span><span class="cmdline" tabindex="0" data-tip="Partition tables with GPT support — fdisk historically struggled with GPT disks, parted doesn&#x27;t.
+Example: parted -l
+Use case: Disk and Storage">parted -l</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+</details>
+</details><details class="section-block" open><summary><h1 id="linux-files-and-directories">Linux — Files and Directories</h1></summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># big files, current filesystem only</span><span class="cmdline" tabindex="0" data-tip="Big files, current filesystem only — -xdev skips crawling mounted NFS shares that would slow this way down.
+Example: find / -xdev -type f -size +100M 2&gt;/dev/null
+Use case: Files and Directories">find / -xdev -type f -size +100M 2&gt;/dev/null</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># modified in the last 24h</span><span class="cmdline" tabindex="0" data-tip="Modified in the last 24h — narrows a huge directory down to what actually changed recently.
+Example: find . -mtime -1
+Use case: Files and Directories">find . -mtime -1</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># anything newer than a given file</span><span class="cmdline" tabindex="0" data-tip="Anything newer than a given file — compare against a timestamp marker instead of a fixed time window.
+Example: find . -type f -newer reference_file
+Use case: Files and Directories">find . -type f -newer reference_file</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># cleanup</span><span class="cmdline" tabindex="0" data-tip="Cleanup — destructive, see Production Safety before running this against anything that matters.
+Example: find . -name &#x27;*.log&#x27; -mtime +30 -delete
+Use case: Files and Directories">find . -name '*.log' -mtime +30 -delete</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced</summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># always dry-run a sync before committing to it</span><span class="cmdline" tabindex="0" data-tip="Always dry-run a sync before committing to it — confirms what would actually change before it does.
+Example: rsync -avz --dry-run src/ dst/
+Use case: Files and Directories">rsync -avz --dry-run src/ dst/</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># parallelize find/xargs pipelines</span><span class="cmdline" tabindex="0" data-tip="Parallelize find/xargs pipelines — 4 at a time, much faster on a large file set.
+Example: xargs -P4 -I{} cmd {}
+Use case: Files and Directories">xargs -P4 -I{} cmd {}</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># process substitution</span><span class="cmdline" tabindex="0" data-tip="Process substitution — compare without temp files.
+Example: diff &lt;(sort file1) &lt;(sort file2)
+Use case: Files and Directories">diff &lt;(sort file1) &lt;(sort file2)</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># lines in a.txt not in b.txt</span><span class="cmdline" tabindex="0" data-tip="Lines in a.txt not in b.txt — a set difference without writing a script for it.
+Example: comm -23 &lt;(sort a.txt) &lt;(sort b.txt)
+Use case: Files and Directories">comm -23 &lt;(sort a.txt) &lt;(sort b.txt)</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+</details>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># compress a directory into a gzipped tarball</span><span class="cmdline" tabindex="0" data-tip="Compress a directory into a gzipped tarball — the standard way to bundle and shrink a folder for transfer.
+Example: tar -czvf archive.tar.gz mydir/
+Use case: Files and Directories">tar -czvf archive.tar.gz mydir/</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># extract it back</span><span class="cmdline" tabindex="0" data-tip="Extract it back — reverses the tar step above, unpacking the archive into files again.
+Example: tar -xzvf archive.tar.gz
+Use case: Files and Directories">tar -xzvf archive.tar.gz</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># create a symlink</span><span class="cmdline" tabindex="0" data-tip="Create a symlink — a pointer to another path, not a copy of its contents.
+Example: ln -s /path/to/target linkname
+Use case: Files and Directories">ln -s /path/to/target linkname</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># detailed metadata: size, timestamps, inode, permissions</span><span class="cmdline" tabindex="0" data-tip="Detailed metadata: size, timestamps, inode, permissions — more than ls -l shows in one line.
+Example: stat file.txt
+Use case: Files and Directories">stat file.txt</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># resolve a symlink to its final real path</span><span class="cmdline" tabindex="0" data-tip="Resolve a symlink to its final real path — follows a chain of links to where they actually point.
+Example: readlink -f symlink
+Use case: Files and Directories">readlink -f symlink</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># create an empty file, or bump mtime on an existing one</span><span class="cmdline" tabindex="0" data-tip="Create an empty file, or bump mtime on an existing one — the classic use for confirming a script actually ran.
+Example: touch newfile.txt
+Use case: Files and Directories">touch newfile.txt</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced — bulk operations</summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># find duplicate files by content hash across a directory tree</span><span class="cmdline" tabindex="0" data-tip="Find duplicate files by content hash across a directory tree — catches true duplicates even with different filenames.
+Example: find . -type f -exec md5sum {} \; | sort | uniq -w32 -d
+Use case: Files and Directories">find . -type f -exec md5sum {} \; | sort | uniq -w32 -d</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># mirror src into dst exactly, removing anything in dst that&#x27;s not in src</span><span class="cmdline" tabindex="0" data-tip="Mirror src into dst exactly, removing anything in dst that&#x27;s not in src — destructive, dry-run first.
+Example: rsync -avz --delete src/ dst/
+Use case: Files and Directories">rsync -avz --delete src/ dst/</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># archive while excluding a pattern</span><span class="cmdline" tabindex="0" data-tip="Archive while excluding a pattern — avoids bundling logs/junk that would just bloat the archive.
+Example: tar --exclude=&#x27;*.log&#x27; -czvf clean.tar.gz mydir/
+Use case: Files and Directories">tar --exclude='*.log' -czvf clean.tar.gz mydir/</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+</details>
+</details><details class="section-block" open><summary><h1 id="linux-permissions">Linux — Permissions</h1></summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># copy permissions from one file to another</span><span class="cmdline" tabindex="0" data-tip="Copy permissions from one file to another — replicate a known-good config instead of setting bits manually.
+Example: chmod --reference=file1 file2
+Use case: Permissions">chmod --reference=file1 file2</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># fine-grained ACLs beyond owner/group/other</span><span class="cmdline" tabindex="0" data-tip="Fine-grained ACLs beyond owner/group/other — grant access to a specific extra user without changing group ownership.
+Example: getfacl file / setfacl -m u:name:rwx file
+Use case: Permissions">getfacl file / setfacl -m u:name:rwx file</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># make a file immutable</span><span class="cmdline" tabindex="0" data-tip="Make a file immutable — even root can&#x27;t delete or modify it without unsetting this attribute first.
+Example: chattr +i file
+Use case: Permissions">chattr +i file</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># find every SUID binary</span><span class="cmdline" tabindex="0" data-tip="Find every SUID binary — useful in a security review.
+Example: find / -perm -4000 2&gt;/dev/null
+Use case: Permissions">find / -perm -4000 2&gt;/dev/null</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># what you&#x27;re actually allowed to sudo</span><span class="cmdline" tabindex="0" data-tip="What you&#x27;re actually allowed to sudo — confirms real permissions instead of assuming from the sudoers file alone.
+Example: sudo -l
+Use case: Permissions">sudo -l</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># change ownership recursively for a whole directory tree</span><span class="cmdline" tabindex="0" data-tip="Change ownership recursively for a whole directory tree — the standard fix after copying files in as the wrong user.
+Example: chown -R user:group /path/to/dir
+Use case: Permissions">chown -R user:group /path/to/dir</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># current default permission mask for newly created files</span><span class="cmdline" tabindex="0" data-tip="Current default permission mask for newly created files — explains why new files come out with certain permissions.
+Example: umask
+Use case: Permissions">umask</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># set the default mask for this shell session</span><span class="cmdline" tabindex="0" data-tip="Set the default mask for this shell session — changes permissions on files created from here on, not existing ones.
+Example: umask 022
+Use case: Permissions">umask 022</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># UID, GID, and every group a user belongs to</span><span class="cmdline" tabindex="0" data-tip="UID, GID, and every group a user belongs to — confirms actual group membership, not just what you assume.
+Example: id username
+Use case: Permissions">id username</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># just the group membership, shorter form</span><span class="cmdline" tabindex="0" data-tip="Just the group membership, shorter form — same info as id, less to parse.
+Example: groups username
+Use case: Permissions">groups username</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced — auditing</summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># find every SGID binary</span><span class="cmdline" tabindex="0" data-tip="Find every SGID binary — same security-review use case as SUID, different bit.
+Example: find / -perm -2000 2&gt;/dev/null
+Use case: Permissions">find / -perm -2000 2&gt;/dev/null</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># confirm a user exists and see their shell/home</span><span class="cmdline" tabindex="0" data-tip="Confirm a user exists and see their shell/home — works with LDAP/NIS too.
+Example: getent passwd username
+Use case: Permissions">getent passwd username</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># validate /etc/sudoers syntax before it locks you out</span><span class="cmdline" tabindex="0" data-tip="Validate /etc/sudoers syntax before it locks you out — always run this after any manual sudoers edit.
+Example: visudo -c
+Use case: Permissions">visudo -c</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+</details>
+</details><details class="section-block" open><summary><h1 id="linux-ssh">Linux — SSH</h1></summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># jump host in one line</span><span class="cmdline" tabindex="0" data-tip="Jump host in one line — no manual tunnel setup needed to reach a host behind another.
+Example: ssh -J bastion user@internal-host
+Use case: SSH">ssh -J bastion user@internal-host</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># local port forward, no shell</span><span class="cmdline" tabindex="0" data-tip="Local port forward, no shell — great for reaching internal dashboards.
+Example: ssh -N -L 8080:localhost:80 user@host
+Use case: SSH">ssh -N -L 8080:localhost:80 user@host</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># SOCKS proxy through a single host</span><span class="cmdline" tabindex="0" data-tip="SOCKS proxy through a single host — routes arbitrary traffic through one SSH connection.
+Example: ssh -N -D 1080 user@host
+Use case: SSH">ssh -N -D 1080 user@host</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># push your key without manual cat/append</span><span class="cmdline" tabindex="0" data-tip="Push your key without manual cat/append — handles the remote authorized_keys file correctly in one step.
+Example: ssh-copy-id user@host
+Use case: SSH">ssh-copy-id user@host</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced — `~/.ssh/config` aliases</summary>
+<pre><code><div class="cmd-box"><span class="cmdline">Host eip-prod
+    HostName 10.0.4.12
+    User afilcu
+    ProxyJump bastion
+    ServerAliveInterval 30</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<p>Then just <code>ssh eip-prod</code> — no more remembering IPs, jump hosts, or usernames.</p>
+</details>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># copy a file to a remote host</span><span class="cmdline" tabindex="0" data-tip="Copy a file to a remote host — the standard one-off file transfer over SSH.
+Example: scp file.txt user@host:/remote/path/
+Use case: SSH">scp file.txt user@host:/remote/path/</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># recursive copy of a directory</span><span class="cmdline" tabindex="0" data-tip="Recursive copy of a directory — same as scp for a single file, but for a whole tree.
+Example: scp -r localdir/ user@host:/remote/path/
+Use case: SSH">scp -r localdir/ user@host:/remote/path/</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># interactive file transfer session</span><span class="cmdline" tabindex="0" data-tip="Interactive file transfer session — browse and transfer files without a fixed source/destination up front.
+Example: sftp user@host
+Use case: SSH">sftp user@host</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># rsync over SSH</span><span class="cmdline" tabindex="0" data-tip="Rsync over SSH — resumable, only transfers diffs.
+Example: rsync -avz -e ssh src/ user@host:/dst/
+Use case: SSH">rsync -avz -e ssh src/ user@host:/dst/</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># load a key into the running ssh-agent</span><span class="cmdline" tabindex="0" data-tip="Load a key into the running ssh-agent — stop retyping its passphrase for every new connection.
+Example: ssh-add ~/.ssh/id_ed25519
+Use case: SSH">ssh-add ~/.ssh/id_ed25519</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># list keys currently loaded in the agent</span><span class="cmdline" tabindex="0" data-tip="List keys currently loaded in the agent — confirms which identity will actually be offered.
+Example: ssh-add -l
+Use case: SSH">ssh-add -l</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced — connection multiplexing</summary>
+<pre><code><div class="cmd-box"><span class="cmdline">Host *
+    ControlMaster auto
+    ControlPath ~/.ssh/sockets/%r@%h-%p
+    ControlPersist 600</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<p>Add this to <code>~/.ssh/config</code> once, and every subsequent SSH connection to a host you're already connected to reuses the existing TCP/auth handshake — noticeably faster for repeated <code>scp</code>/<code>git</code> operations over SSH to the same host, and each new session shares one already-authenticated connection instead of renegotiating.</p>
+</details>
+</details><details class="section-block" open><summary><h1 id="linux-troubleshooting">Linux — Troubleshooting</h1></summary>
+</details><details class="section-block" open><summary><h2 id="health-check">Health check</h2></summary>
+<p>Run through these in order — each step's red flag tells you where to dig deeper, without guessing.</p>
+<ol>
+<li><strong>Load &amp; CPU</strong> — <code>uptime</code> — red flag: load average sustained above the core count for more than a minute or two.</li>
+<li><strong>Memory</strong> — <code>free -h</code> — red flag: available memory near zero <em>and</em> swap actively growing (a little swap use alone is normal).</li>
+<li><strong>Disk space</strong> — <code>df -h</code> — red flag: any filesystem above 90%, especially <code>/</code> or <code>/var</code>.</li>
+<li><strong>Disk I/O</strong> — <code>iostat -xz 1</code> — red flag: <code>%util</code> near 100 on a device — that's your actual bottleneck, not CPU.</li>
+<li><strong>Recent errors</strong> — <code>journalctl -p err -b</code> — red flag: errors clustering right around when the symptom started.</li>
+</ol>
+</details><details class="section-block" open><summary><h2 id="specific-problems">Specific problems</h2></summary>
+<p><strong>Disk fills up unexpectedly:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># which top-level directory is actually growing</span><span class="cmdline" tabindex="0" data-tip="Which top-level directory is actually growing — narrows a full-disk hunt before you go file by file.
+Example: du -sh --max-depth=1 / 2&gt;/dev/null | sort -rh | head
+Use case: Specific problems">du -sh --max-depth=1 / 2&gt;/dev/null | sort -rh | head</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># check for deleted-but-still-open files first</span><span class="cmdline" tabindex="0" data-tip="Check for deleted-but-still-open files first — df and du disagreeing is the classic sign.
+Example: lsof +D /var/log 2&gt;/dev/null | awk &#x27;{print $NF}&#x27; | sort -u
+Use case: Specific problems">lsof +D /var/log 2&gt;/dev/null | awk '{print $NF}' | sort -u</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<p><strong>Process won't die:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># zombie processes (state Z)</span><span class="cmdline" tabindex="0" data-tip="Zombie processes (state Z) — these can&#x27;t be killed directly, the problem is the parent not reaping them.
+Example: ps -eo pid,ppid,stat,cmd | grep &#x27;Z&#x27;
+Use case: Specific problems">ps -eo pid,ppid,stat,cmd | grep 'Z'</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># killing the parent usually clears it</span><span class="cmdline" tabindex="0" data-tip="Killing the parent usually clears it — if the parent is PID 1, only a reboot fixes it.
+Example: kill -9 12345
+Use case: Specific problems">kill -9 &lt;parent_pid&gt;</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<p><strong>System killed my process (OOM):</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># confirm it was actually the OOM killer, not a crash</span><span class="cmdline" tabindex="0" data-tip="Confirm it was actually the OOM killer, not a crash.
+Example: dmesg -T | grep -i &quot;out of memory&quot;
+Use case: Specific problems">dmesg -T | grep -i &quot;out of memory&quot;</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># OOM killer&#x27;s own kernel log entries</span><span class="cmdline" tabindex="0" data-tip="OOM killer&#x27;s own kernel log entries — works on any systemd distro, not just Debian/Ubuntu-specific /var/log/syslog.
+Example: journalctl -k | grep -i oom
+Use case: Specific problems">journalctl -k | grep -i oom</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<p>The OOM killer picks based on a memory-usage score, not always the "obvious" culprit — always confirm from the log rather than assuming.</p>
+<hr /></details>
+  </main>
+</div>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/search.js"></script>
+<script src="../assets/tooltip.js"></script>
+<script src="../assets/copy.js"></script>
+</body>
+</html>

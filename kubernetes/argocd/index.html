@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="DevOps Cheatsheet — a searchable, self-hosted command reference — Linux, Kubernetes, databases, monitoring, and more, with hover explanations and per-topic troubleshooting.">
+<meta name="theme-color" content="#08090C">
+<meta property="og:title" content="ArgoCD — DevOps Cheatsheet">
+<meta property="og:description" content="A searchable, self-hosted DevOps command reference with hover explanations and per-topic troubleshooting.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%2308090C%22/%3E%3Cpath%20d%3D%22M4%204%20L4%2013%20M4%204%20L13%204%22%20stroke%3D%22%23FF6A1A%22%20stroke-width%3D%223%22%20fill%3D%22none%22/%3E%3Cpath%20d%3D%22M28%2028%20L28%2019%20M28%2028%20L19%2028%22%20stroke%3D%22%23FF6A1A%22%20stroke-width%3D%223%22%20fill%3D%22none%22/%3E%3C/svg%3E">
+<title>ArgoCD — DevOps Cheatsheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<div class="topbar">
+  <span class="brand">~/devops-cheatsheet</span>
+  <button id="search-trigger" class="search-btn" data-prefix="../../">Search <span class="kbd">/</span></button>
+  <a href="../../index.html">index</a>
+  <a href="../../linux/index.html">linux</a>
+  <a href="../../docker/index.html">docker</a>
+  <a href="../../kubernetes/index.html" class="active">kubernetes</a>
+  <a href="../../ansible/index.html">ansible</a>
+  <a href="../../vault/index.html">vault</a>
+  <a href="../../oracle-db/index.html">oracle database</a>
+  <a href="../../postgresql/index.html">postgresql</a>
+  <a href="../../weblogic/index.html">weblogic</a>
+  <a href="../../prometheus/index.html">prometheus</a>
+  <a href="../../grafana/index.html">grafana</a>
+  <a href="../../checkmk/index.html">check_mk</a>
+  <a href="../../python/index.html">python</a>
+  <a href="../../powershell/index.html">powershell</a>
+  <a href="../../git/index.html">git</a>
+  <a href="../../data-formats/index.html">yaml / json / jq</a>
+  <a href="../../troubleshooting/index.html">troubleshooting</a>
+  <a href="../../production-safety/index.html">production safety</a>
+  <a href="../../quick-reference/index.html">quick references</a>
+</div>
+<div id="search-overlay" class="search-overlay" hidden>
+  <div class="search-panel">
+    <input id="search-input" type="text" placeholder="Search commands…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="label">ON THIS PAGE</div>
+    <ul>
+      <li><a href="#health-check" style="padding-left:20px;font-size:12px;">Health check</a></li>
+      <li><a href="#troubleshooting" style="padding-left:20px;font-size:12px;">Troubleshooting</a></li>
+    </ul>
+  </div>
+  <main>
+    <div style="font-size:12px;margin-bottom:6px;"><a href="../index.html">Kubernetes</a> <span style="color:var(--text-dim);">/</span> ArgoCD</div>
+    <div class="title-frame">
+      <h1>ArgoCD</h1>
+      <div class="subtitle-readout">20 COMMANDS INDEXED</div>
+    </div>
+    
+    <p>ArgoCD syncs cluster state to match what's declared in Git — the core of a GitOps workflow. Most day-to-day work is checking whether an app is actually in sync, and why it isn't.</p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># authenticate the CLI against an ArgoCD server</span><span class="cmdline" tabindex="0" data-tip="Authenticate the CLI against an ArgoCD server — required before any other argocd command works.
+Example: argocd login myserver --username myuser
+Use case: ArgoCD">argocd login &lt;argocd_host&gt; --username &lt;username&gt;</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># every application ArgoCD is managing, with sync/health status at a glance</span><span class="cmdline" tabindex="0" data-tip="Every application ArgoCD is managing, with sync/health status at a glance — a fleet-wide overview in one command.
+Example: argocd app list
+Use case: ArgoCD">argocd app list</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># detailed status for one app</span><span class="cmdline" tabindex="0" data-tip="Detailed status for one app — sync state, health, resources.
+Example: argocd app get myapp
+Use case: ArgoCD">argocd app get &lt;app_name&gt;</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># trigger a manual sync</span><span class="cmdline" tabindex="0" data-tip="Trigger a manual sync — pulls the latest from Git and applies it to the cluster right now, instead of waiting for auto-sync.
+Example: argocd app sync myapp
+Use case: ArgoCD">argocd app sync &lt;app_name&gt;</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># preview the diff between Git and the live cluster</span><span class="cmdline" tabindex="0" data-tip="Preview the diff between Git and the live cluster — before syncing.
+Example: argocd app diff myapp
+Use case: ArgoCD">argocd app diff &lt;app_name&gt;</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># every past sync, with revision and timestamp</span><span class="cmdline" tabindex="0" data-tip="Every past sync, with revision and timestamp — confirms exactly when and what was last deployed.
+Example: argocd app history myapp
+Use case: ArgoCD">argocd app history &lt;app_name&gt;</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># roll back to a specific prior sync</span><span class="cmdline" tabindex="0" data-tip="Roll back to a specific prior sync — undoes a bad deploy using the history above.
+Example: argocd app rollback myapp 2
+Use case: ArgoCD">argocd app rollback &lt;app_name&gt; &lt;history_id&gt;</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># remove an app from ArgoCD</span><span class="cmdline" tabindex="0" data-tip="Remove an app from ArgoCD — has its own flag for deleting underlying resources too.
+Example: argocd app delete myapp
+Use case: ArgoCD">argocd app delete &lt;app_name&gt;</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># ArgoCD projects</span><span class="cmdline" tabindex="0" data-tip="ArgoCD projects — groupings that scope which repos/clusters/namespaces an app can use.
+Example: argocd proj list
+Use case: ArgoCD">argocd proj list</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># stream an app&#x27;s pod logs via the ArgoCD CLI</span><span class="cmdline" tabindex="0" data-tip="Stream an app&#x27;s pod logs via the ArgoCD CLI — no kubectl context switch needed.
+Example: argocd app logs myapp -f
+Use case: ArgoCD">argocd app logs &lt;app_name&gt; -f</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<details class="enhanced-block" open="open">
+<summary class="enhanced-heading">Enhanced</summary>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># sync and also remove resources that were deleted from Git (off by default</span><span class="cmdline" tabindex="0" data-tip="Sync and also remove resources that were deleted from Git (off by default — a normal sync leaves orphaned resources alone)
+Example: argocd app sync myapp --prune
+Use case: ArgoCD">argocd app sync &lt;app_name&gt; --prune</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># turn on full GitOps automation</span><span class="cmdline" tabindex="0" data-tip="Turn on full GitOps automation — auto-sync, prune, and auto-revert drift.
+Example: argocd app set myapp --sync-policy automated --auto-prune --self-heal
+Use case: ArgoCD">argocd app set &lt;app_name&gt; --sync-policy automated --auto-prune --self-heal</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># block until an app reports healthy</span><span class="cmdline" tabindex="0" data-tip="Block until an app reports healthy — useful in CI/CD pipelines after triggering a sync.
+Example: argocd app wait myapp --health
+Use case: ArgoCD">argocd app wait &lt;app_name&gt; --health</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># list every Kubernetes resource this app owns, with individual health</span><span class="cmdline" tabindex="0" data-tip="List every Kubernetes resource this app owns, with individual health — narrows a degraded app down to the specific resource.
+Example: argocd app resources myapp
+Use case: ArgoCD">argocd app resources &lt;app_name&gt;</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># Git repositories ArgoCD is configured to pull from</span><span class="cmdline" tabindex="0" data-tip="Git repositories ArgoCD is configured to pull from — confirms the actual source before assuming a sync issue.
+Example: argocd repo list
+Use case: ArgoCD">argocd repo list</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># every cluster ArgoCD can deploy to</span><span class="cmdline" tabindex="0" data-tip="Every cluster ArgoCD can deploy to — relevant if this instance manages more than just its own cluster.
+Example: argocd cluster list
+Use case: ArgoCD">argocd cluster list</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+</details>
+<p>A common source of confusion: <strong>auto-sync ≠ self-heal</strong>. Auto-sync reacts to Git changes; self-heal reacts to someone changing the live cluster directly (kubectl edit, a manual patch) and reverts it back to match Git. Enable both if the goal is "the cluster can never drift from Git," enable only auto-sync if manual emergency patches should be tolerated until the next intentional sync.</p>
+<details class="section-block" open><summary><h2 id="health-check">Health check</h2></summary>
+<ol>
+<li><strong>Sync status</strong> — <code>argocd app get &lt;app_name&gt;</code> — red flag: <code>OutOfSync</code> — Git and the live cluster have diverged.</li>
+<li><strong>Health status</strong> — same command, different field — red flag: <code>Degraded</code> or <code>Missing</code> — the resources exist but aren't actually healthy.</li>
+<li><strong>Last sync result</strong> — <code>argocd app history &lt;app_name&gt;</code> — red flag: the most recent sync shows <code>Failed</code>, not just an older one — a stale failure isn't urgent, a fresh one is.</li>
+</ol>
+</details><details class="section-block" open><summary><h2 id="troubleshooting">Troubleshooting</h2></summary>
+<p><strong>App shows <code>OutOfSync</code> but sync doesn't fix it:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># see exactly what&#x27;s different</span><span class="cmdline" tabindex="0" data-tip="See exactly what&#x27;s different — sometimes it&#x27;s a field a controller keeps overwriting (e.g. replica count under an HPA)
+Example: argocd app diff myapp
+Use case: Troubleshooting">argocd app diff myapp</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># tell ArgoCD to leave a field alone</span><span class="cmdline" tabindex="0" data-tip="Tell ArgoCD to leave a field alone — for fields that always drift against a controller.
+Example: argocd app set myapp --sync-option ApplyOutOfSyncOnly=true
+Use case: Troubleshooting">argocd app set myapp --sync-option ApplyOutOfSyncOnly=true</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<p><strong>App is <code>Healthy</code> in ArgoCD but the app itself seems broken:</strong></p>
+<pre><code class="language-bash"><div class="cmd-box"><span class="c"># health here means &amp;quot;Kubernetes resources reached their expected state&amp;quot;</span><span class="cmdline" tabindex="0" data-tip="Health here means &amp;quot;Kubernetes resources reached their expected state&amp;quot; — it does NOT mean your application logic is working.
+Example: argocd app resources myapp
+Use case: Troubleshooting">argocd app resources myapp</span><button class="copy-btn" type="button">copy</button></div><div class="cmd-box"><span class="c"># ArgoCD&#x27;s health check passed the baton</span><span class="cmdline" tabindex="0" data-tip="ArgoCD&#x27;s health check passed the baton — actual app health is on you from here.
+Example: kubectl logs -f deployment/myapp -n mynamespace
+Use case: Troubleshooting">kubectl logs -f deployment/myapp -n mynamespace</span><button class="copy-btn" type="button">copy</button></div></code></pre>
+<hr /></details>
+  </main>
+</div>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/search.js"></script>
+<script src="../../assets/tooltip.js"></script>
+<script src="../../assets/copy.js"></script>
+</body>
+</html>
