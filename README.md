@@ -31,17 +31,17 @@
 
 ## Overview
 
-DevOps Cheatsheet is a practical command reference for infrastructure, automation, application operations, monitoring, observability and troubleshooting.
+DevOps Cheatsheet is a practical command reference for DevOps, infrastructure and application operations.
 
-It brings together commonly used commands, operational patterns and diagnostic techniques across the DevOps toolchain, with an emphasis on clarity, speed and real-world operational use.
+It brings together frequently used commands, configuration examples and operational references across multiple technologies, with a focus on fast lookup and practical day-to-day usage.
 
-The reference is designed to answer three questions quickly:
+The project is designed to provide a quick answer to three questions:
 
 > What do I run?  
 > What does it do?  
 > When should I use it?
 
-The Markdown files are the single source of truth. The interactive web dashboard is generated automatically from the same content.
+The reference is maintained as Markdown and presented through an automatically generated interactive web dashboard.
 
 ---
 
@@ -53,209 +53,101 @@ The Markdown files are the single source of truth. The interactive web dashboard
   </a>
 </p>
 
-The interactive dashboard provides a focused interface for quickly finding and using commands without navigating through raw Markdown files.
+The interactive dashboard provides a faster way to browse and search the complete reference.
 
-### Dashboard Features
+### Features
 
-- Full-text search across the complete reference
-- `/` keyboard shortcut for instant search
-- Direct navigation to matching commands
-- Hover and keyboard-accessible command tooltips
-- Technology and domain-based navigation
+- Full-text search across the cheatsheet
+- `/` keyboard shortcut for quick search
+- Direct navigation to matching entries
+- Command explanations available through tooltips
+- Keyboard-accessible navigation
+- Technology and topic-based organization
 - Responsive interface
-- Automatically generated from the source Markdown
+- Automatically generated from the Markdown source
 
 ---
 
 ## Technology Coverage
 
-| Domain | Coverage |
+| Domain | Technologies |
 |---|---|
-| **OS & Shell** | Linux, Bash, Networking, Logs, systemd, Performance |
+| **Operating Systems & Shell** | Linux, Bash, Networking, systemd, Logs, Performance |
 | **Containers & Orchestration** | Docker, Kubernetes, Helm, OpenShift, Argo CD |
-| **Automation & Secrets** | Ansible, Vault |
+| **Automation & Configuration** | Ansible, Vault |
 | **Databases** | Oracle Database, PostgreSQL |
 | **Application Servers** | WebLogic |
 | **Monitoring & Observability** | Prometheus, Grafana, Checkmk |
-| **Languages** | Python, PowerShell |
+| **Languages & Scripting** | Python, PowerShell |
 | **Version Control** | Git |
 | **Data & Configuration** | YAML, JSON, JQ |
 | **Operations** | Troubleshooting, Production Safety, Quick Reference |
 
 ---
 
-## Operational Focus
+## What You Can Find
 
-The reference is built around common infrastructure and operations workflows rather than isolated command memorization.
+The cheatsheet covers common DevOps and infrastructure tasks such as:
 
-Typical use cases include:
-
-- System administration
-- Application troubleshooting
-- Service and process investigation
-- Network diagnostics
-- Container operations
-- Kubernetes troubleshooting
-- Infrastructure automation
-- Database operations
-- Application server administration
+- Linux administration
+- Process and service management
+- Filesystem and storage investigation
+- Networking and connectivity diagnostics
 - Log analysis
-- Performance investigation
-- Monitoring and observability
-- Production incident response
-
-The goal is to provide a reliable starting point when a command, syntax or diagnostic workflow is needed quickly.
-
----
-
-## Automation & Monitoring
-
-Bash, Python and PowerShell are treated not only as scripting languages, but also as operational automation tools.
-
-Scripts can be used for:
-
-- System and application health checks
-- Metric collection
-- Log processing
-- Service validation
-- Infrastructure diagnostics
-- Automated remediation
-- Operational reporting
-- Monitoring integrations
-
-Where appropriate, scripts can be designed to integrate with platforms such as Prometheus, Grafana and Checkmk.
-
-This allows simple command-line utilities to evolve into reusable operational tooling.
+- systemd operations
+- Performance troubleshooting
+- Docker administration
+- Kubernetes troubleshooting
+- Helm operations
+- OpenShift operations
+- Git workflows
+- Ansible automation
+- Vault operations
+- Oracle Database administration
+- PostgreSQL administration
+- WebLogic administration
+- Prometheus and Grafana operations
+- Checkmk monitoring
+- Python and PowerShell usage
+- YAML, JSON and JQ processing
+- Production troubleshooting
+- Operational safety
 
 ---
 
-## Script Standards
+## Practical Reference
 
-Operational scripts should follow consistent conventions so they remain readable, maintainable and suitable for production environments.
+The project focuses on commands and information that are useful during real operational work.
 
-### Bash
+Instead of providing only command syntax, entries are intended to make the purpose of a command immediately clear.
 
-Bash scripts should use clear section headers and concise comments:
-
-```bash
-###############################################################################################
-# cpu-usage-monitor.sh                                                                       #
-###############################################################################################
-```
-
-Scripts should:
-
-- Use clear variable names
-- Validate required parameters
-- Handle errors explicitly
-- Return meaningful exit codes
-- Avoid unnecessary external commands
-- Support logging where appropriate
-- Be safe to run repeatedly when possible
-- Provide useful output for operators
-- Be designed for automation and monitoring integration where required
-
-### Python
-
-Python scripts should prioritize:
-
-- Clear module structure
-- Functions with defined responsibilities
-- Argument parsing
-- Exception handling
-- Logging instead of uncontrolled console output
-- Meaningful exit codes
-- Configuration through arguments or environment variables
-- Reusable components
-- Monitoring and metrics integration where appropriate
-
-### PowerShell
-
-PowerShell scripts should prioritize:
-
-- Structured functions
-- Parameter validation
-- Explicit error handling
-- Objects rather than text parsing where possible
-- Meaningful exit codes
-- Reusable functions
-- Logging
-- Compatibility with automation environments
-- Monitoring integration where appropriate
-
-### Monitoring Integration
-
-When operational scripts collect health or performance information, they should be designed so the collected information can be exposed to monitoring systems when required.
-
-Possible integrations include:
-
-- Prometheus metrics
-- Grafana dashboards
-- Checkmk local checks
-- HTTP health endpoints
-- Structured JSON output
-- Log-based monitoring
-- Exit-code based monitoring
-
-The goal is to make scripts useful both interactively and as components of an automated observability workflow.
-
----
-
-## Command Conventions
-
-### Inline Command Explanations
-
-Commands can include a concise explanation using two spaces followed by `#`:
+For example:
 
 ```bash
 journalctl -u nginx -f  # Follow nginx logs in real time
 ```
 
-The trailing comment is automatically converted into a tooltip in the generated dashboard.
-
-Explanations should be:
-
-- Concise
-- Technically accurate
-- Easy to understand
-- Focused on the purpose of the command
-
-Avoid using comments to repeat obvious syntax. The goal is to provide useful operational context.
-
-### Enhanced Sections
-
-Important operational information can be highlighted using:
-
-```markdown
-**Enhanced:** This section contains additional operational context.
-
-```bash
-example command
-```
-```
-
-Enhanced sections are rendered as highlighted callouts in the dashboard.
+This makes the reference useful both as a learning resource and as a quick operational lookup.
 
 ---
 
 ## Production Awareness
 
-Infrastructure commands can have very different consequences depending on the environment in which they are executed.
+Commands used in infrastructure environments can have different consequences depending on the target system and environment.
 
-The reference therefore distinguishes between general command usage and operational considerations where appropriate.
+Where relevant, the cheatsheet includes operational considerations for:
 
-Before executing potentially disruptive commands in production, consider:
+- Production environments
+- Service restarts
+- Data modification
+- Process termination
+- Storage operations
+- Kubernetes workloads
+- Database operations
+- Configuration changes
+- Troubleshooting
 
-- Scope of impact
-- Target environment
-- Service dependencies
-- Active workloads
-- Data integrity
-- Rollback options
-- Change procedures
-- Monitoring and validation
-
-The `production-safety/` and `troubleshooting/` sections provide additional operational guidance.
+The `production-safety/` and `troubleshooting/` sections provide additional guidance for situations where operational impact needs to be considered.
 
 > Reference first. Validate context. Execute deliberately.
 
@@ -263,19 +155,19 @@ The `production-safety/` and `troubleshooting/` sections provide additional oper
 
 ## Source of Truth
 
-The Markdown files are the authoritative source for all cheatsheet content.
+The Markdown content is the source of truth for the project.
 
-Generated HTML should not be edited manually.
+The web dashboard is generated from this source and should not be edited manually.
 
-The build process transforms the Markdown source into the dashboard presentation layer, keeping content and presentation separated.
+This keeps the project:
 
-This provides:
+- Version controlled
+- Consistent
+- Reproducible
+- Easy to maintain
+- Automatically publishable
 
-- Version-controlled documentation
-- Consistent formatting
-- Reproducible builds
-- Automated publishing
-- A single maintained source
+Content and presentation remain separated so the same reference can be maintained without manually editing generated HTML.
 
 ---
 
@@ -293,106 +185,65 @@ Build the dashboard locally:
 python scripts/build.py
 ```
 
-Review the generated output before committing changes.
+The generated output can then be reviewed before committing changes.
 
 ---
 
 ## Continuous Deployment
 
-The dashboard is automatically built and deployed through GitHub Actions.
+The dashboard is built and published automatically through GitHub Actions.
+
+The deployment flow is:
 
 ```text
-              Markdown Source
-                     |
-                     v
-              Build Pipeline
-                     |
-                     v
-              Generated HTML
-                     |
-                     v
-              GitHub Actions
-                     |
-                     v
-               GitHub Pages
-                     |
-                     v
-              Live Dashboard
+Markdown Source
+      |
+      v
+Build
+      |
+      v
+Generated Dashboard
+      |
+      v
+GitHub Actions
+      |
+      v
+GitHub Pages
+      |
+      v
+Live Dashboard
 ```
 
 Changes pushed to `main` trigger the deployment workflow.
 
-The publishing workflow is:
+### Deployment Flow
 
 **Edit → Build → Validate → Commit → Push → Deploy**
 
 ---
 
-## Editing Workflow
+## Contributing
 
-The recommended workflow is:
+Contributions are welcome.
 
-```text
-1. Locate the relevant topic
-2. Edit the Markdown source
-3. Build the dashboard locally
-4. Validate the generated output
-5. Commit the change
-6. Push to main
-7. Verify the deployed dashboard
-```
+When adding or modifying content:
 
-Keep individual changes focused and preserve the existing Markdown conventions.
+1. Keep commands technically accurate.
+2. Keep explanations concise and useful.
+3. Follow the existing Markdown conventions.
+4. Place content in the appropriate technology or operational section.
+5. Build the dashboard locally when changing source content.
+6. Review the generated result before committing.
 
----
-
-## Design Principles
-
-### Practical
-
-Prioritize commands and workflows that are useful in real operational environments.
-
-### Fast
-
-Make frequently needed information discoverable with minimal navigation.
-
-### Clear
-
-Prefer concise explanations and consistent terminology.
-
-### Context-Aware
-
-Document not only syntax, but also operational purpose and relevant considerations.
-
-### Automation-Ready
-
-Prefer approaches that can evolve from manual commands into repeatable automation.
-
-### Observable
-
-Where appropriate, make scripts and operational workflows compatible with monitoring and observability systems.
-
-### Maintainable
-
-Keep the source content structured, version-controlled and independent from the presentation layer.
-
----
-
-## Quick Reference
-
-For high-frequency operational tasks, start with:
-
-- `quick-reference/`
-- `troubleshooting/`
-- `production-safety/`
-
-These sections provide a fast path to commonly required commands, diagnostic workflows and operational safeguards.
+The goal is to keep the reference practical, consistent and easy to use.
 
 ---
 
 ## License
 
-MIT License
+This project is licensed under the MIT License.
+
+See the `LICENSE` file for the complete license text.
 
 ---
 
