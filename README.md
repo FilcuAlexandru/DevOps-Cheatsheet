@@ -1,6 +1,3 @@
-Da. Îți livrez **tot README-ul într-un singur chenar de text**, într-un singur bloc Markdown, fără alte chenare sau blocuri separate.
-
-````
 # DevOps Cheatsheet
 
 <p align="center">
@@ -402,4 +399,3 @@ MIT License
 <p align="center">
   <sub>DevOps Cheatsheet · Practical reference · Automated publishing</sub>
 </p>
-````
